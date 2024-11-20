@@ -1,0 +1,17 @@
+.header {
+  padding: var(--spacing-xs) 0;
+  background: var(--gray-200);
+  margin-bottom: var(--spacing-lg);
+}
+
+.nav {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  gap: var(--spacing-lg);
+}
+
+.nav__item {
+  color: var(--orange-800);
+}
