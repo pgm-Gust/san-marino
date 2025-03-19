@@ -1,0 +1,49 @@
+@import url("./reset.css");
+@import url("./fonts.css");
+@import url("./container.css");
+
+:root {
+  --color-light-teal: hsl(174, 19%, 63%);
+  --color-dark-teal: hsl(174, 91%, 14%);
+  --color-muted-teal: hsl(180, 17%, 25%);
+  --color-steel-blue: hsl(180, 22%, 42%);
+  --color-subheading: hsl(50, 6%, 65%);
+  --color-gray: hsl(0, 0%, 50%);
+  --bg-color: hsl(33, 42.90%, 89.00%);
+  --gg-color: hsl(30, 45.50%, 95.70%);
+  --color-white: hsl(0, 0%, 100%);
+  --color-black: hsl(0, 0%, 0%);
+  --color-error: hsl(356, 78%, 58%);
+  --color-border: hsl(0, 0%, 90%);
+  --color-border-hover: #b0b0b0;
+  --color-text-muted: #666666;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --color-white: hsl(0, 0%, 100%);
+  --color-overlay: rgba(0, 0, 0, 0.8);
+  --color-black: hsl(0, 0%, 0%);
+  --input-focus-glow: 0 0 0 3px rgba(var(--color-muted-teal), 0.15);
+  --navbar-height: 70px;
+  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --menu-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  --container-width: 80%;
+  --container-padding: 3.125rem;
+  --container-gap: 3rem;
+  --image-border-radius: 0.75rem;
+  --image-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+  --icon-size: 5rem;
+  --feature-gap: 1rem;
+  --feature-margin-bottom: 5rem;
+  --contact-detail-gap: 1rem;
+  --contact-detail-margin-bottom: 1rem;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--color-dark-teal);
+}
+
+.no-scroll {
+  overflow: hidden;
+}

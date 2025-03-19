@@ -1,0 +1,206 @@
+.navbar {
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+
+  &-container {
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  &-logo {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--color-dark-teal);
+    text-decoration: none;
+    transition: all 0.3s var(--transition-easing);
+
+    &:hover {
+      opacity: 0.8;
+      transform: translateY(-1px);
+    }
+  }
+
+  .hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    z-index: 1002;
+    transition: transform 0.3s var(--transition-easing);
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    .bar {
+      display: block;
+      width: 25px;
+      height: 2px;
+      margin: 5px 0;
+      background-color: var(--color-dark-teal);
+      transition: all 0.3s var(--transition-easing);
+    }
+
+    &.active {
+      .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .bar:nth-child(2) {
+        opacity: 0;
+      }
+      .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+  }
+
+  .nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .nav-item {
+      position: relative;
+
+      .nav-link {
+        color: var(--color-muted-teal);
+        text-decoration: none;
+        font-weight: 400;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s var(--transition-easing);
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background: var(--color-dark-teal);
+          transition: width 0.3s ease;
+        }
+
+        &:hover {
+          color: var(--color-dark-teal);
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      position: fixed;
+      top: 0;
+      left: 100%;
+      width: 100%;
+      height: 100vh;
+      flex-direction: column;
+      background: var(--color-white);
+      padding: calc(var(--navbar-height) + 2rem) 1.5rem 2rem;
+      transition: transform 0.4s var(--transition-easing);
+      z-index: 999;
+      overflow-y: auto;
+      box-shadow: var(--menu-shadow);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--color-dark-teal) 0%, rgba(255,255,255,0) 100%);
+        opacity: 0.1;
+      }
+
+      &.active {
+        transform: translateX(-100%);
+      }
+
+      .nav-item {
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link {
+          font-size: 1.1rem;
+          padding: 1.25rem 1.5rem;
+          color: var(--color-dark-teal);
+          display: block;
+          transition: all 0.2s var(--transition-easing);
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--color-dark-teal);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+          }
+
+          &:hover,
+          &:focus {
+            background: rgba(0, 0, 0, 0.02);
+            padding-left: 2rem;
+
+            &::before {
+              opacity: 0.3;
+              left: 0.5rem;
+            }
+          }
+
+          &:active {
+            transform: scale(0.98);
+          }
+        }
+      }
+    }
+  }
+
+  .nav-overlay {
+    display: none;
+    @media (max-width: 768px) {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+      backdrop-filter: blur(3px);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s var(--transition-easing);
+
+      &.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+  }
+}
