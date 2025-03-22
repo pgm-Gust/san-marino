@@ -17,17 +17,18 @@ const SpecialFeatures = () => {
             </div>
             <div className="text-content">
                 <p className="subheading">Troeven</p>
-                <h2>Wat maakt ons uniek?</h2>
+                <h2>Waarom kiezen voor ons?</h2>
                 <div className="features">
                     <div className="feature">
                         <div className="icon">
                         <img src="assets/icons/Comfort.svg" alt="Comfort" />
                         </div>
                         <div>
-                            <h3>Alles voor jouw comfort</h3>
+                            <h3>Alles voor uw comfort</h3>
                             <p>
-                                We zorgen ervoor dat je niets tekortkomt tijdens je verblijf. Of
-                                je nu ontspant of even moet werken, alles is binnen handbereik.
+                            Volledig uitgerust met kwaliteitsmeubilair, moderne apparatuur en 
+                                zorgvuldig geselecteerde details. Van de linnengoedkeuze tot de 
+                                koffiecupjes - wij dachten aan alles.
                             </p>
                         </div>
                     </div>
@@ -36,10 +37,11 @@ const SpecialFeatures = () => {
                             <img src="assets/icons/Frame.svg" alt="View" />
                         </div>
                         <div>
-                            <h3>Uitzicht waar je naar kan blijven kijken</h3>
+                            <h3>Adembenemend uitzicht</h3>
                             <p>
-                                Elke ochtend word je wakker met een adembenemend uitzicht op de
-                                zee en de dijk. Perfect om te ontspannen en tot rust te komen.
+                            Rechtstreeks zicht op de zee vanaf het balkon. Wordt wakker 
+                                met de golven als achtergrondgeluid en geniet van unieke 
+                                zonsondergangen die elke avond anders zijn.
                             </p>
                         </div>
                     </div>
@@ -48,11 +50,11 @@ const SpecialFeatures = () => {
                             <img src="assets/icons/Oppurtunities.svg" alt="Oppurtunities" />
                         </div>
                         <div>
-                            <h3>Tal van activiteiten</h3>
+                            <h3>Ideale ligging</h3>
                             <p>
-                                Van ontspannende strandwandelingen tot avontuurlijke
-                                fietstochten - ontdek de omgeving of geniet gewoon van de rust.
-                                Er is voor iedereen wat wils.
+                            Centraal tussen strand en dorpskern. Op 50 meter van het strand 
+                                en toch vlakbij alle voorzieningen. De perfecte locatie voor 
+                                zowel actieve uitstappen als totale ontspanning.
                             </p>
                         </div>
                     </div>
