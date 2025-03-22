@@ -87,15 +87,14 @@ export default function PleinApartment() {
             <div className="grid-container facilities-grid">
               {[
                 { icon: <FaBed />, text: "Luxe tweepersoonsbed", prop: "bed" },
+                { icon: <FaCouch />, text: "Uitklapbaar zetelbed", prop: "livingRoom" },
                 { icon: <FaBath />, text: "Moderne badkamer met douche", prop: "bathroom" },
                 { icon: <FaTv />, text: "Smart-tv", prop: "television" },
                 { icon: <FaUtensils />, text: "Volledig uitgeruste keuken", prop: "kitchen" },
                 { icon: <FaGlassCheers />, text: "Vaatwasser", prop: "dishwasher" },
-                { icon: <FaCouch />, text: "Comfortabele zithoek", prop: "livingRoom" },
                 { icon: <FaSnowflake />, text: "Airconditioning en verwarming", prop: "airConditioning" },
-                { icon: <FaLayerGroup />, text: "Beddenlakens voorzien", prop: "linens" },
+                { icon: <FaLayerGroup />, text: "Beddenlakens", prop: "linens" },
                 { icon: <FaCar />, text: "Meerdere parkeergelegenheiden", prop: "parking" },
-                { icon: <FaDog />, text: "Huisdieren niet toegestaan", prop: "petsAllowed" },
                 { icon: <FaConciergeBell />, text: "24/7 klantenservice", prop: "customerService" },
                 { icon: <FaFireExtinguisher />, text: "Brandblusser en rookmelders", prop: "safetyFeatures" },
                 { icon: <FaWifi />, text: "Snelle WiFi", prop: "wifi" }
@@ -182,6 +181,10 @@ export default function PleinApartment() {
               <div itemProp="noiseLevel">
                 <FaVolumeMute />
                 <p>Geen feestjes of luidruchtige activiteiten</p>
+              </div>
+              <div itemProp="petsAllowed">
+                <FaDog />
+                <p>Huisdieren niet toegestaan </p>
               </div>
             </div>
           </div>

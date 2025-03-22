@@ -17,12 +17,13 @@
 
 .location-sidebar {
   position: sticky;
-  top: 6rem;
+  top: 7rem;
   height: fit-content;
   background: var(--color-white);
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.06);
+  margin-top:1rem;
 
   @media (max-width: 64rem) {
     display: none;

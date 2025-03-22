@@ -13,6 +13,14 @@ const apartments = [
             "/assets/images/plein/Parijsstraat280402Middelkerke10.jpg",
             "/assets/images/plein/Parijsstraat280402Middelkerke14.jpg",
             "/assets/images/plein/Parijsstraat280402Middelkerke20.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke06.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke10.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke11.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke13.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke15.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke16.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke17.jpg",
+            "/assets/images/plein/Parijsstraat280402Middelkerke18.jpg",
         ],
         link: "/appartement/plein"
     }
