@@ -2,13 +2,14 @@ import React from "react";
 import {
   FaWifi, FaTv, FaCar, FaDog, FaConciergeBell,
   FaUtensils, FaBed, FaBath, FaCouch, FaSnowflake, FaFireExtinguisher,
-  FaClock, FaSmokingBan, FaUsers, FaMapMarkerAlt, FaStar, FaCalendarCheck, FaUmbrellaBeach, FaBinoculars, FaShieldAlt, FaHandsWash,
-  FaFirstAid, FaScroll, FaVolumeMute
+  FaClock, FaSmokingBan, FaMapMarkerAlt, FaStar, FaCalendarCheck, FaUmbrellaBeach, FaBinoculars, FaShieldAlt, FaHandsWash,
+  FaFirstAid, FaScroll, FaVolumeMute, FaGlassCheers , FaLayerGroup
 } from "react-icons/fa";
 
 import "./page.scss";
 
 import ApartmentGallery from "@components/AppartmentGallery/AppartmentGallery";
+import SmoobuWidget from "@components/SmoobuWidget/SmoobuWidget";
 
 export default function PleinApartment() {
   return (
@@ -21,12 +22,14 @@ export default function PleinApartment() {
         <div className="grid-container facilities-grid">
           <p><FaBed /> Luxe tweepersoonsbed</p>
           <p><FaBath /> Moderne badkamer met douche</p>
-          <p><FaTv /> Smart-tv met Netflix</p>
+          <p><FaTv /> Smart-tv</p>
           <p><FaUtensils /> Volledig uitgeruste keuken</p>
+          <p><FaGlassCheers  /> Vaatwasser</p> 
           <p><FaCouch /> Comfortabele zithoek</p>
           <p><FaCouch /> Uitklapbaar zetelbed</p>
           <p><FaSnowflake /> Airconditioning en verwarming</p>
-          <p><FaCar /> Gratis parkeergelegenheid</p>
+          <p><FaLayerGroup /> Beddenlakens voorzien</p> 
+          <p><FaCar /> Meerdere parkeergelegenheiden</p>
           <p><FaDog /> Huisdieren niet toegestaan</p>
           <p><FaConciergeBell /> 24/7 klantenservice</p>
           <p><FaFireExtinguisher /> Brandblusser en rookmelders</p>
@@ -61,6 +64,10 @@ export default function PleinApartment() {
           </div>
         </div>
       </div>
+      <div className="info-section">
+        <h3><FaCalendarCheck />Beschikbaarheid</h3>
+        <SmoobuWidget />
+      </div>
       <div className="info-section reviews">
         <h3><FaStar /> Gastenoordelen</h3>
         <div className="grid-container review-carousel">
@@ -69,7 +76,7 @@ export default function PleinApartment() {
               <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </div>
             <p>"Fantastisch verblijf! Het appartement was ruim, licht en smaakvol ingericht. We werden elke ochtend wakker met het geluid van de zee en genoten van de zonsondergangen op het balkon. De locatie is perfect: dicht bij het strand, maar ook vlakbij leuke restaurants en winkels. Een absolute aanrader!"</p>
-            <span>- Brenda, juli 2024</span>
+            <span>- Jasper, juli 2024</span>
           </div>
           <div className="review">
             <div className="rating">
@@ -85,7 +92,7 @@ export default function PleinApartment() {
         <div className="grid-container rules-grid">
           <div>
             <FaClock />
-            <p>Check-in vanaf 15:00, check-out tot 11:00</p>
+            <p>Check-in vanaf 16:00, check-out tot 10:00</p>
           </div>
           <div>
             <FaSmokingBan />
@@ -114,8 +121,8 @@ export default function PleinApartment() {
           </div>
         </div>
       </div>
-        <a href="/boeken" className="book-button">
-      <FaCalendarCheck /> Direct Boeken
+      <a href="/appartement/hoek/boeken" className="book-button">
+        <FaCalendarCheck /> Direct Boeken
       </a>
     </section>
   );

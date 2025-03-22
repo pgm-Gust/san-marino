@@ -1,5 +1,6 @@
 .image-container {
   position: relative;
+  margin: 2rem 0;
 
   .full-width-image {
     width: 100%;
@@ -25,8 +26,6 @@
     color: var(--color-white);
 
     .overlay-content {
-      width: 80%;
-      margin: 0 auto;
 
       h2 {
         font-size: 2.5rem;

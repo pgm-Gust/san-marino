@@ -69,7 +69,7 @@ const LocationPage = () => {
           </h1>
           <div className="address-box">
             <FaMapMarkerAlt className="pin-icon" />
-            <p>Parijsstraat 22-28, Zeedijk 116</p>
+            <p>Parijsstraat 28, Zeedijk 116</p>
           </div>
         </header>
 

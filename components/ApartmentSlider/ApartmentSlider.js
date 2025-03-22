@@ -14,21 +14,12 @@ const apartments = [
             "/assets/images/plein/Parijsstraat280402Middelkerke14.jpg",
             "/assets/images/plein/Parijsstraat280402Middelkerke20.jpg",
         ],
-        link: "/plein"
-    },
-    {
-        id: 2,
-        title: "Hoek Appartement",
-        images: [
-                "/assets/images/plein/Parijsstraat280402Middelkerke14.jpg",
-                "/assets/images/plein/Parijsstraat280402Middelkerke10.jpg",
-        ],
-        link: "/hoek"
+        link: "/appartement/plein"
     }
 ];
 
 const ApartmentSlider = () => {
-    const [currentIndices, setCurrentIndices] = useState({ 1: 0, 2: 0 });
+    const [currentIndices, setCurrentIndices] = useState({ 1: 0 });
     const [activeApartment, setActiveApartment] = useState(null);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
@@ -116,20 +107,20 @@ const ApartmentSlider = () => {
                                 <FaArrowRight />
                             </button>
                         </div>
+                    </div>
 
-                        <div className="thumbnails">
-                            {apartment.images.map((img, index) => (
-                                <img
-                                    key={index}
-                                    src={img}
-                                    alt={`Thumbnail ${index + 1}`}
-                                    className={`thumbnail ${index === currentIndices[apartment.id] ? 'active' : ''}`}
-                                    onClick={() => {
-                                        setCurrentIndices(prev => ({ ...prev, [apartment.id]: index }));
-                                    }}
-                                />
-                            ))}
-                        </div>
+                    <div className="thumbnails">
+                        {apartment.images.map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Thumbnail ${index + 1}`}
+                                className={`thumbnail ${index === currentIndices[apartment.id] ? 'active' : ''}`}
+                                onClick={() => {
+                                    setCurrentIndices(prev => ({ ...prev, [apartment.id]: index }));
+                                }}
+                            />
+                        ))}
                     </div>
 
                     <div className="details-overlay">

@@ -13,7 +13,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <a href="/" className="navbar-logo">
-          San Marino 4
+          <img src="logo.png" alt="San Marino 4" />
         </a>
 
         <button 
@@ -28,8 +28,8 @@ const Navbar = () => {
 
         <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
           <li className="nav-item">
-            <a href="/appartementen" className="nav-link" onClick={toggleMenu}>
-              Appartementen
+            <a href="/appartement/plein" className="nav-link" onClick={toggleMenu}>
+              Appartement
             </a>
           </li>
           <li className="nav-item">

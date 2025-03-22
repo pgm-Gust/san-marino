@@ -11,7 +11,7 @@ const HeroImage = () => {
         className="full-width-image"
       />
       <div className="image-overlay">
-        <div className="overlay-content">
+        <div className="overlay-content container">
         <h2>
           Jouw vakantie begint hier <br />
           Boek jouw appartement aan zee!

@@ -5,7 +5,7 @@ import "./page.scss";
 
 const ContactPage = () => {
   return (
-    <div className="contact-container">
+    <div className="contact-container container">
       <header className="contact-header">
         <h1 className="header-title">Contacteer San Marino 4</h1>
         <div className="header-divider"></div>
@@ -39,7 +39,7 @@ const ContactPage = () => {
             <FaMapMarkerAlt className="address-icon" />
             <div className="address-text">
               <h2>Adres</h2>
-              <p>Parijsstraat 22-28</p>
+              <p>Parijsstraat 28</p>
               <p>Zeedijk 116</p>
               <p>8430 Middelkerke</p>
             </div>

@@ -8,11 +8,31 @@ import {
   FaPhone, 
   FaHome, 
   FaArrowRight,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaCalendarAlt,
+  FaUsers,
+  FaEuroSign
 } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
 
-export default function BookingContent() {
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 120 }
+  }
+};
+
+export default function BedanktPagina() {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -35,8 +55,21 @@ export default function BookingContent() {
 
         setBooking({
           ...data,
-          arrivalDate: new Date(data.arrivalDate).toLocaleDateString('nl-BE'),
-          departureDate: new Date(data.departureDate).toLocaleDateString('nl-BE')
+          arrivalDate: new Date(data.arrivalDate).toLocaleDateString('nl-BE', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          }),
+          departureDate: new Date(data.departureDate).toLocaleDateString('nl-BE', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          }),
+          pricePerNight: data.pricePerNight?.toFixed(2) || 0,
+          totalPrice: data.totalPrice?.toFixed(2) || 0,
+          nights: Math.ceil(
+            (new Date(data.departureDate) - new Date(data.arrivalDate)) / (1000 * 60 * 60 * 24)
+          )
         });
       } catch (err) {
         setError(err.message);
@@ -50,69 +83,124 @@ export default function BookingContent() {
 
   if (loading) return (
     <div className="loading">
-      <p>Gegevens laden...</p>
+      <p>Even geduld, we halen je boekingsgegevens op...</p>
     </div>
   );
 
   if (error) return (
     <div className="error">
       <FaExclamationTriangle />
-      <h2>Er is een fout opgetreden</h2>
+      <h2>Oeps, er is iets misgegaan!</h2>
       <p>{error}</p>
       <p>Boekingsnummer: {bookingId}</p>
+      <Link href="/contact" className="btn primary">
+        Neem contact met ons op
+      </Link>
     </div>
   );
 
   return (
     <div className="bedankt-page">
-      <div className="bedankt-card">
+      <motion.div 
+        className="bedankt-card container"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.4, type: 'spring' }}
+      >
         <div className="success-header">
-          <FaCheckCircle className="success-icon" />
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+          >
+            <FaCheckCircle className="success-icon" />
+          </motion.div>
           <h1>Bedankt voor je boeking!</h1>
-          <p>Je boeking #{bookingId} is bevestigd</p>
+          <p>Je boeking <strong>#{bookingId}</strong> is succesvol ontvangen.</p>
+          <div className="confetti-overlay">
+            {Array.from({ length: 50 }).map((_, i) => (
+              <div
+                key={i}
+                className="confetti"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  backgroundColor: `hsl(${Math.random() * 360}, 100%, 70%)`
+                }}
+              />
+            ))}
+          </div>
         </div>
 
-        <div className="booking-details">
-          <div className="detail-item">
-            <h3>🛎️ Jouw reservering</h3>
+        <motion.div 
+          className="booking-details"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div className="detail-item" variants={itemVariants}>
+            <h3><FaCalendarAlt /> Reisgegevens</h3>
             <div className="detail-box">
-              <p><strong>{booking.apartment}</strong></p>
-              <p>{booking.arrivalDate} - {booking.departureDate}</p>
-              <p>{booking.adults} volwassenen {booking.children > 0 && `+ ${booking.children} kinderen`}</p>
+              <p>
+                Aankomst: <strong>{booking?.arrivalDate}</strong><br />
+                Vertrek: <strong>{booking?.departureDate} </strong>
+              </p>
+              <div className="guest-count">
+                <FaUsers /> {booking?.adults} volwassenen 
+                {booking?.children > 0 && ` + ${booking.children} kinderen`}
+              </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="detail-item">
-            <h3>📬 Wat gebeurt nu?</h3>
-            <ul className="next-steps">
-              <li>📩 Directe bevestiging per e-mail</li>
-              <li>🔐 Veilige betalingslink via Smoobu</li>
-              <li>📅 Check-in instructies 3 dagen voor aankomst</li>
-            </ul>
-          </div>
-
-          <div className="detail-item contact-info">
-            <h3>📞 Contact</h3>
-            <div className="contact-methods">
-              <a href="mailto:info@voorbeeld.com" className="contact-link">
-                <FaEnvelope /> info@voorbeeld.com
-              </a>
-              <a href="tel:+32123456789" className="contact-link">
-                <FaPhone /> +32 123 45 67 89
-              </a>
+          <motion.div className="detail-item" variants={itemVariants}>
+            <h3>Contactgegevens</h3>
+            <div className="detail-box">
+              <p>
+                <a href={`mailto:${booking?.guest?.email}`} className="contact-link">
+                  <FaEnvelope /> {booking?.guest?.email}
+                </a><br />
+                {booking?.guest?.phone && (
+                  <a href={`tel:${booking?.guest?.phone}`} className="contact-link">
+                    <FaPhone /> {booking?.guest?.phone}
+                  </a>
+                )}
+              </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
 
-        <div className="action-buttons">
+          <motion.div className="detail-item" variants={itemVariants}>
+            <h3><FaEuroSign /> Betalingsgegevens</h3>
+            <div className="detail-box price-details">
+              <div className="price-line">
+                <span>{booking?.nights} nachten × €{booking?.pricePerNight}</span>
+                <span>€{(booking?.nights * booking?.pricePerNight).toFixed(2)}</span>
+              </div>
+              <div className="price-total">
+                <span>Totaalbedrag:</span>
+                <span>€{booking?.totalPrice}</span>
+              </div>
+              <p className="payment-notice">
+                <strong>Belangrijk:</strong> Wij nemen binnen 24 uur contact met je op via e-mail om de betaling te regelen.
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div 
+          className="action-buttons"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
           <Link href="/" className="btn primary">
-            <FaHome /> Terug naar Home
+            <FaHome /> Naar homepage
           </Link>
           <Link href="/apartments" className="btn secondary">
-            Andere appartementen <FaArrowRight />
+            Meer appartementen <FaArrowRight />
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

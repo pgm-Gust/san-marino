@@ -1,16 +1,16 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  FaExclamationCircle, 
-  FaCalendarAlt, 
-  FaUser, 
-  FaEnvelope, 
-  FaPhone, 
-  FaMapMarkerAlt, 
+import AvailabilityChecker from '@components/AvailabilityChecker/AvailabilityChecker';
+import {
+  FaExclamationCircle,
+  FaCalendarAlt,
+  FaUser,
+  FaMapMarkerAlt,
   FaUsers,
   FaClock,
   FaMoneyBillAlt,
+  FaSpinner,
 } from 'react-icons/fa';
 
 export default function BookingForm() {
@@ -40,27 +40,59 @@ export default function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [nights, setNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const nightlyRate = 200;
+  const [pricePerNight, setPricePerNight] = useState(200);
+  const [isAvailable, setIsAvailable] = useState(false);
 
+  // Memoized callbacks voor AvailabilityChecker
+  const handleDatesChange = useCallback((newDates) => {
+    setFormData(prev => ({
+      ...prev,
+      arrivalDate: newDates.arrivalDate,
+      departureDate: newDates.departureDate
+    }));
+  }, []);
+
+  const handleAvailabilityChange = useCallback((data) => {
+    const available = data?.availableApartments?.length > 0;
+    setIsAvailable(available);
+    if (available) {
+      // Gebruik optionele chaining en default waarde
+      setPricePerNight(data.availableApartments[0]?.pricePerNight || 200);
+    }
+  }, []);
+
+  // Prijsberekening met guard clauses
   useEffect(() => {
-    if (formData.arrivalDate && formData.departureDate) {
+    const calculateNightsAndPrice = () => {
+      if (!formData.arrivalDate || !formData.departureDate) return;
+
       const arrival = new Date(formData.arrivalDate);
       const departure = new Date(formData.departureDate);
-      const diffTime = Math.abs(departure - arrival);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      setNights(diffDays);
-      setTotalPrice(diffDays * nightlyRate);
-    }
-  }, [formData.arrivalDate, formData.departureDate]);
+      
+      if (departure <= arrival) {
+        setNights(0);
+        setTotalPrice(0);
+        return;
+      }
+
+      const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
+      const newTotal = diffDays * pricePerNight;
+
+      setNights(prev => prev !== diffDays ? diffDays : prev);
+      setTotalPrice(prev => prev !== newTotal ? newTotal : prev);
+    };
+
+    calculateNightsAndPrice();
+  }, [formData.arrivalDate, formData.departureDate, pricePerNight]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name.startsWith('address.')) {
       const field = name.split('.')[1];
       setFormData(prev => ({
         ...prev,
-        address: { ...prev.address, [field]: value }
+        address: { ...prev.address, [field]: value },
       }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
@@ -78,6 +110,12 @@ export default function BookingForm() {
       return;
     }
 
+    if (!isAvailable) {
+      setError('Deze periode is niet beschikbaar');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/bookings', {
         method: 'POST',
@@ -86,18 +124,17 @@ export default function BookingForm() {
           ...formData,
           adults: parseInt(formData.adults),
           children: parseInt(formData.children),
-          totalPrice: totalPrice
+          totalPrice: totalPrice,
         }),
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || 'Er ging iets mis bij het boeken');
       }
 
       router.push(`/bedankt?bookingId=${data.id}`);
-      
     } catch (err) {
       setError(err.message);
     } finally {
@@ -106,51 +143,37 @@ export default function BookingForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="booking-form">
+    <form onSubmit={handleSubmit} className="booking-form container">
       <section className="booking-section">
         <div className="section-header">
           <FaCalendarAlt size={20} aria-hidden="true" />
           <h2>Reserveringsdetails</h2>
         </div>
-        
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="arrivalDate">Aankomstdatum <span className="required">*</span></label>
-            <input
-              id="arrivalDate"
-              type="date"
-              name="arrivalDate"
-              value={formData.arrivalDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          
-          <div className="input-group">
-            <label htmlFor="departureDate">Vertrekdatum <span className="required">*</span></label>
-            <input
-              id="departureDate"
-              type="date"
-              name="departureDate"
-              value={formData.departureDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
 
-          <div className="price-summary">
-            <div className="price-item">
-              <span>Aantal nachten</span>
-              <output>{nights}</output>
-            </div>
-            <div className="price-item total">
-              <span>Totaalprijs</span>
-              <output>€{totalPrice.toLocaleString('nl-NL')}</output>
-            </div>
+        <AvailabilityChecker
+          onDatesChange={handleDatesChange}
+          onAvailabilityChange={handleAvailabilityChange}
+        />
+
+        <div className="price-summary">
+        <div className="price-item">
+  <span>Prijs per nacht</span>
+  <output>
+    €{pricePerNight.toLocaleString('nl-NL')}
+  </output>
+</div>
+          <div className="price-item">
+            <span>Aantal nachten</span>
+            <output>{nights}</output>
+          </div>
+          <div className="price-item total">
+            <span>Totaalprijs</span>
+            <output>€{totalPrice.toLocaleString('nl-NL')}</output>
           </div>
         </div>
       </section>
 
+      {/* Persoonsgegevens sectie */}
       <section className="booking-section">
         <div className="section-header">
           <FaUser size={20} aria-hidden="true" />
@@ -159,7 +182,7 @@ export default function BookingForm() {
 
         <div className="input-grid">
           <div className="input-group">
-            <label htmlFor="firstName">Voornaam <span className="required">*</span></label>
+            <label htmlFor="firstName">Voornaam *</label>
             <input
               id="firstName"
               type="text"
@@ -171,7 +194,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="lastName">Achternaam <span className="required">*</span></label>
+            <label htmlFor="lastName">Achternaam *</label>
             <input
               id="lastName"
               type="text"
@@ -183,7 +206,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="email">E-mailadres <span className="required">*</span></label>
+            <label htmlFor="email">E-mailadres *</label>
             <input
               id="email"
               type="email"
@@ -195,7 +218,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="phone">Telefoonnummer <span className="required">*</span></label>
+            <label htmlFor="phone">Telefoonnummer *</label>
             <input
               id="phone"
               type="tel"
@@ -205,11 +228,12 @@ export default function BookingForm() {
               pattern="^(\+32|0)[1-9][0-9]{8}$"
               required
             />
-            <span className="input-hint">Voorbeeld: 0612345678 of +31612345678</span>
+            <span className="input-hint">Voorbeeld: 0412345678 of +32412345678</span>
           </div>
         </div>
       </section>
 
+      {/* Adresgegevens sectie */}
       <section className="booking-section">
         <div className="section-header">
           <FaMapMarkerAlt size={20} aria-hidden="true" />
@@ -218,7 +242,7 @@ export default function BookingForm() {
 
         <div className="input-grid">
           <div className="input-group">
-            <label htmlFor="street">Straat + huisnummer <span className="required">*</span></label>
+            <label htmlFor="street">Straat + huisnummer *</label>
             <input
               id="street"
               type="text"
@@ -230,7 +254,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="postalCode">Postcode <span className="required">*</span></label>
+            <label htmlFor="postalCode">Postcode *</label>
             <input
               id="postalCode"
               type="text"
@@ -243,7 +267,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="location">Plaats <span className="required">*</span></label>
+            <label htmlFor="location">Plaats *</label>
             <input
               id="location"
               type="text"
@@ -255,7 +279,7 @@ export default function BookingForm() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="country">Land <span className="required">*</span></label>
+            <label htmlFor="country">Land *</label>
             <select
               id="country"
               name="address.country"
@@ -272,6 +296,7 @@ export default function BookingForm() {
         </div>
       </section>
 
+      {/* Gezelschap sectie */}
       <section className="booking-section">
         <div className="section-header">
           <FaUsers size={20} aria-hidden="true" />
@@ -305,6 +330,7 @@ export default function BookingForm() {
         </div>
       </section>
 
+      {/* Tijden sectie */}
       <section className="booking-section">
         <div className="section-header">
           <FaClock size={20} aria-hidden="true" />
@@ -336,6 +362,7 @@ export default function BookingForm() {
         </div>
       </section>
 
+      {/* Extra informatie sectie */}
       <section className="booking-section">
         <div className="section-header">
           <FaMoneyBillAlt size={20} aria-hidden="true" />
@@ -355,6 +382,36 @@ export default function BookingForm() {
         </div>
       </section>
 
+      {/* Betaalmethode sectie */}
+<section className="booking-section">
+  <div className="section-header">
+    <FaMoneyBillAlt size={20} aria-hidden="true" />
+    <h2>Betaalmethode</h2>
+  </div>
+
+  <div className="input-grid">
+    <div className="input-group">
+      <label htmlFor="paymentMethod">Betaalmethode *</label>
+      <select
+        id="paymentMethod"
+        name="paymentMethod"
+        value={formData.paymentMethod}
+        onChange={handleChange}
+        required
+        disabled
+      >
+        <option value="Bankoverschrijving">Bankoverschrijving</option>
+      </select>
+    </div>
+  </div>
+
+  <div className="payment-notice">
+    <FaExclamationCircle className="icon" />
+    <p>Na het indienen van de boeking ontvangt u onze bankgegevens voor de betaling</p>
+  </div>
+</section>
+
+
       {error && (
         <div className="error-message" role="alert">
           <FaExclamationCircle aria-hidden="true" />
@@ -362,9 +419,9 @@ export default function BookingForm() {
         </div>
       )}
 
-      <button 
-        type="submit" 
-        disabled={isSubmitting}
+      <button
+        type="submit"
+        disabled={!isAvailable || isSubmitting}
         className="submit-button"
       >
         {isSubmitting ? (

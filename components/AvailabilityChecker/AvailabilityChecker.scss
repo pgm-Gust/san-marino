@@ -1,0 +1,96 @@
+.availability-wrapper {
+  margin-bottom: 2rem;
+}
+
+.availability-feedback {
+  margin-top: 1rem;
+}
+
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin: 0.5rem 0;
+}
+
+.status-message.loading {
+  background: var(--color-background);
+  color: var(--color-dark-teal);
+}
+
+.status-message.success {
+  background: hsl(120, 60%, 95%);
+  border: 1px solid hsl(120, 60%, 80%);
+  color: hsl(120, 60%, 25%);
+}
+
+.status-message.error {
+  background: hsl(356, 78%, 90%);
+  border: 1px solid hsl(356, 78%, 85%);
+  color: var(--color-error);
+}
+
+.weekend-notice {
+  background: hsl(174, 91%, 98%);
+  border: 2px solid hsl(174, 91%, 35%);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.weekend-notice::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: hsl(174, 91%, 35%);
+}
+
+.weekend-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.weekend-content h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: hsl(174, 91%, 25%);
+}
+
+.date-range {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: hsl(174, 91%, 15%);
+}
+
+.select-weekend {
+  align-self: flex-start;
+  background: hsl(174, 91%, 35%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.select-weekend:hover {
+  background: hsl(174, 91%, 30%);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

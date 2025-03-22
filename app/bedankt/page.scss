@@ -1,30 +1,20 @@
-// Variables
-$color-primary: #0f3d4a;
-$color-secondary: #1a7f75;
-$color-success: #28a745;
-$color-error: #dc3545;
-$color-border: #e0e7eb;
-$color-background: #f8fafc;
-$color-text: #2d3748;
-$color-text-light: #4a5568;
-
 .bedankt-page {
   padding: 2rem;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: var(--bg-color);
 
   .bedankt-card {
-    background: white;
+    background: var(--color-white);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    box-shadow: var(--menu-shadow);
     overflow: hidden;
-    border: 1px solid $color-border;
+    border: 1px solid var(--color-border);
     margin: 2rem;
     transform: translateY(0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: var(--transition);
 
     &:hover {
       transform: translateY(-5px);
@@ -35,35 +25,23 @@ $color-text-light: #4a5568;
   .success-header {
     text-align: center;
     padding: 4rem 2rem;
-    background: linear-gradient(135deg, $color-primary, $color-secondary);
-    color: white;
+    background: linear-gradient(135deg, var(--color-dark-teal), var(--color-steel-blue));
+    color: var(--color-white);
     position: relative;
     overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.01%);
-      background-size: 20px 20px;
-      animation: moveBackground 10s linear infinite;
-    }
 
     .success-icon {
       font-size: 4.5rem;
       margin-bottom: 1.5rem;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-      color: lighten($color-success, 10%);
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+      color: var(--success-color);
     }
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
       font-weight: 700;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     p {
@@ -71,16 +49,38 @@ $color-text-light: #4a5568;
       opacity: 0.9;
       font-weight: 300;
     }
+
+    .confetti-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: 0;
+        animation: confetti 2s ease-out infinite;
+
+        @keyframes confetti {
+          0% { opacity: 0; transform: translateY(0) rotate(0); }
+          10% { opacity: 1; }
+          100% { opacity: 0; transform: translateY(100vh) rotate(360deg); }
+        }
+      }
+    }
   }
 
   .booking-details {
     padding: 2.5rem;
     display: grid;
-    gap: 2.5rem;
+    gap: var(--container-gap);
 
     .detail-item {
       h3 {
-        color: $color-primary;
+        color: var(--color-dark-teal);
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
@@ -89,102 +89,86 @@ $color-text-light: #4a5568;
         font-weight: 600;
 
         svg {
-          color: $color-secondary;
+          color: var(--color-steel-blue);
         }
       }
 
       .detail-box {
-        background: white;
+        background: var(--color-white);
         padding: 1.75rem;
         border-radius: 15px;
-        border: 1px solid $color-border;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--image-shadow);
         
         p {
           margin: 0.75rem 0;
-          color: $color-text;
+          color: var(--text-color);
           line-height: 1.6;
-          
-          &:first-child {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: $color-primary;
-          }
-
-          strong {
-            color: $color-primary;
-          }
-        }
-      }
-    }
-
-    .next-steps {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 1.25rem;
-
-      li {
-        padding: 1.25rem;
-        background: white;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        border: 1px solid $color-border;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-        &:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        svg {
-          color: $color-secondary;
-          font-size: 1.2rem;
-        }
-      }
-    }
-
-    .contact-info {
-      .contact-methods {
-        display: grid;
-        gap: 1.25rem;
-
-        .contact-link {
+        .guest-count {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          padding: 1.25rem;
-          background: white;
-          border-radius: 12px;
-          color: $color-text;
-          text-decoration: none;
-          border: 1px solid $color-border;
-          transition: all 0.2s ease;
+          gap: 0.5rem;
+          margin-top: 1rem;
+          color: var(--color-muted-teal);
+        }
 
-          svg {
-            color: $color-secondary;
-          }
+        .payment-notice {
+          margin-top: 1.5rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--color-border);
+          font-style: italic;
+          color: var(--color-dark-teal);
+          background: rgba(var(--color-dark-teal), 0.05);
+          border-radius: 8px;
 
-          &:hover {
-            background: $color-background;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          strong {
+            color: var(--color-dark-teal);
           }
         }
+      }
+
+      .price-details {
+        .price-line {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+        }
+
+        .price-total {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--color-border);
+          font-weight: 600;
+        }
+      }
+    }
+
+    .contact-link {
+      color: var(--color-dark-teal);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+
+      &:hover {
+        color: var(--color-steel-blue);
+        text-decoration: underline;
       }
     }
   }
 
   .action-buttons {
     padding: 2rem;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid var(--color-border);
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    background: $color-background;
+    background: var(--background-light);
 
     .btn {
       padding: 1.25rem 2.5rem;
@@ -194,32 +178,32 @@ $color-text-light: #4a5568;
       gap: 1rem;
       text-decoration: none;
       font-weight: 500;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       min-width: 220px;
       justify-content: center;
 
       &.primary {
-        background: $color-primary;
-        color: white;
-        border: 2px solid $color-primary;
+        background: var(--color-dark-teal);
+        color: var(--color-white);
+        border: 2px solid var(--color-dark-teal);
 
         &:hover {
-          background: darken($color-primary, 5%);
+          background: var(--color-muted-teal);
           transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba($color-primary, 0.3);
+          box-shadow: 0 4px 15px rgba(15, 61, 74, 0.3);
         }
       }
 
       &.secondary {
-        background: white;
-        color: $color-primary;
-        border: 2px solid $color-primary;
+        background: var(--color-white);
+        color: var(--color-dark-teal);
+        border: 2px solid var(--color-dark-teal);
 
         &:hover {
-          background: $color-primary;
-          color: white;
+          background: var(--color-dark-teal);
+          color: var(--color-white);
           transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba($color-primary, 0.3);
+          box-shadow: 0 4px 15px rgba(15, 61, 74, 0.3);
         }
       }
 
@@ -279,72 +263,4 @@ $color-text-light: #4a5568;
       gap: 1.5rem;
     }
   }
-}
-
-@keyframes moveBackground {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 2rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border: 1px solid $color-border;
-}
-
-.error {
-  color: $color-error;
-  padding: 3rem 2rem;
-
-  svg {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    color: $color-error;
-  }
-
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    color: $color-text;
-    line-height: 1.6;
-  }
-}
-
-.loading {
-  p {
-    font-size: 1.3rem;
-    color: $color-text-light;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-
-    &::after {
-      content: '';
-      width: 1.2rem;
-      height: 1.2rem;
-      border: 2px solid $color-primary;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 0.8s linear infinite;
-    }
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+} 

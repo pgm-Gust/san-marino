@@ -2,7 +2,7 @@ import React from "react";
 
 const SpecialFeatures = () => {
     return (
-        <div className="container">
+        <div className="content-section">
             <div className="images">
                 <img
                     src="assets/images/strandavond.jpg"
