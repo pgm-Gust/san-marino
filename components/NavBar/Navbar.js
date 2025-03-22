@@ -12,9 +12,13 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <a href="/" className="navbar-logo">
-          <img src="logo.png" alt="San Marino 4" />
-        </a>
+      <a href="/">
+            <img 
+              src="/logo.png" 
+              alt="San Marino 4 Logo" 
+              className="logo-image" 
+            />
+          </a>
 
         <button 
           className={`hamburger ${isOpen ? 'active' : ''}`} 
