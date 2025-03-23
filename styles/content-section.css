@@ -1,5 +1,4 @@
 .content-section {
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -34,7 +33,7 @@
 
   .text-content {
     flex: 1;
-    align-items:left;
+    align-items: left;
 
     h2 {
       font-weight: 400;
@@ -44,7 +43,6 @@
     }
 
     .features {
-
       .feature {
         display: flex;
         align-items: center;
@@ -80,9 +78,134 @@
     }
   }
 
-  @media (max-width: 48rem) {
-     .images {
-      display: none;
+  @media (max-width: 1024px) {
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+
+    .text-content {
+      h2 {
+        font-size: 2.5rem;
+      }
+
+      .features {
+        .feature {
+          h3 {
+            font-size: 1.7rem;
+          }
+
+          p {
+            font-size: 0.95rem;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 2.5rem;
+
+    .images {
+      display:none;
+
+      .image {
+        &.small, &.large {
+          max-width: none;
+          height: 200px;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .text-content {
+      width: 100%;
+      text-align: center;
+
+      h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .features {
+        .feature {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+          margin-bottom: 2.5rem;
+
+          .icon {
+            min-width: 60px;
+            margin-bottom: 0.5rem;
+          }
+
+          h3 {
+            font-size: 1.6rem;
+          }
+
+          p {
+            font-size: 0.9rem;
+            max-width: 500px;
+            margin: 0.5rem auto 0;
+            line-height: 1.6;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+    gap: 2rem;
+
+    .images {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+
+      .image {
+        height: 180px;
+      }
+    }
+
+    .text-content {
+      h2 {
+        font-size: 2rem;
+      }
+
+      .features {
+        .feature {
+          margin-bottom: 2rem;
+
+          h3 {
+            font-size: 1.4rem;
+          }
+
+          p {
+            font-size: 0.85rem;
+            max-width: 400px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .text-content {
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .features {
+        .feature {
+          h3 {
+            font-size: 1.3rem;
+          }
+
+          p {
+            font-size: 0.8rem;
+          }
+        }
+      }
     }
   }
 }
@@ -110,7 +233,7 @@
   }
 }
 
-.contactt-section {
+.contact-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
@@ -123,6 +246,7 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.7rem;
+    margin-bottom: 0.5rem;
   }
 
   .map-wrapper {
@@ -141,6 +265,8 @@
 
   .text-content {
     padding-right: 3rem;
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
     
     h2 {
@@ -156,21 +282,24 @@
         display: block;
         height: 2px;
         background-color: var(--color-light-teal);
-        margin: 0 0 0 0;
         width: 10%;
         left: 0;
         position: absolute;
+        bottom: -0.5rem;
       }
     }
   }
 
   .contact-details {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
     .detail {
       display: grid;
       grid-template-columns: 50px 1fr;
       align-items: start;
+      gap: 1rem;
       padding: 1rem 0;
       transition: transform 0.3s ease;
 
@@ -192,7 +321,8 @@
 
       p {
         font-size: 1rem;
-        color: var(--color-light-teal);
+        color: var(--color-gray);
+        margin: 0;
 
         a {
           color: inherit;
@@ -207,19 +337,166 @@
         }
       }
     }
+
+    .cta-message {
+      margin: 1.5rem 0;
+      text-align: center;
+
+      h3 {
+        font-size: 1.4rem;
+        color: var(--color-dark-teal);
+        margin: 0;
+        padding: 1rem;
+        background: rgba(245, 245, 245, 0.3);
+        border-radius: 0.5rem;
+      }
+    }
   }
 
-  @media (max-width: 48rem) {
+  @media (max-width: 1024px) {
+    gap: 3rem;
+    padding: 4rem 2rem;
+
+    .text-content {
+      padding-right: 1.5rem;
+      
+      h2 {
+        font-size: 2.2rem;
+      }
+    }
+
+    .contact-details .detail {
+      grid-template-columns: 40px 1fr;
+      padding: 0.8rem 0;
+    }
+  }
+
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding: 2rem;
-    gap: 2rem;
+    gap: 2.5rem;
+    padding: 3rem 1.5rem;
 
     .map-wrapper {
-      min-height: 400px;
+      min-height: 350px;
+      order: 1;
+      
+      iframe {
+        min-height: 350px;
+      }
     }
 
     .text-content {
+      order: 0;
       padding-right: 0;
+      text-align: center;
+
+      h2 {
+        font-size: 2rem;
+        
+        &:after {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+        }
+      }
+    }
+
+    .contact-details {
+      gap: 1.5rem;
+
+      .detail {
+        grid-template-columns: 35px 1fr;
+        gap: 1rem;
+        padding: 1rem;
+        
+        img {
+          width: 25px;
+          height: 25px;
+        }
+
+        h3 {
+          font-size: 1.05rem;
+        }
+
+        p {
+          font-size: 0.95rem;
+        }
+      }
+
+      .cta-message h3 {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 1rem;
+    gap: 2rem;
+
+    .map-wrapper {
+      min-height: 300px;
+      
+      iframe {
+        min-height: 300px;
+      }
+    }
+
+    .text-content h2 {
+      font-size: 1.8rem;
+    }
+
+    .contact-details {
+      .detail {
+        grid-template-columns: 30px 1fr;
+        gap: 0.8rem;
+        padding: 0.8rem;
+
+        img {
+          width: 22px;
+          height: 22px;
+        }
+
+        h3 {
+          font-size: 1rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+
+      .cta-message h3 {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .text-content h2 {
+      font-size: 1.6rem;
+    }
+
+    .contact-details {
+      .detail {
+        grid-template-columns: 25px 1fr;
+        
+        img {
+          width: 20px;
+          height: 20px;
+        }
+
+        h3 {
+          font-size: 0.95rem;
+        }
+
+        p {
+          font-size: 0.85rem;
+        }
+      }
+
+      .cta-message h3 {
+        font-size: 1.2rem;
+      }
     }
   }
 }

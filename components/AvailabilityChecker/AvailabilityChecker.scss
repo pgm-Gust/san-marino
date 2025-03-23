@@ -1,9 +1,117 @@
-.availability-wrapper {
-  margin-bottom: 2rem;
+.availability-checker {
+  display: grid;
+  grid-template-areas:
+    "inputs weekend"
+    "feedback feedback";
+  grid-template-columns: 80% 20%;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-areas:
+      "inputs"
+      "weekend"
+      "feedback";
+    grid-template-columns: 100%;
+    gap: 0.5rem;
+
+    .weekend-notice {
+      margin-top: 0;
+      order: 2;
+    }
+
+    .availability-feedback {
+      order: 3;
+    }
+  }
+
+  .input-grid {
+    grid-area: inputs;
+  }
+
+  .availability-feedback {
+    grid-area: feedback;
+  }
+
+  .weekend-notice {
+    grid-area: weekend;
+    background: var(--color-background, #f8f9fa);
+    border: 1px solid var(--color-border, #dee2e6);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    @media (max-width: 768px) {
+      margin-top: 1rem;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--color-primary, #6c757d);
+    }
+
+    .weekend-content {
+      h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1rem;
+        color: var(--color-text, #212529);
+        font-weight: 600;
+      }
+
+      .date-range {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        color: var(--color-text-secondary, #495057);
+        font-size: 0.9em;
+        margin-bottom: 0.5rem;
+
+        @media (max-width: 768px) {
+          flex-wrap: wrap;
+        }
+
+        time {
+          font-weight: 500;
+        }
+      }
+
+      .select-weekend {
+        align-self: flex-start;
+        background: var(--color-primary, #6c757d);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.9em;
+        font-weight: 500;
+
+        @media (max-width: 768px) {
+          width: 100%;
+          text-align: center;
+        }
+
+        &:hover {
+          background: var(--color-primary-dark, #5a6268);
+        }
+      }
+    }
+  }
 }
 
-.availability-feedback {
-  margin-top: 1rem;
+.availability-wrapper {
+  margin-bottom: 2rem;
 }
 
 .status-message {
@@ -13,76 +121,23 @@
   padding: 1rem;
   border-radius: var(--border-radius);
   margin: 0.5rem 0;
-}
 
-.status-message.loading {
-  background: var(--color-background);
-  color: var(--color-dark-teal);
-}
+  &.loading {
+    background: var(--color-background);
+    color: var(--color-dark-teal);
+  }
 
-.status-message.success {
-  background: hsl(120, 60%, 95%);
-  border: 1px solid hsl(120, 60%, 80%);
-  color: hsl(120, 60%, 25%);
-}
+  &.success {
+    background: hsl(120, 60%, 95%);
+    border: 1px solid hsl(120, 60%, 80%);
+    color: hsl(120, 60%, 25%);
+  }
 
-.status-message.error {
-  background: hsl(356, 78%, 90%);
-  border: 1px solid hsl(356, 78%, 85%);
-  color: var(--color-error);
-}
-
-.weekend-notice {
-  background: hsl(174, 91%, 98%);
-  border: 2px solid hsl(174, 91%, 35%);
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  margin-top: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.weekend-notice::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: hsl(174, 91%, 35%);
-}
-
-.weekend-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.weekend-content h3 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.date-range {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  color: hsl(174, 91%, 15%);
-}
-
-.select-weekend {
-  align-self: flex-start;
-  background: hsl(174, 91%, 35%);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.select-weekend:hover {
-  background: hsl(174, 91%, 30%);
+  &.error {
+    background: hsl(356, 78%, 90%);
+    border: 1px solid hsl(356, 78%, 85%);
+    color: var(--color-error);
+  }
 }
 
 .spin {

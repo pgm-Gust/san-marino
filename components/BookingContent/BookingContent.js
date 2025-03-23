@@ -117,20 +117,6 @@ export default function BedanktPagina() {
           </motion.div>
           <h1>Bedankt voor je boeking!</h1>
           <p>Je boeking <strong>#{bookingId}</strong> is succesvol ontvangen.</p>
-          <div className="confetti-overlay">
-            {Array.from({ length: 50 }).map((_, i) => (
-              <div
-                key={i}
-                className="confetti"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  backgroundColor: `hsl(${Math.random() * 360}, 100%, 70%)`
-                }}
-              />
-            ))}
-          </div>
         </div>
 
         <motion.div 
