@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="footer-section quick-links">
           <h3>Snelle links</h3>
           <nav>
-            <a href="/appartementen">Appartement</a>
+            <a href="/appartement/plein">Appartement</a>
             <a href="/locatie">Locatie</a>
             <a href="/contact">Contact</a>
           </nav>
