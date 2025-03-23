@@ -5,7 +5,7 @@ import Footer from '@components/Footer/Footer';
 
 export const metadata = generateSeo({
   title: "San Marino 4 - Luxe vakantieappartementen Middelkerke",
-  description: "Officiële website van San Marino 4 - Moderne appartementen aan zee",
+  description: "San Marino 4 - Moderne appartementen aan zee",
 });
 
 export default function RootLayout({ children }) {
