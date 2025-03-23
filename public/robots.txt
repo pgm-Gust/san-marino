@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /plein/boeken
+Disallow: /hoek/boeken
+Disallow: /bedankt
+Allow: /
+
+Sitemap: https://www.sanmarino4.be/

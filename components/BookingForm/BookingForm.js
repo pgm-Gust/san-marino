@@ -2,16 +2,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AvailabilityChecker from '@components/AvailabilityChecker/AvailabilityChecker';
-import {
-  FaExclamationCircle,
-  FaCalendarAlt,
-  FaUser,
-  FaMapMarkerAlt,
-  FaUsers,
-  FaClock,
-  FaMoneyBillAlt,
-  FaSpinner,
-} from 'react-icons/fa';
+import BookingDetailsSection from './BookingDetailsSection';
+import PersonalDetailsSection from './PersonalDetailsSection';
+import AddressDetailsSection from './AddressDetailsSection';
+import GroupSection from './GroupSection';
+import TimesSection from './TimesSection';
+import ExtraInfoSection from './ExtraInfoSection';
+import PaymentSection from './PaymentSection';
+import ErrorMessage from './ErrorMessage';
+import SubmitButton from './SubmitButton';
 
 export default function BookingForm() {
   const router = useRouter();
@@ -34,6 +33,7 @@ export default function BookingForm() {
     children: 0,
     arrivalTime: '15:00',
     departureTime: '10:00',
+    paymentMethod: 'Bankoverschrijving',
   });
 
   const [error, setError] = useState('');
@@ -42,13 +42,14 @@ export default function BookingForm() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerNight, setPricePerNight] = useState(200);
   const [isAvailable, setIsAvailable] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
-  // Memoized callbacks voor AvailabilityChecker
+  // Callbacks voor AvailabilityChecker
   const handleDatesChange = useCallback((newDates) => {
     setFormData(prev => ({
       ...prev,
       arrivalDate: newDates.arrivalDate,
-      departureDate: newDates.departureDate
+      departureDate: newDates.departureDate,
     }));
   }, []);
 
@@ -56,12 +57,11 @@ export default function BookingForm() {
     const available = data?.availableApartments?.length > 0;
     setIsAvailable(available);
     if (available) {
-      // Gebruik optionele chaining en default waarde
       setPricePerNight(data.availableApartments[0]?.pricePerNight || 200);
     }
   }, []);
 
-  // Prijsberekening met guard clauses
+  // Bereken het aantal nachten en de totaalprijs
   useEffect(() => {
     const calculateNightsAndPrice = () => {
       if (!formData.arrivalDate || !formData.departureDate) return;
@@ -77,9 +77,8 @@ export default function BookingForm() {
 
       const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
       const newTotal = diffDays * pricePerNight;
-
-      setNights(prev => prev !== diffDays ? diffDays : prev);
-      setTotalPrice(prev => prev !== newTotal ? newTotal : prev);
+      setNights(diffDays);
+      setTotalPrice(newTotal);
     };
 
     calculateNightsAndPrice();
@@ -87,7 +86,6 @@ export default function BookingForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name.startsWith('address.')) {
       const field = name.split('.')[1];
       setFormData(prev => ({
@@ -112,6 +110,12 @@ export default function BookingForm() {
 
     if (!isAvailable) {
       setError('Deze periode is niet beschikbaar');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!agreed) {
+      setError('U dient akkoord te gaan met de algemene voorwaarden');
       setIsSubmitting(false);
       return;
     }
@@ -144,295 +148,39 @@ export default function BookingForm() {
 
   return (
     <form onSubmit={handleSubmit} className="booking-form container">
-      <section className="booking-section">
-        <div className="section-header">
-          <FaCalendarAlt size={20} aria-hidden="true" />
-          <h2>Reserveringsdetails</h2>
-        </div>
+      <BookingDetailsSection
+        handleDatesChange={handleDatesChange}
+        handleAvailabilityChange={handleAvailabilityChange}
+        pricePerNight={pricePerNight}
+        nights={nights}
+        totalPrice={totalPrice}
+      />
+      <PersonalDetailsSection formData={formData} handleChange={handleChange} />
+      <AddressDetailsSection formData={formData} handleChange={handleChange} />
+      <GroupSection formData={formData} handleChange={handleChange} />
+      <TimesSection formData={formData} handleChange={handleChange} />
+      <ExtraInfoSection formData={formData} handleChange={handleChange} />
+      <PaymentSection formData={formData} handleChange={handleChange} />
+      {error && <ErrorMessage error={error} />}
 
-        <AvailabilityChecker
-          onDatesChange={handleDatesChange}
-          onAvailabilityChange={handleAvailabilityChange}
-        />
-
-        <div className="price-summary">
-        <div className="price-item">
-  <span>Prijs per nacht</span>
-  <output>
-    €{pricePerNight.toLocaleString('nl-NL')}
-  </output>
-</div>
-          <div className="price-item">
-            <span>Aantal nachten</span>
-            <output>{nights}</output>
-          </div>
-          <div className="price-item total">
-            <span>Totaalprijs</span>
-            <output>€{totalPrice.toLocaleString('nl-NL')}</output>
-          </div>
-        </div>
-      </section>
-
-      {/* Persoonsgegevens sectie */}
-      <section className="booking-section">
-        <div className="section-header">
-          <FaUser size={20} aria-hidden="true" />
-          <h2>Persoonsgegevens</h2>
-        </div>
-
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="firstName">Voornaam *</label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="lastName">Achternaam *</label>
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="email">E-mailadres *</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="phone">Telefoonnummer *</label>
-            <input
-              id="phone"
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              pattern="^(\+32|0)[1-9][0-9]{8}$"
-              required
-            />
-            <span className="input-hint">Voorbeeld: 0412345678 of +32412345678</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Adresgegevens sectie */}
-      <section className="booking-section">
-        <div className="section-header">
-          <FaMapMarkerAlt size={20} aria-hidden="true" />
-          <h2>Adresgegevens</h2>
-        </div>
-
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="street">Straat + huisnummer *</label>
-            <input
-              id="street"
-              type="text"
-              name="address.street"
-              value={formData.address.street}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="postalCode">Postcode *</label>
-            <input
-              id="postalCode"
-              type="text"
-              name="address.postalCode"
-              value={formData.address.postalCode}
-              onChange={handleChange}
-              required
-            />
-            <span className="input-hint">Voorbeeld: 1234AB</span>
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="location">Plaats *</label>
-            <input
-              id="location"
-              type="text"
-              name="address.location"
-              value={formData.address.location}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="country">Land *</label>
-            <select
-              id="country"
-              name="address.country"
-              value={formData.address.country}
-              onChange={handleChange}
-              required
-            >
-              <option value="België">België</option>
-              <option value="Nederland">Nederland</option>
-              <option value="Duitsland">Duitsland</option>
-              <option value="Overig">Ander land</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      {/* Gezelschap sectie */}
-      <section className="booking-section">
-        <div className="section-header">
-          <FaUsers size={20} aria-hidden="true" />
-          <h2>Gezelschap</h2>
-        </div>
-
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="adults">Aantal volwassenen</label>
-            <input
-              id="adults"
-              type="number"
-              name="adults"
-              min="1"
-              value={formData.adults}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="children">Aantal kinderen</label>
-            <input
-              id="children"
-              type="number"
-              name="children"
-              min="0"
-              value={formData.children}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Tijden sectie */}
-      <section className="booking-section">
-        <div className="section-header">
-          <FaClock size={20} aria-hidden="true" />
-          <h2>Tijden</h2>
-        </div>
-
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="arrivalTime">Aankomsttijd</label>
-            <input
-              id="arrivalTime"
-              type="time"
-              name="arrivalTime"
-              value={formData.arrivalTime}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="departureTime">Vertrektijd</label>
-            <input
-              id="departureTime"
-              type="time"
-              name="departureTime"
-              value={formData.departureTime}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Extra informatie sectie */}
-      <section className="booking-section">
-        <div className="section-header">
-          <FaMoneyBillAlt size={20} aria-hidden="true" />
-          <h2>Extra informatie</h2>
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="notice">Speciale verzoeken</label>
-          <textarea
-            id="notice"
-            name="notice"
-            value={formData.notice}
-            onChange={handleChange}
-            rows="4"
-            placeholder="Vermeld hier eventuele extra opmerkingen..."
+      <div className="checkbox-container">
+        <label>
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            required
           />
-        </div>
-      </section>
+          Ik ga akkoord met de <a href="/algemene-voorwaarden" target="_blank"><span className="terms-link">algemene voorwaarden</span></a>
+        </label>
+      </div>
 
-      {/* Betaalmethode sectie */}
-<section className="booking-section">
-  <div className="section-header">
-    <FaMoneyBillAlt size={20} aria-hidden="true" />
-    <h2>Betaalmethode</h2>
-  </div>
-
-  <div className="input-grid">
-    <div className="input-group">
-      <label htmlFor="paymentMethod">Betaalmethode *</label>
-      <select
-        id="paymentMethod"
-        name="paymentMethod"
-        value={formData.paymentMethod}
-        onChange={handleChange}
-        required
-        disabled
-      >
-        <option value="Bankoverschrijving">Bankoverschrijving</option>
-      </select>
-    </div>
-  </div>
-
-  <div className="payment-notice">
-    <FaExclamationCircle className="icon" />
-    <p>Na het indienen van de boeking ontvangt u onze bankgegevens voor de betaling</p>
-  </div>
-</section>
-
-
-      {error && (
-        <div className="error-message" role="alert">
-          <FaExclamationCircle aria-hidden="true" />
-          <p>{error}</p>
-        </div>
-      )}
-
-      <button
-        type="submit"
-        disabled={!isAvailable || isSubmitting}
-        className="submit-button"
-      >
-        {isSubmitting ? (
-          <span className="loading">Bevestigen...</span>
-        ) : (
-          <>
-            Bevestig boeking
-            <span className="price">€{totalPrice.toLocaleString('nl-NL')}</span>
-          </>
-        )}
-      </button>
+      <SubmitButton 
+        isSubmitting={isSubmitting} 
+        isAvailable={isAvailable} 
+        totalPrice={totalPrice} 
+        disabled={!agreed || isSubmitting}
+      />
     </form>
   );
 }

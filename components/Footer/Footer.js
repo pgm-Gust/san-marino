@@ -18,7 +18,7 @@ export default function Footer() {
             </li>
             <li>
               <FaEnvelope className="footer-icon" />
-              <a href="mailto:info@sanmarino.be">info@sanmarino.be</a>
+              <a href="mailto:hello@sanmarino4.be">hello@sanmarino4.be</a>
             </li>
           </ul>
         </div>

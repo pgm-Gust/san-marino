@@ -24,17 +24,16 @@ const SpecialFeatures = () => {
                         <img src="assets/icons/Comfort.svg" alt="Comfort" />
                         </div>
                         <div>
-                            <h3>Alles voor uw comfort</h3>
+                            <h3>Geniet van rust en gemak</h3>
                             <p>
-                            Volledig uitgerust met kwaliteitsmeubilair, moderne apparatuur en 
-                                zorgvuldig geselecteerde details. Van de linnengoedkeuze tot de 
-                                koffiecupjes - wij dachten aan alles.
+                            Ontspan in een perfect gelegen appartement met alle faciliteiten binnen handbereik.  
+                            Van een vlotte check-in tot een zorgeloos verblijf – comfort staat bij ons centraal.
                             </p>
                         </div>
                     </div>
                     <div className="feature">
                         <div className="icon">
-                            <img src="assets/icons/Frame.svg" alt="View" />
+                            <img src="assets/icons/Frame.svg" alt="Uitzicht" />
                         </div>
                         <div>
                             <h3>Adembenemend uitzicht</h3>
@@ -47,7 +46,7 @@ const SpecialFeatures = () => {
                     </div>
                     <div className="feature">
                         <div className="icon">
-                            <img src="assets/icons/Oppurtunities.svg" alt="Oppurtunities" />
+                            <img src="assets/icons/Oppurtunities.svg" alt="Ligging" />
                         </div>
                         <div>
                             <h3>Ideale ligging</h3>
