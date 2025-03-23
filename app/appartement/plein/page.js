@@ -68,7 +68,7 @@ export default function PleinApartment() {
       },
       author: {
         "@type": "Person",
-        name: "Brenda",
+        name: "Jasper",
       },
     },
   };

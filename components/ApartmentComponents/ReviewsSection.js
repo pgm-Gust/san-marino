@@ -6,7 +6,7 @@ export default function ReviewsSection() {
     {
       rating: 5,
       text: `"Elke ochtend wakker worden met het ruisen van de zee... Dit appartement geeft je het echte 'aan-zijn-van-de-kust'-gevoel. Onze kinderen hebben uren op het strand gespeeld dat letterlijk voor de deur ligt!"`,
-      author: "Brenda, augustus 2024",
+      author: "Jasper, augustus 2024",
     },
     {
       rating: 5,
