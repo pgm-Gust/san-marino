@@ -1,18 +1,17 @@
 .booking-form {
-  padding: 2rem;
-  background: var(--color-white);
-  border-radius: var(--border-radius);
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 32, 38, 0.1);
-  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
 
   .booking-section {
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--color-border);
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 
     &:last-child {
-      border-bottom: 0;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
     }
 
     .section-header {
@@ -28,7 +27,7 @@
       }
 
       svg {
-        color: hsl(174, 91%, 25%);
+        color: var(--color-dark-teal);
         flex-shrink: 0;
       }
     }
@@ -47,7 +46,7 @@
 
     label {
       font-weight: 500;
-      color: hsl(174, 91%, 13%);
+      color: var(--color-dark-teal);
       font-size: 0.875rem;
 
       .required {
@@ -61,7 +60,7 @@
     textarea {
       padding: 0.75rem 1rem;
       border: 2px solid var(--color-border);
-      border-radius: var(--border-radius);
+      border-radius: 8px;
       font-size: 1rem;
       transition: border-color 0.2s, box-shadow 0.2s;
       width: 100%;
@@ -69,7 +68,7 @@
       &:focus {
         outline: none;
         border-color: var(--color-dark-teal);
-        box-shadow: var(--input-focus-glow);
+        box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
       }
 
       &[type="time"] {
@@ -83,7 +82,7 @@
     }
 
     .input-hint {
-      color: var(--color-light-teal);
+      color: hsl(174, 91%, 35%);
       font-size: 0.75rem;
       margin-top: 0.25rem;
     }
@@ -143,22 +142,20 @@
     width: 100%;
     padding: 1rem 2rem;
     background: var(--color-dark-teal);
-    color: var(--color-white);
+    color: white;
     border: none;
-    border: 0.125rem solid var(--color-dark-teal);
-    transition: var(--transition);
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    border-radius: var(--border-radius);
 
     &:hover:not(:disabled) {
-      background: var(--color-white);
-      color: var(--color-dark-teal);
-      transform: translateY(-1px);
+      background: var(--color-teal);
+      transform: translateY(-2px);
     }
 
     &:disabled {
@@ -178,116 +175,6 @@
       min-width: 100px;
     }
   }
-
-  @media (max-width: 640px) {
-    padding: 1rem;
-    border-radius: 0;
-    box-shadow: none;
-
-    .booking-section {
-      margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
-
-      .section-header {
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-
-        h2 {
-          font-size: 1.125rem;
-        }
-
-        svg {
-          width: 18px;
-          height: 18px;
-        }
-      }
-    }
-
-    .input-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .input-group {
-      gap: 0.5rem;
-
-      label {
-        font-size: 0.8125rem;
-      }
-
-      input,
-      select,
-      textarea {
-        font-size: 0.875rem;
-        padding: 0.625rem;
-      }
-
-      textarea {
-        min-height: 100px;
-      }
-    }
-
-    .price-summary {
-      padding: 1rem;
-      margin-top: 1rem;
-
-      .price-item {
-        font-size: 0.875rem;
-
-        output {
-          font-size: 0.875rem;
-        }
-
-        &.total {
-          padding-top: 0.75rem;
-        }
-      }
-    }
-
-    .error-message {
-      padding: 0.75rem;
-      margin: 1rem 0;
-      font-size: 0.8125rem;
-
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
-
-    .submit-button {
-      font-size: 0.9rem;
-      padding: 0.875rem;
-      gap: 0.5rem;
-
-      .price {
-        padding: 0.2rem 0.6rem;
-      }
-    }
-  }
-
-  @media (max-width: 400px) {
-    .section-header {
-      flex-wrap: wrap;
-    }
-
-    .input-group {
-      input[type="time"] {
-        padding: 0.5rem;
-      }
-    }
-
-    .submit-button {
-      flex-direction: column;
-      gap: 0.25rem;
-      padding: 0.75rem;
-
-      .price {
-        width: 100%;
-        text-align: center;
-      }
-    }
-  }
 }
 
 .payment-notice {
@@ -298,12 +185,12 @@
   border-radius: var(--border-radius);
   padding: 1.5rem;
   margin: 1.5rem 0 2rem;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
@@ -334,56 +221,81 @@
     padding: 1rem;
     gap: 0.75rem;
     margin: 1rem 0;
-    
+
     p {
       font-size: 0.875rem;
     }
-    
+
     .icon {
       font-size: 1.1em;
     }
   }
 }
 
-.checkbox-container {
-  margin: 1.5rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  
-  label {
-    font-size: 1rem;
+.availability-section {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
     color: var(--color-dark-teal);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
+    font-size: 1.5rem;
   }
 
-  input[type="checkbox"] {
-    width: 1.4rem;
-    height: 1.4rem;
-    cursor: pointer;
+  .availability-calendar {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .availability-section {
+    margin-bottom: 2rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
   }
 
-  .terms-link {
-    color: var(--color-primary);
-    text-decoration: underline;
-    cursor: pointer;
-  }
+  .booking-form {
+    padding: 0 1rem 2rem;
 
-  // Responsiveness
-  @media (max-width: 768px) {
-    label {
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-      text-align: left;
+    .booking-section {
+      padding: 1.5rem;
+
+      .section-header {
+        h2 {
+          font-size: 1.125rem;
+        }
+      }
     }
 
-    input[type="checkbox"] {
-      width: 1.2rem;
-      height: 1.2rem;
+    .input-grid {
+      gap: 1rem;
+    }
+
+    .input-group {
+      gap: 0.5rem;
+
+      label {
+        font-size: 0.8125rem;
+      }
+
+      input,
+      select,
+      textarea {
+        font-size: 0.875rem;
+        padding: 0.625rem;
+      }
+    }
+
+    .submit-button {
+      padding: 0.875rem;
+      font-size: 0.9rem;
     }
   }
 }

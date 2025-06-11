@@ -9,12 +9,12 @@ export default function Appartementen() {
         title="Plein Appartement"
         subtitle="Uitzicht op strand en zee"
         features={[
-          "🔑 Maximum 4 Personen", 
-          "🚭 Rookvrij", 
+          "🔑 Maximum 4 Personen",
+          "🚭 Rookvrij",
           "🚫 Geen huisdieren",
           "🛏️ 2 Slaapkamers",
           "🛁 1 Badkamer",
-          "🍳 Volledige keuken"
+          "🍳 Volledige keuken",
         ]}
         price={200}
         link="/appartement/plein/"
@@ -24,6 +24,7 @@ export default function Appartementen() {
         bedrooms={2}
         book="/appartement/plein/boeken"
         badge="Prijs Favoriet"
+        loading="lazy"
       />
 
       <Appartement
@@ -31,12 +32,12 @@ export default function Appartementen() {
         title="Hoek Appartement"
         subtitle="Uitzicht op strand en zee"
         features={[
-          "🔑 Maximum 4 Personen", 
-          "🚭 Rookvrij", 
+          "🔑 Maximum 4 Personen",
+          "🚭 Rookvrij",
           "🚫 Geen huisdieren",
           "🛏️ 2 Slaapkamers",
           "🛁 1 Badkamer",
-          "🍳 Volledige keuken"
+          "🍳 Volledige keuken",
         ]}
         price={250}
         link="/appartement/hoek"
@@ -46,6 +47,7 @@ export default function Appartementen() {
         bedrooms={2}
         book="/appartement/hoek/boeken"
         badge="Nieuw"
+        loading="lazy"
       />
     </div>
   );

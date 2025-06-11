@@ -65,7 +65,7 @@ const NextWeekendSection = ({ status, data, error, onSelect }) => {
             <time dateTime={end}>{formatDate(end)}</time>
           </div>
           <button
-            className="button"
+            className="select-weekend"
             onClick={() => onSelect({ arrivalDate: start, departureDate: end })}
           >
             Deze datums gebruiken

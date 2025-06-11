@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
@@ -50,10 +50,31 @@ export default function ApartmentGallery() {
     useEffect(() => {
         if (lightboxOpen) {
             document.body.classList.add("no-scroll");
+      // Add keyboard event listeners
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          closePhoto();
+        } else if (e.key === 'ArrowLeft') {
+          showPrev();
+        } else if (e.key === 'ArrowRight') {
+          showNext();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
         } else {
             document.body.classList.remove("no-scroll");
         }
     }, [lightboxOpen]);
+
+  const handleLightboxClick = (e) => {
+    // Close if clicking outside the image
+    if (e.target.classList.contains('lightbox')) {
+      closePhoto();
+    }
+  };
 
     const openPhoto = (index) => {
         setCurrentIndex(index);
@@ -75,7 +96,8 @@ export default function ApartmentGallery() {
 
     const getThumbnailRange = () => {
         const thumbCount = 5;
-        if (currentIndex === null || photos.length === 0) return { start: 0, end: 0 };
+    if (currentIndex === null || photos.length === 0)
+      return { start: 0, end: 0 };
 
         let start = currentIndex - Math.floor(thumbCount / 2);
         let end = start + thumbCount - 1;
@@ -103,6 +125,7 @@ export default function ApartmentGallery() {
                     alt="Main"
                     className="gallery-main"
                     onClick={() => openPhoto(0)}
+          loading="lazy"
                 />
                 <div className="gallery-column">
                     <img
@@ -110,12 +133,14 @@ export default function ApartmentGallery() {
                         alt="Side 1"
                         className="gallery-side"
                         onClick={() => openPhoto(1)}
+            loading="lazy"
                     />
                     <img
                         src={photos[2]}
                         alt="Side 2"
                         className="gallery-side"
                         onClick={() => openPhoto(2)}
+            loading="lazy"
                     />
                 </div>
             </div>
@@ -128,6 +153,7 @@ export default function ApartmentGallery() {
                         alt={`Thumbnail ${index + 3}`}
                         className="gallery-thumb"
                         onClick={() => openPhoto(index + 3)}
+            loading="lazy"
                     />
                 ))}
                 <div className="gallery-more" onClick={() => openPhoto(8)}>
@@ -136,7 +162,7 @@ export default function ApartmentGallery() {
             </div>
 
             {lightboxOpen && (
-                <div className="lightbox">
+        <div className="lightbox" onClick={handleLightboxClick}>
                     <span className="close" onClick={closePhoto}>
                         <FaTimes />
                     </span>
@@ -163,7 +189,10 @@ export default function ApartmentGallery() {
                                     className={`thumbnail ${
                                         currentIndex === photoIndex ? "active" : ""
                                     }`}
-                                    onClick={() => setCurrentIndex(photoIndex)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent lightbox from closing
+                    setCurrentIndex(photoIndex);
+                  }}
                                 />
                             );
                         })}

@@ -8,17 +8,17 @@
 
   .bedankt-card {
     background: var(--color-white);
-    border-radius: 1.25rem;
+    border-radius: 20px;
     box-shadow: var(--menu-shadow);
     overflow: hidden;
-    border: 0.0625rem solid var(--color-border);
+    border: 1px solid var(--color-border);
     margin: 2rem;
     transform: translateY(0);
     transition: var(--transition);
 
     &:hover {
-      transform: translateY(-0.3125rem);
-      box-shadow: 0 0.9375rem 2.5rem hsla(0, 0%, 0%, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
     }
   }
 
@@ -33,7 +33,7 @@
     .success-icon {
       font-size: 4.5rem;
       margin-bottom: 1.5rem;
-      filter: drop-shadow(0 0.25rem 0.375rem hsla(0, 0%, 0%, 0.1));
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
       color: var(--success-color);
     }
 
@@ -41,7 +41,7 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
       font-weight: 700;
-      text-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     p {
@@ -50,18 +50,26 @@
       font-weight: 300;
     }
 
-    .floating-balls {
+    .confetti-overlay {
       position: absolute;
       inset: 0;
       pointer-events: none;
-    }
-    
-    .ball {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      position: absolute;
-      opacity: 0.8;
+      overflow: hidden;
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: 0;
+        animation: confetti 2s ease-out infinite;
+
+        @keyframes confetti {
+          0% { opacity: 0; transform: translateY(0) rotate(0); }
+          10% { opacity: 1; }
+          100% { opacity: 0; transform: translateY(100vh) rotate(360deg); }
+        }
+      }
     }
   }
 
@@ -88,8 +96,8 @@
       .detail-box {
         background: var(--color-white);
         padding: 1.75rem;
-        border-radius: 0.9375rem;
-        border: 0.0625rem solid var(--color-border);
+        border-radius: 15px;
+        border: 1px solid var(--color-border);
         box-shadow: var(--image-shadow);
         
         p {
@@ -109,11 +117,11 @@
         .payment-notice {
           margin-top: 1.5rem;
           padding-top: 1.5rem;
-          border-top: 0.0625rem solid var(--color-border);
+          border-top: 1px solid var(--color-border);
           font-style: italic;
           color: var(--color-dark-teal);
-          background: hsla(var(--color-dark-teal), 0.05);
-          border-radius: 0.5rem;
+          background: rgba(var(--color-dark-teal), 0.05);
+          border-radius: 8px;
 
           strong {
             color: var(--color-dark-teal);
@@ -133,7 +141,7 @@
           justify-content: space-between;
           margin-top: 1rem;
           padding-top: 1rem;
-          border-top: 0.0625rem solid var(--color-border);
+          border-top: 1px solid var(--color-border);
           font-weight: 600;
         }
       }
@@ -156,7 +164,7 @@
 
   .action-buttons {
     padding: 2rem;
-    border-top: 0.0625rem solid var(--color-border);
+    border-top: 1px solid var(--color-border);
     display: flex;
     gap: 1.5rem;
     justify-content: center;
@@ -164,38 +172,38 @@
 
     .btn {
       padding: 1.25rem 2.5rem;
-      border-radius: 0.75rem;
+      border-radius: 12px;
       display: inline-flex;
       align-items: center;
       gap: 1rem;
       text-decoration: none;
       font-weight: 500;
       transition: var(--transition);
-      min-width: 13.75rem;
+      min-width: 220px;
       justify-content: center;
 
       &.primary {
         background: var(--color-dark-teal);
         color: var(--color-white);
-        border: 0.125rem solid var(--color-dark-teal);
+        border: 2px solid var(--color-dark-teal);
 
         &:hover {
           background: var(--color-muted-teal);
-          transform: translateY(-0.125rem);
-          box-shadow: 0 0.25rem 0.9375rem hsla(15, 61%, 74%, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(15, 61, 74, 0.3);
         }
       }
 
       &.secondary {
         background: var(--color-white);
         color: var(--color-dark-teal);
-        border: 0.125rem solid var(--color-dark-teal);
+        border: 2px solid var(--color-dark-teal);
 
         &:hover {
           background: var(--color-dark-teal);
           color: var(--color-white);
-          transform: translateY(-0.125rem);
-          box-shadow: 0 0.25rem 0.9375rem hsla(15, 61%, 74%, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(15, 61, 74, 0.3);
         }
       }
 
@@ -204,7 +212,7 @@
       }
 
       &:hover svg {
-        transform: translateX(0.1875rem);
+        transform: translateX(3px);
       }
     }
   }
@@ -255,4 +263,4 @@
       gap: 1.5rem;
     }
   }
-}
+} 

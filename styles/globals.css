@@ -1,7 +1,6 @@
 @import url("./reset.css");
 @import url("./fonts.css");
 @import url("./content-section.css");
-@import url("./button.css");
 
 :root {
   /* Kleuren */
@@ -27,8 +26,8 @@
   --background-light: hsl(210, 17%, 98%);
 
   /* Achtergrondkleuren */
-  --bg-color: hsl(33, 42.90%, 89.00%);
-  --gg-color: hsl(30, 45.50%, 95.70%);
+  --bg-color: hsl(33, 42.9%, 89%);
+  --gg-color: hsl(30, 45.5%, 95.7%);
 
   /* Transities en animaties */
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -38,7 +37,6 @@
   --input-focus-glow: 0 0 0 3px rgba(var(--color-muted-teal), 0.15);
   --menu-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   --image-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
-  --menu-shadow: 0 0.75rem 2.5rem hsla(0, 0%, 0%, 0.15);
 
   /* Layout en afmetingen */
   --navbar-height: 70px;
@@ -52,14 +50,13 @@
   --contact-detail-margin-bottom: 1rem;
   --icon-size: 1.2rem;
   --icon-big-size: 4rem;
-  --navbar-border-width: 0.1875rem;
 }
 
 body {
   font-family: "Lato", sans-serif;
   background-color: var(--bg-color);
   color: var(--color-dark-teal);
-  padding-top: 6rem;
+  padding-top: 5.5rem;
 }
 
 .no-scroll {

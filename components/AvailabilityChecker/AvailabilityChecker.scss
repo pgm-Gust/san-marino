@@ -1,95 +1,9 @@
-.availability-checker {
-  display: grid;
-  grid-template-areas:
-    "inputs weekend"
-    "feedback feedback";
-  grid-template-columns: 80% 20%;
-  gap: 1rem;
-
-  @media (max-width: 48rem) {
-    grid-template-areas:
-      "inputs"
-      "weekend"
-      "feedback";
-    grid-template-columns: 100%;
-    gap: 0.5rem;
-
-    .weekend-notice {
-      margin-top: 0;
-      order: 2;
-    }
-
-    .availability-feedback {
-      order: 3;
-    }
-  }
-
-  .input-grid {
-    grid-area: inputs;
-  }
-
-  .availability-feedback {
-    grid-area: feedback;
-  }
-
-  .weekend-notice {
-    grid-area: weekend;
-    background: hsl(210, 20%, 98%);
-    border: 1px solid hsl(210, 20%, 90%);
-    border-radius: var(--border-radius);
-    padding: 1rem;
-    margin: 0.5rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
-
-    @media (max-width: 48rem) {
-      margin-top: 1rem;
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 0.25rem;
-      background: hsl(210, 10%, 45%);
-    }
-
-    .weekend-content {
-      h3 {
-        margin: 0 0 0.25rem 0;
-        font-size: 1rem;
-        color: hsl(210, 10%, 13%);
-        font-weight: 600;
-      }
-
-      .date-range {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        color: hsl(210, 10%, 45%);
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-
-        @media (max-width: 48rem) {
-          flex-wrap: wrap;
-        }
-
-        time {
-          font-weight: 500;
-        }
-      }
-    }
-  }
-}
-
 .availability-wrapper {
   margin-bottom: 2rem;
+}
+
+.availability-feedback {
+  margin-top: 1rem;
 }
 
 .status-message {
@@ -99,23 +13,77 @@
   padding: 1rem;
   border-radius: var(--border-radius);
   margin: 0.5rem 0;
+}
 
-  &.loading {
-    background: hsl(210, 20%, 98%);
-    color: hsl(210, 10%, 45%);
-  }
+.status-message.loading {
+  background: var(--color-background);
+  color: var(--color-dark-teal);
+}
 
-  &.success {
-    background: hsl(120, 60%, 95%);
-    border: 1px solid hsl(120, 60%, 80%);
-    color: hsl(120, 60%, 25%);
-  }
+.status-message.success {
+  background: hsl(120, 60%, 95%);
+  border: 1px solid hsl(120, 60%, 80%);
+  color: hsl(120, 60%, 25%);
+}
 
-  &.error {
-    background: hsl(356, 78%, 90%);
-    border: 1px solid hsl(356, 78%, 85%);
-    color: hsl(0, 100%, 40%);
-  }
+.status-message.error {
+  background: hsl(356, 78%, 90%);
+  border: 1px solid hsl(356, 78%, 85%);
+  color: var(--color-error);
+}
+
+.weekend-notice {
+  background: hsl(174, 91%, 98%);
+  border: 2px solid hsl(174, 91%, 35%);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.weekend-notice::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: hsl(174, 91%, 35%);
+}
+
+.weekend-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.weekend-content h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: hsl(174, 91%, 25%);
+}
+
+.date-range {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: hsl(174, 91%, 15%);
+}
+
+.select-weekend {
+  align-self: flex-start;
+  background: hsl(174, 91%, 35%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.select-weekend:hover {
+  background: hsl(174, 91%, 30%);
 }
 
 .spin {

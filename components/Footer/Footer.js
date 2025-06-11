@@ -18,7 +18,7 @@ export default function Footer() {
             </li>
             <li>
               <FaEnvelope className="footer-icon" />
-              <a href="mailto:hello@sanmarino4.be">hello@sanmarino4.be</a>
+              <a href="mailto:info@sanmarino.be">info@sanmarino.be</a>
             </li>
           </ul>
         </div>
@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="footer-section quick-links">
           <h3>Snelle links</h3>
           <nav>
-            <a href="/appartement/plein">Appartement</a>
+            <a href="/appartementen">Appartement</a>
             <a href="/locatie">Locatie</a>
             <a href="/contact">Contact</a>
           </nav>

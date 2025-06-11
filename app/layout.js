@@ -1,12 +1,37 @@
-import { generateSeo } from '../config/seo.config';
-import '@styles/globals.css';
-import Navbar from '@components/NavBar/Navbar';
-import Footer from '@components/Footer/Footer';
+import { generateSeo } from "../config/seo.config";
+import "@styles/globals.css";
+import Navbar from "@components/NavBar/Navbar";
+import Footer from "@components/Footer/Footer";
 
-export const metadata = generateSeo({
-  title: "San Marino 4 - Luxe vakantieappartementen Middelkerke",
-  description: "San Marino 4 - Moderne appartementen aan zee",
-});
+export const metadata = {
+  title: "Appartement San Marino - Luxe vakantieverblijf in San Marino",
+  description:
+    "Luxe vakantieappartement in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
+  keywords:
+    "San Marino appartement, vakantieverblijf San Marino, luxe vakantieappartement, centrum Middelkerke, vakantie Middelkerke",
+  openGraph: {
+    title: "Appartement San Marino - Luxe vakantieverblijf in Middelkerke",
+    description:
+      "Luxe vakantieappartement in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
+    images: [
+      {
+        url: "/images/apartment-main.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Luxe vakantieappartement San Marino",
+      },
+    ],
+    locale: "nl_NL",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://san-marino-appartement.nl",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (

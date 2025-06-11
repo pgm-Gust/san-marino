@@ -1,35 +1,35 @@
 import React from "react";
-import { 
-  FaStar, 
-  FaUsers, 
-  FaBed, 
-  FaRulerCombined, 
-  FaArrowRight, 
-  FaShoppingCart 
+import {
+  FaStar,
+  FaUsers,
+  FaBed,
+  FaRulerCombined,
+  FaArrowRight,
+  FaShoppingCart,
 } from "react-icons/fa";
 import "./Apartment.scss";
 
-const Appartement = ({ 
-  image, 
-  title, 
-  subtitle, 
-  features, 
-  price, 
+const Appartement = ({
+  image,
+  title,
+  subtitle,
+  features,
+  price,
   link,
   rating,
   capacity,
   size,
   bedrooms,
   book,
-  badge
+  badge,
 }) => {
   return (
     <article className="apartment-container">
       <div className="image-container">
-        <img src={image} alt={title} className="image" />
+        <img src={image} alt={title} className="image" loading="lazy" />
         {badge && <div className="badge">{badge}</div>}
       </div>
-      
+
       <div className="details">
         <header className="header">
           <div>
@@ -65,7 +65,9 @@ const Appartement = ({
             const text = textParts.join(" ");
             return (
               <li key={index}>
-                <span role="img" aria-label={text.trim()}>{emoji}</span>
+                <span role="img" aria-label={text.trim()}>
+                  {emoji}
+                </span>
                 <span>{text}</span>
               </li>
             );
@@ -74,7 +76,7 @@ const Appartement = ({
 
         <div className="price-section">
           <p className="price">
-            €{price} 
+            €{price}
             <span>per nacht</span>
           </p>
           <div className="button-group">

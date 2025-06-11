@@ -28,8 +28,8 @@ const ContactPage = () => {
               <FaEnvelope className="info-icon" />
               <div className="info-text">
                 <h2>E-mail Contact</h2>
-                <a href="mailto:hello@sanmarino.be" className="info-link">
-                hello@sanmarino4.be
+                <a href="mailto:info@sanmarino.be" className="info-link">
+                  info@sanmarino.be
                 </a>
               </div>
             </div>
@@ -40,6 +40,7 @@ const ContactPage = () => {
             <div className="address-text">
               <h2>Adres</h2>
               <p>Parijsstraat 28</p>
+              <p>Zeedijk 116</p>
               <p>8430 Middelkerke</p>
             </div>
           </div>
