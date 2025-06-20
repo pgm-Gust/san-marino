@@ -81,10 +81,72 @@ export async function POST(request) {
       ${bookingData.notice || "Geen extra informatie"}
     `;
 
-    // Send email to both business email addresses
+    // HTML-template voor de klant
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; background: #f6f8fa; padding: 32px;">
+        <div style="max-width: 520px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;">
+          <div style="background: linear-gradient(90deg, #1976d2, #26c6da); padding: 32px 24px 20px 24px; text-align: center;">
+            <img src="https://sanmarino4.be/logo.png" alt="San Marino" style="height: 48px; margin-bottom: 12px;" />
+            <h1 style="color: #fff; margin: 0; font-size: 2rem;">Bedankt voor je boeking!</h1>
+          </div>
+          <div style="padding: 28px 24px 24px 24px;">
+            <p style="font-size: 1.1rem; color: #1976d2; margin-bottom: 18px;">
+              Beste <b>${bookingData.firstName} ${bookingData.lastName}</b>,<br>
+              We hebben je boeking goed ontvangen. Wij nemen zo snel mogelijk contact met u op. Hieronder vind je een overzicht van je reservering:
+            </p>
+            <table style="width: 100%; font-size: 1rem; margin-bottom: 18px;">
+              <tr>
+                <td><b>Aankomst</b></td>
+                <td>${arrivalDate}</td>
+              </tr>
+              <tr>
+                <td><b>Vertrek</b></td>
+                <td>${departureDate}</td>
+              </tr>
+              <tr>
+                <td><b>Aantal nachten</b></td>
+                <td>${nights}</td>
+              </tr>
+              <tr>
+                <td><b>Personen</b></td>
+                <td>${bookingData.adults} volwassenen${
+      bookingData.children > 0 ? ` + ${bookingData.children} kinderen` : ""
+    }</td>
+              </tr>
+            </table>
+            <div style="margin-bottom: 18px;">
+              <b>Adres:</b><br>
+              ${bookingData.address.street}, ${
+      bookingData.address.postalCode
+    } ${bookingData.address.location}, ${bookingData.address.country}
+            </div>
+            <div style="margin-bottom: 18px;">
+              <b>Prijs:</b><br>
+              €${bookingData.pricePerNight} per nacht<br>
+              <b>Totaal:</b> <span style="color: #1976d2;">€${
+                bookingData.totalPrice
+              }</span>
+            </div>
+            <div style="margin-bottom: 18px;">
+              <b>Opmerking:</b><br>
+              ${bookingData.notice || "Geen extra informatie"}
+            </div>
+            <div style="margin: 24px 0 0 0; font-size: 0.95rem; color: #888;">
+              Je ontvangt binnenkort meer informatie over de betaling en praktische details.<br>
+              <br>
+              Met vriendelijke groeten,<br>
+              <b>San Marino Team</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Send email to business (primary recipient, BCC for second address)
     await transporter.sendMail({
       from: process.env.SMTP_FROM_EMAIL,
-      to: `${process.env.BOOKING_EMAIL}, ${process.env.BOOKING_EMAIL_2}`, // Send to both email addresses
+      to: process.env.BOOKING_EMAIL,
+      bcc: process.env.BOOKING_EMAIL_2 || undefined,
       subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
       text: emailContent,
     });
@@ -101,11 +163,12 @@ export async function POST(request) {
 
         ${emailContent}
 
-        Wij nemen binnen 24 uur contact met je op om de betaling te regelen.
+        Je ontvangt binnenkort meer informatie over de betaling en praktische details.
 
         Met vriendelijke groeten,
         Het San Marino team
       `,
+      html: htmlContent,
     });
 
     return NextResponse.json({ success: true });

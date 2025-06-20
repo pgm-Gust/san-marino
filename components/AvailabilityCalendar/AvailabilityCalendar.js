@@ -14,12 +14,19 @@ export default function AvailabilityCalendar() {
 
   const fetchAvailability = async () => {
     try {
-      const response = await fetch("/api/availability");
+      const response = await fetch("/api/combined-availability");
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.error);
 
-      setAvailability(data.availability);
+      // Zet de events om naar het bestaande formaat
+      const mapped = (data.events || []).map((event) => ({
+        start: event.start,
+        end: event.end,
+        available: false,
+        source: "iCal",
+      }));
+      setAvailability(mapped);
       setError(null);
     } catch (err) {
       setError("Er ging iets mis bij het ophalen van de beschikbaarheid");
