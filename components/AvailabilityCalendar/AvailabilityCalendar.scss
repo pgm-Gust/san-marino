@@ -184,3 +184,55 @@
     }
   }
 }
+
+@media (max-width: 600px) {
+  .availability-calendar {
+    padding: 4px;
+    max-width: 100vw;
+
+    .calendar-header {
+      flex-direction: column;
+      gap: 8px;
+      h2 {
+        font-size: 1.1rem;
+      }
+      button {
+        padding: 6px 12px;
+        font-size: 1rem;
+      }
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      overflow-x: auto;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(38px, 1fr));
+      gap: 2px;
+      min-width: 280px;
+      width: 100%;
+    }
+    .calendar-weekdays .weekday {
+      padding: 4px;
+      font-size: 0.85rem;
+    }
+    .calendar-grid .calendar-day {
+      min-width: 38px;
+      min-height: 38px;
+      padding: 2px;
+      font-size: 0.8rem;
+      .day-number {
+        font-size: 0.85rem;
+      }
+      .status {
+        font-size: 0.65rem;
+      }
+    }
+    .calendar-legend {
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      font-size: 0.9rem;
+    }
+  }
+}

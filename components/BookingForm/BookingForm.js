@@ -10,6 +10,8 @@ import {
   FaClock,
   FaMoneyBillAlt,
 } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function BookingForm() {
   const router = useRouter();
@@ -38,6 +40,9 @@ export default function BookingForm() {
   const [nights, setNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerNight, setPricePerNight] = useState(200);
+  const [bookedRanges, setBookedRanges] = useState([]);
+  const [arrivalDate, setArrivalDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState(null);
 
   // Bereken aantal nachten en de totaalprijs op basis van de ingevoerde data
   useEffect(() => {
@@ -62,6 +67,79 @@ export default function BookingForm() {
 
     calculateNightsAndPrice();
   }, [formData.arrivalDate, formData.departureDate, pricePerNight]);
+
+  // Haal bezette periodes op
+  useEffect(() => {
+    fetch("/api/combined-availability")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.events) {
+          setBookedRanges(
+            data.events.map((e) => ({
+              start: e.start.split("T")[0],
+              end: e.end.split("T")[0],
+            }))
+          );
+        }
+      });
+  }, []);
+
+  // Helper: array van alle bezette dagen
+  const bookedDates = bookedRanges.flatMap((range) => {
+    const dates = [];
+    let current = new Date(range.start);
+    const end = new Date(range.end);
+    while (current < end) {
+      dates.push(new Date(current));
+      current.setDate(current.getDate() + 1);
+    }
+    return dates;
+  });
+
+  // Helper: check of een datum bezet is
+  function isDateBooked(dateStr) {
+    return bookedDates.some((d) => d.toISOString().split("T")[0] === dateStr);
+  }
+
+  // Helper: check of een heel bereik vrij is (exclusief end)
+  function isRangeAvailable(start, end) {
+    if (!start || !end) return false;
+    let d = new Date(start);
+    const endDate = new Date(end);
+    while (d < endDate) {
+      if (isDateBooked(d.toISOString().split("T")[0])) return false;
+      d.setDate(d.getDate() + 1);
+    }
+    return true;
+  }
+
+  // Helper: bepaal de eerstvolgende bezette dag na een gegeven datum
+  function getNextBookedDate(afterDate) {
+    const sorted = bookedDates
+      .filter((d) => d > afterDate)
+      .sort((a, b) => a - b);
+    return sorted.length > 0 ? sorted[0] : null;
+  }
+
+  // Bepaal de max vertrekdatum: de dag vóór de eerstvolgende bezette dag na aankomst
+  let maxDepartureDate = null;
+  if (arrivalDate) {
+    const nextBooked = getNextBookedDate(arrivalDate);
+    if (nextBooked) {
+      maxDepartureDate = new Date(nextBooked.getTime());
+      maxDepartureDate.setDate(maxDepartureDate.getDate()); // vertrek mag niet op de bezette dag vallen
+    }
+  }
+
+  // Bepaal of er geldige vertrekdatums zijn
+  let hasValidDeparture = false;
+  if (arrivalDate) {
+    const minDep = new Date(arrivalDate);
+    minDep.setDate(minDep.getDate() + 1);
+    if (!maxDepartureDate || minDep < maxDepartureDate) {
+      hasValidDeparture = true;
+    }
+  }
 
   // Verander de formuliervelden (ook voor geneste velden, zoals address)
   const handleChange = (e) => {
@@ -133,26 +211,64 @@ export default function BookingForm() {
 
         <div className="input-grid">
           <div className="input-group">
-            <label htmlFor="arrivalDate">Aankomstdatum *</label>
-            <input
-              id="arrivalDate"
-              type="date"
-              name="arrivalDate"
-              value={formData.arrivalDate}
-              onChange={handleChange}
+            <label>Aankomstdatum *</label>
+            <DatePicker
+              selected={arrivalDate}
+              onChange={(date) => {
+                setArrivalDate(date);
+                setFormData((prev) => ({
+                  ...prev,
+                  arrivalDate: date ? date.toISOString().split("T")[0] : "",
+                }));
+              }}
+              excludeDates={bookedDates}
+              minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="Kies een aankomstdatum"
+              className="date-picker"
               required
             />
           </div>
           <div className="input-group">
-            <label htmlFor="departureDate">Vertrekdatum *</label>
-            <input
-              id="departureDate"
-              type="date"
-              name="departureDate"
-              value={formData.departureDate}
-              onChange={handleChange}
+            <label>Vertrekdatum *</label>
+            <DatePicker
+              selected={departureDate}
+              onChange={(date) => {
+                setDepartureDate(date);
+                setFormData((prev) => ({
+                  ...prev,
+                  departureDate: date ? date.toISOString().split("T")[0] : "",
+                }));
+              }}
+              excludeDates={bookedDates}
+              minDate={
+                arrivalDate
+                  ? new Date(
+                      new Date(arrivalDate).getTime() + 24 * 60 * 60 * 1000
+                    )
+                  : new Date()
+              }
+              maxDate={maxDepartureDate}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="Kies een vertrekdatum"
+              className="date-picker"
               required
+              filterDate={(date) => {
+                if (!arrivalDate) return true;
+                return (
+                  date > arrivalDate &&
+                  (!maxDepartureDate || date < maxDepartureDate)
+                );
+              }}
             />
+            {arrivalDate && !hasValidDeparture && (
+              <div
+                style={{ color: "#c62828", marginTop: 6, fontSize: "0.95rem" }}
+              >
+                Geen enkele geldige vertrekdatum mogelijk na deze aankomst. Kies
+                een andere aankomstdatum.
+              </div>
+            )}
           </div>
         </div>
 
@@ -434,8 +550,8 @@ export default function BookingForm() {
         <div className="payment-notice">
           <FaExclamationCircle className="icon" />
           <p>
-            Na het indienen van de boeking ontvangt nemen wij contact op met
-            u voor de betaling.
+            Na het indienen van de boeking ontvangt nemen wij contact op met u
+            voor de betaling.
           </p>
         </div>
       </section>
