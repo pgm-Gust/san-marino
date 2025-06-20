@@ -86,7 +86,7 @@ export async function POST(request) {
       <div style="font-family: Arial, sans-serif; background: #f6f8fa; padding: 32px;">
         <div style="max-width: 520px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;">
           <div style="background: linear-gradient(90deg, #1976d2, #26c6da); padding: 32px 24px 20px 24px; text-align: center;">
-            <img src="https://sanmarino4.be/logo.png" alt="San Marino" style="height: 48px; margin-bottom: 12px;" />
+            <img src="https://www.sanmarino4.be/logo.png" alt="San Marino" style="height: 48px; margin-bottom: 12px;" />
             <h1 style="color: #fff; margin: 0; font-size: 2rem;">Bedankt voor je boeking!</h1>
           </div>
           <div style="padding: 28px 24px 24px 24px;">
