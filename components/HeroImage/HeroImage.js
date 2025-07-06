@@ -7,7 +7,7 @@ const HeroImage = () => {
     <div className="image-container">
       <img
         src="assets/images/breadcrumb.jpg"
-        alt="Prachtig uitzicht op het strand van Middelkerke vanaf San Marino 4 vakantieappartement"
+        alt="Prachtig uitzicht op het strand van Middelkerke vanaf San Marino 4 vakantiestudio"
         className="full-width-image"
         loading="lazy"
       />

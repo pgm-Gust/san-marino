@@ -6,19 +6,19 @@ import Footer from "@components/Footer/Footer";
 export const metadata = {
   title: "Appartement San Marino - Luxe vakantieverblijf in San Marino",
   description:
-    "Luxe vakantieappartement in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
+    "Luxe vakantiestudio in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
   keywords:
-    "San Marino appartement, vakantieverblijf San Marino, luxe vakantieappartement, centrum Middelkerke, vakantie Middelkerke",
+    "San Marino appartement, vakantieverblijf San Marino, luxe vakantiestudio, centrum Middelkerke, vakantie Middelkerke",
   openGraph: {
     title: "Appartement San Marino - Luxe vakantieverblijf in Middelkerke",
     description:
-      "Luxe vakantieappartement in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
+      "Luxe vakantiestudio in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
     images: [
       {
         url: "/images/apartment-main.jpg",
         width: 1200,
         height: 630,
-        alt: "Luxe vakantieappartement San Marino",
+        alt: "Luxe vakantiestudio San Marino",
       },
     ],
     locale: "nl_NL",

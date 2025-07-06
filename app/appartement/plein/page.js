@@ -58,7 +58,7 @@ export default function PleinApartment() {
     "@type": "VacationRental",
     name: "Plein Appartement San Marino 4",
     description:
-      "Luxe vakantieappartement aan het plein van Middelkerke met direct zeezicht",
+      "Luxe vakantiestudio aan het plein van Middelkerke met direct zeezicht",
     image: "/og-plein-appartement.jpg",
     address: {
       "@type": "PostalAddress",
@@ -140,13 +140,8 @@ export default function PleinApartment() {
                 },
                 {
                   icon: <FaCouch />,
-                  text: "Comfortabele zithoek",
+                  text: "Zithoek met slaapbank",
                   prop: "livingRoom",
-                },
-                {
-                  icon: <FaSnowflake />,
-                  text: "Airconditioning en verwarming",
-                  prop: "airConditioning",
                 },
                 {
                   icon: <FaLayerGroup />,
@@ -154,19 +149,9 @@ export default function PleinApartment() {
                   prop: "linens",
                 },
                 {
-                  icon: <FaCar />,
-                  text: "Meerdere parkeergelegenheiden",
-                  prop: "parking",
-                },
-                {
                   icon: <FaDog />,
                   text: "Huisdieren niet toegestaan",
                   prop: "petsAllowed",
-                },
-                {
-                  icon: <FaConciergeBell />,
-                  text: "24/7 klantenservice",
-                  prop: "customerService",
                 },
                 {
                   icon: <FaFireExtinguisher />,

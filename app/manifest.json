@@ -1,7 +1,7 @@
 {
-  "name": "San Marino 4 - Luxe Vakantieappartementen Middelkerke",
+  "name": "San Marino 4 - Luxe vakantiestudio Middelkerke",
   "short_name": "San Marino 4",
-  "description": "Luxe vakantieappartementen aan zee in Middelkerke met panoramisch zeezicht",
+  "description": "Luxe vakantiestudio aan zee in Middelkerke met panoramisch zeezicht",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -28,7 +28,7 @@
       "sizes": "1280x720",
       "type": "image/jpeg",
       "platform": "wide",
-      "label": "Luxe vakantieappartement met zeezicht"
+      "label": "Luxe vakantiestudio met zeezicht"
     }
   ]
 }

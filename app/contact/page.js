@@ -28,8 +28,8 @@ const ContactPage = () => {
               <FaEnvelope className="info-icon" />
               <div className="info-text">
                 <h2>E-mail Contact</h2>
-                <a href="mailto:info@sanmarino.be" className="info-link">
-                  info@sanmarino.be
+                <a href="mailto:sofieramon@telenet.be" className="info-link">
+                sofieramon@telenet.be
                 </a>
               </div>
             </div>
@@ -39,8 +39,7 @@ const ContactPage = () => {
             <FaMapMarkerAlt className="address-icon" />
             <div className="address-text">
               <h2>Adres</h2>
-              <p>Parijsstraat 28</p>
-              <p>Zeedijk 116</p>
+              <p>Parijsstraat 28 / 402</p>
               <p>8430 Middelkerke</p>
             </div>
           </div>

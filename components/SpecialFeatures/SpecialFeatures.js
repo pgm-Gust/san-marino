@@ -19,7 +19,6 @@ const SpecialFeatures = () => {
       </div>
       <div className="text-content">
         <p className="subheading">Troeven</p>
-        <h2>Wat maakt ons uniek?</h2>
         <div className="features">
           <div className="feature">
             <div className="icon">

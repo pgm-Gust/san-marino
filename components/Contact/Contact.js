@@ -24,7 +24,7 @@ const Contact = () => {
                         <div>
                             <h3>Adres</h3>
                             <p>
-                            Parijsstraat 28, Zeedijk 116 - Middelkerke
+                            Parijsstraat 28 / 402 - Middelkerke
                             </p>
                         </div>
                     </div>

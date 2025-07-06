@@ -82,7 +82,7 @@ const HomePageClientWrapper = () => {
               <a
                 href="/appartement/plein"
                 className="button"
-                aria-label="Bekijk beschikbaarheid van onze vakantieappartementen"
+                aria-label="Bekijk beschikbaarheid van onze vakantiestudio"
                 itemProp="url"
               >
                 Boek nu
@@ -95,7 +95,7 @@ const HomePageClientWrapper = () => {
             itemScope
             itemType="http://schema.org/Accommodation"
           >
-            <h2>Modern vakantieappartement met zeezicht in Middelkerke</h2>
+            <h2>Modern vakantiestudio met zeezicht in Middelkerke</h2>
             <p itemProp="description">
               Geniet van een prachtig verblijf in{" "}
               <strong itemProp="address">Middelkerke </strong>
@@ -107,7 +107,7 @@ const HomePageClientWrapper = () => {
 
             <ApartmentSlider
               loading="lazy"
-              aria-label="Foto's van onze vakantieappartementen"
+              aria-label="Foto's van onze vakantiestudio"
             />
           </section>
 

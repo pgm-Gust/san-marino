@@ -31,6 +31,11 @@ export const defaultMetadata = {
     "vakantieappartementen aan zee",
     "luxe vakantieverblijf",
     "vakantie aan de Belgische kust",
+    "vakantiestudio Middelkerke",
+    "vakantiestudio Middelkerke aan zee",
+    "vakantiestudio Middelkerke aan de kust",
+    "vakantiestudio Middelkerke aan de Belgische kust",
+    "vakantiestudio Middelkerke aan de Belgische kust",
   ],
   openGraph: {
     type: "website",
@@ -41,7 +46,7 @@ export const defaultMetadata = {
         url: "/og-default.jpg",
         width: 1200,
         height: 630,
-        alt: "Luxe vakantieappartement San Marino 4 aan de Belgische kust in Middelkerke",
+        alt: "Luxe vakantiestudio San Marino 4 aan de Belgische kust in Middelkerke",
       },
     ],
   },
@@ -49,9 +54,9 @@ export const defaultMetadata = {
     card: "summary_large_image",
     site: "@sanmarino4",
     creator: "@sanmarino4",
-    title: "San Marino 4 - Luxe Vakantieappartementen Middelkerke",
+    title: "San Marino 4 - Luxe vakantiestudio Middelkerke",
     description:
-      "Luxe vakantieappartementen aan zee in Middelkerke met panoramisch zeezicht",
+      "Luxe vakantiestudio aan zee in Middelkerke met panoramisch zeezicht",
     image: "/og-default.jpg",
   },
 };

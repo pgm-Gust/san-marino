@@ -6,7 +6,7 @@ import "./page.scss";
 
 export const metadata = generateSeo({
   title: "Algemene Voorwaarden",
-  description: "Lees onze algemene voorwaarden voor het huren van een vakantieappartement in Middelkerke bij San Marino 4.",
+  description: "Lees onze algemene voorwaarden voor het huren van een vakantiestudio in Middelkerke bij San Marino 4.",
 });
 
 export default function TermsPage() {
@@ -14,7 +14,7 @@ export default function TermsPage() {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Algemene Voorwaarden",
-    description: "Algemene voorwaarden voor het huren van een vakantieappartement in Middelkerke",
+    description: "Algemene voorwaarden voor het huren van een vakantiestudio in Middelkerke",
   };
 
   return (

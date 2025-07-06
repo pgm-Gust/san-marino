@@ -25,7 +25,7 @@ export default function PleinApartment() {
           <p><FaTv /> Smart-tv</p>
           <p><FaUtensils /> Volledig uitgeruste keuken</p>
           <p><FaGlassCheers  /> Vaatwasser</p> 
-          <p><FaCouch /> Comfortabele zithoek</p>
+          <p><FaCouch /> Zithoek met slaapbank</p>
           <p><FaCouch /> Uitklapbaar zetelbed</p>
           <p><FaSnowflake /> Airconditioning en verwarming</p>
           <p><FaLayerGroup /> Beddenlakens voorzien</p> 
