@@ -1,4 +1,6 @@
 import React from "react";
+import fs from 'fs';
+import path from 'path';
 import {
   FaWifi,
   FaTv,
@@ -53,6 +55,7 @@ export const metadata = generateSeo({
 });
 
 export default function PleinApartment() {
+  // No events list here (kept minimal). Calendar embed remains further down.
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
@@ -217,6 +220,15 @@ export default function PleinApartment() {
               <FaCalendarCheck /> Beschikbaarheid
             </h2>
             <AvailabilityCalendar />
+          </div>
+          {/* Keep only the calendar embed here (no events list) */}
+          <div className="info-section">
+            <h2>
+              <FaCalendarCheck /> Kalender
+            </h2>
+            <div className="calendar-embed" style={{ marginTop: 12 }}>
+              <iframe src="https://calendar.google.com/calendar/embed?src=booking.sanmarino4%40gmail.com&ctz=Europe%2FBrussels" style={{ border: 0, width: '100%', height: 600 }} frameBorder="0" scrolling="no" />
+            </div>
           </div>
           <div className="info-section reviews">
             <h2>
