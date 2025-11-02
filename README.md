@@ -6,17 +6,18 @@
 
 2. Install dependencies:
 
-	npm install
+   npm install
 
 3. Run the fetch script to perform the OAuth flow and save `token.json`:
 
-	npm run fetch:google-calendar
+   npm run fetch:google-calendar
 
-	The script will prompt you to visit a URL and paste the code. After that, `token.json` will be created and `data/events.json` will be written with calendar events.
+   The script will prompt you to visit a URL and paste the code. After that, `token.json` will be created and `data/events.json` will be written with calendar events.
 
 4. View events in the app at `/google-events` (or fetch `/api/google-events`).
 
 Notes:
+
 - The script stores tokens in `token.json`. Keep this file secure.
 - The script requests readonly access to calendars. To access private calendars, ensure the account used has access.
 
@@ -34,16 +35,14 @@ If you prefer not to paste the auth code manually, enable the automatic flow:
 
 1. In `.env.local` add:
 
-	AUTO_OAUTH=1
+   AUTO_OAUTH=1
 
 2. In Google Cloud Console, edit your OAuth client and add this redirect URI to the Authorized redirect URIs list exactly:
 
-	http://localhost:51234/oauth2callback
+   http://localhost:51234/oauth2callback
 
 3. Run:
 
-	npm run fetch:google-calendar
+   npm run fetch:google-calendar
 
 The script will open the browser and automatically capture the code.
-
-

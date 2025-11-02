@@ -1,6 +1,6 @@
 import React from "react";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 import {
   FaWifi,
   FaTv,
@@ -124,7 +124,7 @@ export default function PleinApartment() {
             </h2>
             <div className="grid-container facilities-grid">
               {[
-                { icon: <FaBed />, text: "Luxe tweepersoonsbed", prop: "bed" },
+                { icon: <FaBed />, text: "Tweepersoonsbed", prop: "bed" },
                 {
                   icon: <FaBath />,
                   text: "Moderne badkamer met douche",
@@ -222,14 +222,6 @@ export default function PleinApartment() {
             <AvailabilityCalendar />
           </div>
           {/* Keep only the calendar embed here (no events list) */}
-          <div className="info-section">
-            <h2>
-              <FaCalendarCheck /> Kalender
-            </h2>
-            <div className="calendar-embed" style={{ marginTop: 12 }}>
-              <iframe src="https://calendar.google.com/calendar/embed?src=booking.sanmarino4%40gmail.com&ctz=Europe%2FBrussels" style={{ border: 0, width: '100%', height: 600 }} frameBorder="0" scrolling="no" />
-            </div>
-          </div>
           <div className="info-section reviews">
             <h2>
               <FaStar /> Gastenoordelen
