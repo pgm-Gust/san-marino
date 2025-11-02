@@ -47,7 +47,7 @@ const Contact = () => {
                     </div>
                     <div>
                         <p>
-                            <a href="mailto:hello@sanmarino4.be">hello@sanmarino4.be</a>
+                            <a href="mailto:sofieramon@telenet.be">sofieramon@telenet.be</a>
                         </p>
                     </div>
                 </div>
