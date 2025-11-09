@@ -101,7 +101,12 @@ export default function AvailabilityCalendar() {
       const bookingInfo = getDateBookingInfo(date);
 
       days.push(
-        <div key={`prev-${i}`} className={`calendar-day other-month ${bookingInfo.isBooked ? 'booked' : 'other'}`}>
+        <div
+          key={`prev-${i}`}
+          className={`calendar-day other-month ${
+            bookingInfo.isBooked ? "booked" : "other"
+          }`}
+        >
           <span className="day-number">{dayNum}</span>
         </div>
       );
@@ -149,7 +154,12 @@ export default function AvailabilityCalendar() {
       );
       const bookingInfo = getDateBookingInfo(date);
       days.push(
-        <div key={`next-${nextDay}`} className={`calendar-day other-month ${bookingInfo.isBooked ? 'booked' : 'other'}`}>
+        <div
+          key={`next-${nextDay}`}
+          className={`calendar-day other-month ${
+            bookingInfo.isBooked ? "booked" : "other"
+          }`}
+        >
           <span className="day-number">{nextDay}</span>
         </div>
       );
