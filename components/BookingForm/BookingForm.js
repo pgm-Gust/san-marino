@@ -188,7 +188,9 @@ export default function BookingForm() {
     setError("");
 
     if (!agreedTerms) {
-      setError("Je moet akkoord gaan met de algemene voorwaarden om te kunnen boeken.");
+      setError(
+        "Je moet akkoord gaan met de algemene voorwaarden om te kunnen boeken."
+      );
       setIsSubmitting(false);
       return;
     }
@@ -599,7 +601,14 @@ export default function BookingForm() {
             onChange={(e) => setAgreedTerms(e.target.checked)}
           />
           <label htmlFor="agreeTerms">
-            Ik ga akkoord met de <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer">algemene voorwaarden</a>
+            Ik ga akkoord met de{" "}
+            <a
+              href="/algemene-voorwaarden"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              algemene voorwaarden
+            </a>
           </label>
         </div>
       </div>
@@ -610,7 +619,11 @@ export default function BookingForm() {
         </div>
       )}
 
-      <button type="submit" disabled={isSubmitting || !agreedTerms} className="submit-buttonnn">
+      <button
+        type="submit"
+        disabled={isSubmitting || !agreedTerms}
+        className="submit-buttonnn"
+      >
         {isSubmitting ? (
           <span className="loading">Bevestigen...</span>
         ) : (
