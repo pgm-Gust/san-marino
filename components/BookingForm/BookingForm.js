@@ -43,9 +43,33 @@ export default function BookingForm() {
   const [bookedRanges, setBookedRanges] = useState([]);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
+  const searchParams =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : null;
 
   // Bereken aantal nachten en de totaalprijs op basis van de ingevoerde data
   useEffect(() => {
+    // Prefill dates from query params if provided (arrivalDate, departureDate)
+    try {
+      if (searchParams) {
+        const a = searchParams.get("arrivalDate");
+        const d = searchParams.get("departureDate");
+        if (a) {
+          const ad = new Date(a);
+          setArrivalDate(ad);
+          setFormData((prev) => ({ ...prev, arrivalDate: a }));
+        }
+        if (d) {
+          const dd = new Date(d);
+          setDepartureDate(dd);
+          setFormData((prev) => ({ ...prev, departureDate: d }));
+        }
+      }
+    } catch (err) {
+      // ignore malformed dates
+    }
+
     const calculateNightsAndPrice = () => {
       if (!formData.arrivalDate || !formData.departureDate) return;
 

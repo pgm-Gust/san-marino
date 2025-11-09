@@ -4,14 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "fetch:google-calendar": "node ./scripts/fetch-google-calendar.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "googleapis": "^131.0.0",
-    "dotenv": "^16.3.1",
     "@emailjs/browser": "^4.4.1",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",

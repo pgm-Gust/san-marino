@@ -63,7 +63,4 @@ next-env.d.ts
 # prettier
 .prettierignore
 
-# Google OAuth credentials
-credentials.json
-token.json
 /backend

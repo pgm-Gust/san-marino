@@ -1,6 +1,4 @@
 import React from "react";
-import fs from "fs";
-import path from "path";
 import {
   FaWifi,
   FaTv,
@@ -55,7 +53,6 @@ export const metadata = generateSeo({
 });
 
 export default function PleinApartment() {
-  // No events list here (kept minimal). Calendar embed remains further down.
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
@@ -124,7 +121,7 @@ export default function PleinApartment() {
             </h2>
             <div className="grid-container facilities-grid">
               {[
-                { icon: <FaBed />, text: "Tweepersoonsbed", prop: "bed" },
+                { icon: <FaBed />, text: "Luxe tweepersoonsbed", prop: "bed" },
                 {
                   icon: <FaBath />,
                   text: "Moderne badkamer met douche",
@@ -221,7 +218,6 @@ export default function PleinApartment() {
             </h2>
             <AvailabilityCalendar />
           </div>
-          {/* Keep only the calendar embed here (no events list) */}
           <div className="info-section reviews">
             <h2>
               <FaStar /> Gastenoordelen
