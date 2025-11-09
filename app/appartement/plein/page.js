@@ -121,7 +121,7 @@ export default function PleinApartment() {
             </h2>
             <div className="grid-container facilities-grid">
               {[
-                { icon: <FaBed />, text: "Luxe tweepersoonsbed", prop: "bed" },
+                { icon: <FaBed />, text: "Tweepersoonsbed", prop: "bed" },
                 {
                   icon: <FaBath />,
                   text: "Moderne badkamer met douche",
