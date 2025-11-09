@@ -5,6 +5,10 @@ export async function GET() {
   const googleIcalUrl = process.env.GOOGLE_ICAL_URL;
   const airbnbIcalUrl = process.env.AIRBNB_ICAL_URL;
 
+  if (!googleIcalUrl && !airbnbIcalUrl) {
+    return NextResponse.json({ error: 'No iCal URLs configured (GOOGLE_ICAL_URL or AIRBNB_ICAL_URL missing)' }, { status: 500 });
+  }
+
   async function fetchEvents(url) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Failed to fetch ${url}`);

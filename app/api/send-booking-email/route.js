@@ -5,6 +5,9 @@ export async function POST(request) {
   try {
     const bookingData = await request.json();
 
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+      return NextResponse.json({ error: 'Missing SMTP configuration on server' }, { status: 500 });
+    }
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,

@@ -4,6 +4,10 @@ import axios from 'axios';
 export async function POST(request) {
   try {
     const body = await request.json();
+    // Quick sanity check for required production env
+    if (!process.env.SMOOBU_API_KEY) {
+      return NextResponse.json({ error: 'Missing SMOOBU_API_KEY on server' }, { status: 500 });
+    }
     
     // Verplichte velden volgens Smoobu
     const requiredFields = ['arrivalDate', 'departureDate', 'apartmentId', 'firstName', 'lastName', 'email', 'phone', 'address'];
