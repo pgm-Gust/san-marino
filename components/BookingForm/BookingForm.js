@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./BookingForm.scss";
 
 export default function BookingForm() {
   const router = useRouter();
@@ -43,6 +44,7 @@ export default function BookingForm() {
   const [bookedRanges, setBookedRanges] = useState([]);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
+  const [agreedTerms, setAgreedTerms] = useState(false);
   const searchParams =
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search)
@@ -184,6 +186,12 @@ export default function BookingForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+
+    if (!agreedTerms) {
+      setError("Je moet akkoord gaan met de algemene voorwaarden om te kunnen boeken.");
+      setIsSubmitting(false);
+      return;
+    }
 
     if (!formData.arrivalDate || !formData.departureDate) {
       setError("Vul aub zowel aankomst- als vertrekdatum in");
@@ -581,6 +589,20 @@ export default function BookingForm() {
       </section>
 
       {/* Foutmelding en submit-button */}
+      <div className="booking-section terms-section">
+        <div className="input-group terms">
+          <input
+            id="agreeTerms"
+            type="checkbox"
+            name="agreeTerms"
+            checked={agreedTerms}
+            onChange={(e) => setAgreedTerms(e.target.checked)}
+          />
+          <label htmlFor="agreeTerms">
+            Ik ga akkoord met de <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer">algemene voorwaarden</a>
+          </label>
+        </div>
+      </div>
       {error && (
         <div className="error-message" role="alert">
           <FaExclamationCircle aria-hidden="true" />
@@ -588,7 +610,7 @@ export default function BookingForm() {
         </div>
       )}
 
-      <button type="submit" disabled={isSubmitting} className="submit-button">
+      <button type="submit" disabled={isSubmitting || !agreedTerms} className="submit-buttonnn">
         {isSubmitting ? (
           <span className="loading">Bevestigen...</span>
         ) : (

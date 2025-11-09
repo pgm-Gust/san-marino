@@ -67,3 +67,43 @@ body {
   width: 80%;
   margin: 0 auto;
 }
+
+.submit-buttonnn {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--color-dark-teal);
+    color: var(--color-white);
+    border: none;
+    border: 0.125rem solid var(--color-dark-teal);
+    transition: var(--transition);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: var(--border-radius);
+
+    &:hover:not(:disabled) {
+      background: var(--color-white);
+      color: var(--color-dark-teal);
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .price {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.9em;
+    }
+
+    .loading {
+      display: inline-block;
+      min-width: 100px;
+    }
+  }

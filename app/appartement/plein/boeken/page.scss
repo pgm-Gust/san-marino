@@ -138,6 +138,37 @@
     }
   }
 
+  .terms-section {
+    padding: 1rem 2rem;
+    background: transparent;
+    margin-bottom: 1rem;
+
+    .input-group.terms {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--color-dark-teal);
+      }
+
+      label {
+        font-size: 0.95rem;
+        color: hsl(174, 91%, 13%);
+        display: inline-block;
+        margin: 0; /* prevent default margins pushing to next line */
+
+        a {
+          color: var(--color-dark-teal);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
 
 }
 
