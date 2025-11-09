@@ -153,20 +153,87 @@ export async function POST(request) {
     `;
 
     // Send email to business (primary recipient, BCC for second address)
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM_EMAIL,
-      to: process.env.BOOKING_EMAIL,
-      bcc: process.env.BOOKING_EMAIL_2 || undefined,
-      subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
-      text: emailContent,
-    });
+    if (process.env.SENDGRID_API_KEY) {
+      // Use SendGrid API when available (better for hosted platforms that block SMTP)
+      try {
+        const sgKey = process.env.SENDGRID_API_KEY;
+        const fromEmail = process.env.SMTP_FROM_EMAIL || 'no-reply@sanmarino4.be';
 
-    // Send confirmation email to the guest
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM_EMAIL,
-      to: bookingData.email,
-      subject: "Bevestiging van je boeking",
-      text: `
+        // Business notification (plain text)
+        const businessPayload = {
+          personalizations: [
+            {
+              to: [{ email: process.env.BOOKING_EMAIL }],
+              bcc: process.env.BOOKING_EMAIL_2 ? [{ email: process.env.BOOKING_EMAIL_2 }] : undefined,
+              subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
+            },
+          ],
+          from: { email: fromEmail },
+          content: [{ type: 'text/plain', value: emailContent }],
+        };
+
+        const businessRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${sgKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(businessPayload),
+        });
+
+        if (!businessRes.ok) {
+          const txt = await businessRes.text();
+          throw new Error(`SendGrid business send failed: ${businessRes.status} ${txt}`);
+        }
+
+        // Guest confirmation (html + text)
+        const guestPayload = {
+          personalizations: [{ to: [{ email: bookingData.email }] }],
+          from: { email: fromEmail },
+          subject: 'Bevestiging van je boeking',
+          content: [
+            { type: 'text/plain', value: `Beste ${bookingData.firstName} ${bookingData.lastName},\n\n${emailContent}` },
+            { type: 'text/html', value: htmlContent },
+          ],
+        };
+
+        const guestRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${sgKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(guestPayload),
+        });
+
+        if (!guestRes.ok) {
+          const txt = await guestRes.text();
+          throw new Error(`SendGrid guest send failed: ${guestRes.status} ${txt}`);
+        }
+
+      } catch (err) {
+        console.error('SendGrid send error:', err);
+        return NextResponse.json(
+          { error: 'Er ging iets mis bij het versturen via SendGrid', details: err.message },
+          { status: 500 }
+        );
+      }
+    } else {
+      // Fallback to SMTP (nodemailer)
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM_EMAIL,
+        to: process.env.BOOKING_EMAIL,
+        bcc: process.env.BOOKING_EMAIL_2 || undefined,
+        subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
+        text: emailContent,
+      });
+
+      // Send confirmation email to the guest
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM_EMAIL,
+        to: bookingData.email,
+        subject: 'Bevestiging van je boeking',
+        text: `
         Beste ${bookingData.firstName} ${bookingData.lastName},
 
         Bedankt voor je boeking! Hier zijn je boekingsgegevens:
@@ -178,8 +245,9 @@ export async function POST(request) {
         Met vriendelijke groeten,
         Het San Marino team
       `,
-      html: htmlContent,
-    });
+        html: htmlContent,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
