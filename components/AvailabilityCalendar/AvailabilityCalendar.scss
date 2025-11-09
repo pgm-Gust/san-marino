@@ -71,6 +71,12 @@
         background: none;
       }
 
+        &.other-month {
+          opacity: 0.45;
+          background: none;
+          border: 1px dashed #eee;
+        }
+
       &.available {
         background: #e8f5e9;
         border: 1px solid #c8e6c9;

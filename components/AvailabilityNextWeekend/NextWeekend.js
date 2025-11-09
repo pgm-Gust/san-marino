@@ -25,29 +25,31 @@ function findNextFreeWeekend(events) {
 
   const cur = new Date(today);
   while (cur <= limit) {
+    // Find the next Saturday from current date
     const dow = cur.getDay();
-    const daysUntilFri = (5 - dow + 7) % 7;
-    const fri = new Date(cur);
-    fri.setDate(cur.getDate() + daysUntilFri);
-    const sat = new Date(fri);
-    sat.setDate(fri.getDate() + 1);
-    const sun = new Date(fri);
-    sun.setDate(fri.getDate() + 2);
+    const daysUntilSat = (6 - dow + 7) % 7;
+    const sat = new Date(cur);
+    sat.setDate(cur.getDate() + daysUntilSat);
+    const sun = new Date(sat);
+    sun.setDate(sat.getDate() + 1);
 
-    if (fri > limit) break;
+    if (sat > limit) break;
 
-    const friS = formatDate(fri);
     const satS = formatDate(sat);
     const sunS = formatDate(sun);
 
-    if (!booked.has(friS) && !booked.has(satS) && !booked.has(sunS)) {
+    // Only accept weekends where both Saturday AND Sunday are free
+    if (!booked.has(satS) && !booked.has(sunS)) {
       return {
-        arrival: friS,
+        saturday: satS,
+        sunday: sunS,
+        // departure = day after sunday (typical checkout)
         departure: formatDate(new Date(sun.getTime() + 24 * 60 * 60 * 1000)),
       };
     }
 
-    cur.setDate(fri.getDate() + 1);
+    // Move to the next day after this saturday to continue search
+    cur.setDate(sat.getDate() + 1);
   }
 
   return null;
@@ -106,7 +108,7 @@ export default function NextWeekend({ className = "" }) {
       <div className="dates stacked">
         <div className="date-item">
           <label>Aankomst</label>
-          <div className="date-value">{nextWeekend.arrival}</div>
+          <div className="date-value">{nextWeekend.saturday}</div>
         </div>
         <div className="date-item">
           <label>Vertrek</label>
@@ -115,7 +117,7 @@ export default function NextWeekend({ className = "" }) {
       </div>
 
       <form method="get" action="?" className="cta-row">
-        <input type="hidden" name="arrivalDate" value={nextWeekend.arrival} />
+        <input type="hidden" name="arrivalDate" value={nextWeekend.saturday} />
         <input
           type="hidden"
           name="departureDate"

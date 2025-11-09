@@ -40,8 +40,11 @@ export default function AvailabilityCalendar() {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
 
+  // Return first day index where Monday = 0, Sunday = 6
   const getFirstDayOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const d = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    // JS: 0 = Sun, 1 = Mon ... convert to Monday-first index
+    return (d + 6) % 7;
   };
 
   const getDateBookingInfo = (date) => {
@@ -82,12 +85,29 @@ export default function AvailabilityCalendar() {
     const firstDay = getFirstDayOfMonth(currentDate);
     const days = [];
 
-    // Add empty cells for days before the first day of the month
+    // Days from previous month to fill first week
+    const prevMonthLastDay = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0
+    ).getDate();
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
+      const dayNum = prevMonthLastDay - (firstDay - 1) + i;
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 1,
+        dayNum
+      );
+      const bookingInfo = getDateBookingInfo(date);
+
+      days.push(
+        <div key={`prev-${i}`} className={`calendar-day other-month ${bookingInfo.isBooked ? 'booked' : 'other'}`}>
+          <span className="day-number">{dayNum}</span>
+        </div>
+      );
     }
 
-    // Add cells for each day of the month
+    // Add cells for each day of the current month
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
         currentDate.getFullYear(),
@@ -98,7 +118,7 @@ export default function AvailabilityCalendar() {
 
       days.push(
         <div
-          key={day}
+          key={`cur-${day}`}
           className={`calendar-day ${
             bookingInfo.isPast
               ? "past"
@@ -117,6 +137,23 @@ export default function AvailabilityCalendar() {
           </span>
         </div>
       );
+    }
+
+    // Fill remaining cells with next month's days to complete the last week(s)
+    let nextDay = 1;
+    while (days.length % 7 !== 0) {
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        nextDay
+      );
+      const bookingInfo = getDateBookingInfo(date);
+      days.push(
+        <div key={`next-${nextDay}`} className={`calendar-day other-month ${bookingInfo.isBooked ? 'booked' : 'other'}`}>
+          <span className="day-number">{nextDay}</span>
+        </div>
+      );
+      nextDay++;
     }
 
     return days;
@@ -145,7 +182,7 @@ export default function AvailabilityCalendar() {
       </div>
 
       <div className="calendar-weekdays">
-        {["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"].map((day) => (
+        {["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"].map((day) => (
           <div key={day} className="weekday">
             {day}
           </div>
