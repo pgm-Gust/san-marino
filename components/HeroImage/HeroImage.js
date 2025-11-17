@@ -15,9 +15,9 @@ const HeroImage = () => {
         <div className="overlay-content container">
           <h2>
             Jouw vakantie begint hier <br />
-            Boek jouw appartement aan zee!
+            Boek jouw studio aan zee!
           </h2>
-          <a href="/appartementen" className="button">
+          <a href="/appartement/plein" className="button">
             Boek nu
             <FaArrowRight />
           </a>

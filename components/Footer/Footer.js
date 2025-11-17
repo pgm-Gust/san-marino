@@ -9,10 +9,6 @@ export default function Footer() {
           <h3>Contact</h3>
           <ul>
             <li>
-              <FaMapMarkerAlt className="footer-icon" />
-              <span>Parijsstraat 28, 8430 Middelkerke</span>
-            </li>
-            <li>
               <FaPhone className="footer-icon" />
               <a href="tel:+32 474 98 40 81">+32 474 98 40 81</a>
             </li>

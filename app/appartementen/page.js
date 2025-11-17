@@ -6,7 +6,7 @@ export default function Appartementen() {
     <div className="apartments-container container">
       <Appartement
         image="/assets/images/plein/Parijsstraat280402Middelkerke08.jpg"
-        title="Plein Appartement"
+        title="Studio"
         subtitle="Uitzicht op strand en zee"
         features={[
           "🔑 Maximum 4 Personen",

@@ -7,7 +7,7 @@ import "./ApartmentSlider.scss";
 const apartments = [
   {
     id: 1,
-    title: "Plein Appartement",
+    title: "Studio",
     images: [
       "/assets/images/plein/Parijsstraat280402Middelkerke12.jpg",
       "/assets/images/plein/Parijsstraat280402Middelkerke10.jpg",

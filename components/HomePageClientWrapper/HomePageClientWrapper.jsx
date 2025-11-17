@@ -95,7 +95,7 @@ const HomePageClientWrapper = () => {
             itemScope
             itemType="http://schema.org/Accommodation"
           >
-            <h2>Modern vakantiestudio met zeezicht in Middelkerke</h2>
+            <h2>Moderne vakantiestudio met zeezicht in Middelkerke</h2>
             <p itemProp="description">
               Geniet van een prachtig verblijf in{" "}
               <strong itemProp="address">Middelkerke </strong>

@@ -47,7 +47,7 @@ const ContactPage = () => {
 
         <div className="map-container">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12635.632325004444!2d2.9180284175773386!3d51.2058277983657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2cb5d8760f7%3A0x8e89a90b537e8b53!2sParijsstraat%2022-28%2C%20Zeedijk%20116%20%28Middelkerke%29!5e0!3m2!1snl!2sbe!4v1677864778700!5m2!1snl!2sbe"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.7551139743687!2d2.8116398766308106!3d51.18763977174239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47dca45561b94187%3A0x9f5e700630a34b27!2sParijsstraat%2028%2C%208430%20Middelkerke!5e1!3m2!1snl!2sbe!4v1763409110781!5m2!1snl!2sbe"
             loading="lazy"
           ></iframe>
         </div>

@@ -6,7 +6,7 @@ export default function BookButton() {
     <a
       href="/appartement/plein/boeken"
       className="book-button button"
-      aria-label="Direct boeken van het plein appartement"
+      aria-label="Direct boeken van de studio"
       itemProp="url"
     >
       <FaCalendarCheck /> Direct Boeken

@@ -37,16 +37,16 @@ import Link from "next/link";
 
 export const metadata = generateSeo({
   title:
-    "Luxe Appartement aan Zee Middelkerke | San Marino 4 Plein Appartement",
+    "Luxe studio aan Zee Middelkerke | San Marino 4 studio",
   description:
-    "Direct aan het plein in Middelkerke - Modern appartement voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte vakantie!",
+    "Direct aan het plein in Middelkerke - Moderne studio voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte vakantie!",
   openGraph: {
     images: [
       {
         url: "/og-plein-appartement.jpg",
         width: 1200,
         height: 630,
-        alt: "San Marino 4 Plein Appartement met zeezicht",
+        alt: "San Marino 4 studio met zeezicht",
       },
     ],
   },
@@ -56,7 +56,7 @@ export default function PleinApartment() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VacationRental",
-    name: "Plein Appartement San Marino 4",
+    name: "Plein studio San Marino 4",
     description:
       "Luxe vakantiestudio aan het plein van Middelkerke met direct zeezicht",
     image: "/og-plein-appartement.jpg",
@@ -108,11 +108,11 @@ export default function PleinApartment() {
           <meta itemProp="priceRange" content="€150-€250 per nacht" />
 
           <p className="subheading">Luxe vakantieverblijf</p>
-          <h1 itemProp="name">Appartement met zicht op zee en plein</h1>
+          <h1 itemProp="name">Studio met zicht op zee en plein</h1>
 
           <ApartmentGallery
             itemProp="image"
-            aria-label="Foto's van het plein appartement"
+            aria-label="Foto's van het plein studio"
           />
 
           <div className="info-section">
@@ -121,7 +121,7 @@ export default function PleinApartment() {
             </h2>
             <div className="grid-container facilities-grid">
               {[
-                { icon: <FaBed />, text: "Tweepersoonsbed", prop: "bed" },
+                { icon: <FaBed />, text: "Aparte slaapruimte met tweepersoonsbed", prop: "bed" },
                 {
                   icon: <FaBath />,
                   text: "Moderne badkamer met douche",
@@ -270,11 +270,11 @@ export default function PleinApartment() {
             <div className="grid-container rules-grid">
               <div itemProp="houseRules">
                 <FaClock />
-                <p>Check-in vanaf 16:00, check-out tot 10:00</p>
+                <p>Check-in vanaf 16:00, check-out tot 16:00</p>
               </div>
               <div itemProp="smokingAllowed" content="false">
                 <FaSmokingBan />
-                <p>Rookvrij appartement</p>
+                  <p>Rookvrije studio</p>
               </div>
               <div itemProp="noiseLevel">
                 <FaVolumeMute />
