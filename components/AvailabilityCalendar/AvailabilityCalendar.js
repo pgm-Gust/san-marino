@@ -166,7 +166,10 @@ export default function AvailabilityCalendar() {
               : "Beschikbaar"}
           </span>
           {prijs !== null && !bookingInfo.isBooked && (
-            <span className="price" style={{ display: "block", fontSize: "0.9em", color: "#007bff" }}>
+            <span
+              className="price"
+              style={{ display: "block", fontSize: "0.9em", color: "#007bff" }}
+            >
               €{prijs}
             </span>
           )}

@@ -130,22 +130,16 @@ export default function AdminDashboard() {
         </div>
 
         <div className="action-cards">
-          <Link href="/admin/apartments" className="action-card">
-            <FaHome className="card-icon" />
-            <h3>Appartementen Beheren</h3>
-            <p>Bewerk info, prijzen en voorzieningen</p>
-          </Link>
-
           <Link href="/admin/plein-images" className="action-card">
             <FaImages className="card-icon" />
             <h3>Plein Foto's beheren</h3>
             <p>Voeg nieuwe foto's toe of verwijder oude</p>
           </Link>
 
-          <Link href="/admin/reviews" className="action-card">
-            <FaStar className="card-icon" />
-            <h3>Reviews Beheren</h3>
-            <p>Bekijk en modereer gastreviews</p>
+          <Link href="/admin/plein-prijzen" className="action-card">
+            <FaCog className="card-icon" />
+            <h3>Plein Prijzen beheren</h3>
+            <p>Stel prijzen per nacht in voor het plein appartement</p>
           </Link>
         </div>
       </main>
