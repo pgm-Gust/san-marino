@@ -94,7 +94,6 @@ export default function AdminDashboard() {
       <main className="dashboard-content">
         <div className="welcome-section">
           <h2>Welkom terug! 👋</h2>
-          <p>Beheer hier je appartementen, foto's en reviews.</p>
         </div>
 
         <div className="stats-grid">
@@ -104,7 +103,7 @@ export default function AdminDashboard() {
             </div>
             <div className="stat-info">
               <h3>{stats.apartments}</h3>
-              <p>Appartementen</p>
+              <p>Appartement</p>
             </div>
           </div>
 
@@ -118,28 +117,19 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon reviews">
-              <FaStar />
-            </div>
-            <div className="stat-info">
-              <h3>{stats.reviews}</h3>
-              <p>Reviews</p>
-            </div>
-          </div>
         </div>
 
         <div className="action-cards">
           <Link href="/admin/plein-images" className="action-card">
             <FaImages className="card-icon" />
-            <h3>Plein Foto's beheren</h3>
+            <h3>Foto's beheren</h3>
             <p>Voeg nieuwe foto's toe of verwijder oude</p>
           </Link>
 
           <Link href="/admin/plein-prijzen" className="action-card">
             <FaCog className="card-icon" />
-            <h3>Plein Prijzen beheren</h3>
-            <p>Stel prijzen per nacht in voor het plein appartement</p>
+            <h3>Prijzen beheren</h3>
+            <p>Stel prijzen per nacht in.</p>
           </Link>
         </div>
       </main>
