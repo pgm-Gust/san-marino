@@ -62,12 +62,30 @@ export default function PleinPriceAdmin() {
   }
 
   return (
-    <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "system-ui, sans-serif" }}>
-      <h2 style={{ textAlign: "center", marginBottom: 32 }}>Plein prijzen per nacht</h2>
+    <div
+      style={{
+        maxWidth: 600,
+        margin: "2rem auto",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      <h2 style={{ textAlign: "center", marginBottom: 32 }}>
+        Plein prijzen per nacht
+      </h2>
 
       {/* Bulk invoer */}
-      <div style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 8px #0001", padding: 24, marginBottom: 32 }}>
-        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>Bulk prijs instellen</h3>
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 12,
+          boxShadow: "0 2px 8px #0001",
+          padding: 24,
+          marginBottom: 32,
+        }}
+      >
+        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>
+          Bulk prijs instellen
+        </h3>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -78,7 +96,11 @@ export default function PleinPriceAdmin() {
             const start = new Date(bulkStart);
             const end = new Date(bulkEnd);
             const days = [];
-            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            for (
+              let d = new Date(start);
+              d <= end;
+              d.setDate(d.getDate() + 1)
+            ) {
               days.push(new Date(d));
             }
             // Maak array van rows
@@ -87,7 +109,9 @@ export default function PleinPriceAdmin() {
               date: d.toISOString().slice(0, 10),
               price: parseFloat(bulkPrice),
             }));
-            const { error } = await supabase.from("apartment_prices").upsert(rows, { onConflict: ["apartment_id", "date"] });
+            const { error } = await supabase
+              .from("apartment_prices")
+              .upsert(rows, { onConflict: ["apartment_id", "date"] });
             if (error) setError(error.message);
             setBulkStart("");
             setBulkEnd("");
@@ -95,51 +119,176 @@ export default function PleinPriceAdmin() {
             await fetchPrices();
             setLoading(false);
           }}
-          style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}
+          style={{
+            display: "flex",
+            gap: 16,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
         >
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="bulkStart" style={{ fontWeight: 500, marginBottom: 4 }}>Startdatum</label>
-            <input id="bulkStart" type="date" value={bulkStart} onChange={e => setBulkStart(e.target.value)} required style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }} />
+            <label
+              htmlFor="bulkStart"
+              style={{ fontWeight: 500, marginBottom: 4 }}
+            >
+              Startdatum
+            </label>
+            <input
+              id="bulkStart"
+              type="date"
+              value={bulkStart}
+              onChange={(e) => setBulkStart(e.target.value)}
+              required
+              style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }}
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="bulkEnd" style={{ fontWeight: 500, marginBottom: 4 }}>Einddatum</label>
-            <input id="bulkEnd" type="date" value={bulkEnd} onChange={e => setBulkEnd(e.target.value)} required style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }} />
+            <label
+              htmlFor="bulkEnd"
+              style={{ fontWeight: 500, marginBottom: 4 }}
+            >
+              Einddatum
+            </label>
+            <input
+              id="bulkEnd"
+              type="date"
+              value={bulkEnd}
+              onChange={(e) => setBulkEnd(e.target.value)}
+              required
+              style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }}
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="bulkPrice" style={{ fontWeight: 500, marginBottom: 4 }}>Prijs (€)</label>
-            <input id="bulkPrice" type="number" min="0" step="1" value={bulkPrice} onChange={e => setBulkPrice(e.target.value)} required style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }} />
+            <label
+              htmlFor="bulkPrice"
+              style={{ fontWeight: 500, marginBottom: 4 }}
+            >
+              Prijs (€)
+            </label>
+            <input
+              id="bulkPrice"
+              type="number"
+              min="0"
+              step="1"
+              value={bulkPrice}
+              onChange={(e) => setBulkPrice(e.target.value)}
+              required
+              style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }}
+            />
           </div>
-          <button type="submit" disabled={loading} style={{ background: "#007bff", color: "#fff", border: "none", borderRadius: 6, padding: "10px 18px", fontWeight: 600, cursor: "pointer" }}>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              padding: "10px 18px",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
             {loading ? "Opslaan..." : "Bulk opslaan"}
           </button>
         </form>
       </div>
 
       {/* Enkelvoudige invoer */}
-      <div style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 8px #0001", padding: 24, marginBottom: 32 }}>
-        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>Prijs voor één dag</h3>
-        <form onSubmit={handleSubmit} style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 12,
+          boxShadow: "0 2px 8px #0001",
+          padding: 24,
+          marginBottom: 32,
+        }}
+      >
+        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>
+          Prijs voor één dag
+        </h3>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            gap: 16,
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="singleDate" style={{ fontWeight: 500, marginBottom: 4 }}>Datum</label>
-            <input id="singleDate" type="date" value={date} onChange={(e) => setDate(e.target.value)} required style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }} />
+            <label
+              htmlFor="singleDate"
+              style={{ fontWeight: 500, marginBottom: 4 }}
+            >
+              Datum
+            </label>
+            <input
+              id="singleDate"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+              style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }}
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label htmlFor="singlePrice" style={{ fontWeight: 500, marginBottom: 4 }}>Prijs (€)</label>
-            <input id="singlePrice" type="number" min="0" step="1" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Prijs (€)" required style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }} />
+            <label
+              htmlFor="singlePrice"
+              style={{ fontWeight: 500, marginBottom: 4 }}
+            >
+              Prijs (€)
+            </label>
+            <input
+              id="singlePrice"
+              type="number"
+              min="0"
+              step="1"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Prijs (€)"
+              required
+              style={{ padding: 6, borderRadius: 6, border: "1px solid #ccc" }}
+            />
           </div>
-          <button type="submit" disabled={loading} style={{ background: "#007bff", color: "#fff", border: "none", borderRadius: 6, padding: "10px 18px", fontWeight: 600, cursor: "pointer" }}>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              padding: "10px 18px",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
             {loading ? "Opslaan..." : "Opslaan"}
           </button>
         </form>
       </div>
       {error && <div style={{ color: "red", marginBottom: 16 }}>{error}</div>}
-      <div style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 8px #0001", padding: 24 }}>
-        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>Overzicht prijzen</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "1em" }}>
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 12,
+          boxShadow: "0 2px 8px #0001",
+          padding: 24,
+        }}
+      >
+        <h3 style={{ marginTop: 0, marginBottom: 16, color: "#007bff" }}>
+          Overzicht prijzen
+        </h3>
+        <table
+          style={{ width: "100%", borderCollapse: "collapse", fontSize: "1em" }}
+        >
           <thead>
             <tr style={{ background: "#f0f4fa" }}>
               <th style={{ padding: "8px 4px", textAlign: "left" }}>Datum</th>
-              <th style={{ padding: "8px 4px", textAlign: "left" }}>Prijs (€)</th>
+              <th style={{ padding: "8px 4px", textAlign: "left" }}>
+                Prijs (€)
+              </th>
               <th style={{ padding: "8px 4px" }}></th>
             </tr>
           </thead>
@@ -149,7 +298,19 @@ export default function PleinPriceAdmin() {
                 <td style={{ padding: "8px 4px" }}>{row.date}</td>
                 <td style={{ padding: "8px 4px" }}>{row.price}</td>
                 <td style={{ padding: "8px 4px" }}>
-                  <button onClick={() => handleDelete(row.id)} disabled={loading} style={{ background: "#dc3545", color: "#fff", border: "none", borderRadius: 6, padding: "6px 12px", fontWeight: 500, cursor: "pointer" }}>
+                  <button
+                    onClick={() => handleDelete(row.id)}
+                    disabled={loading}
+                    style={{
+                      background: "#dc3545",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: 6,
+                      padding: "6px 12px",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                    }}
+                  >
                     Verwijder
                   </button>
                 </td>
