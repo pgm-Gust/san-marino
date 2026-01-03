@@ -1,16 +1,37 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import "./AvailabilityCalendar.scss";
+import { fetchPleinPrices } from "@/lib/supabase/plein-prices";
 
 export default function AvailabilityCalendar() {
   const [availability, setAvailability] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [prijzen, setPrijzen] = useState([]);
 
   useEffect(() => {
     fetchAvailability();
-  }, []);
+    fetchPrijzenVoorMaand(currentDate);
+  }, [currentDate]);
+
+  async function fetchPrijzenVoorMaand(date) {
+    setLoading(true);
+    setError(null);
+    try {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const startDate = new Date(year, month, 1).toISOString().slice(0, 10);
+      const endDate = new Date(year, month + 1, 0).toISOString().slice(0, 10);
+      const prijzenData = await fetchPleinPrices(startDate, endDate);
+      setPrijzen(prijzenData);
+    } catch (err) {
+      setError("Kon prijzen niet ophalen");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const fetchAvailability = async () => {
     try {
@@ -120,6 +141,10 @@ export default function AvailabilityCalendar() {
         day
       );
       const bookingInfo = getDateBookingInfo(date);
+      // Zoek prijs voor deze dag
+      const dateStr = date.toISOString().slice(0, 10);
+      const prijsObj = prijzen.find((p) => p.date === dateStr);
+      const prijs = prijsObj ? prijsObj.price : null;
 
       days.push(
         <div
@@ -140,6 +165,11 @@ export default function AvailabilityCalendar() {
               ? "Bezet"
               : "Beschikbaar"}
           </span>
+          {prijs !== null && !bookingInfo.isBooked && (
+            <span className="price" style={{ display: "block", fontSize: "0.9em", color: "#007bff" }}>
+              €{prijs}
+            </span>
+          )}
         </div>
       );
     }

@@ -36,8 +36,7 @@ import AvailabilityCalendar from "@components/AvailabilityCalendar/AvailabilityC
 import Link from "next/link";
 
 export const metadata = generateSeo({
-  title:
-    "Luxe studio aan Zee Middelkerke | San Marino 4 studio",
+  title: "Luxe studio aan Zee Middelkerke | San Marino 4 studio",
   description:
     "Direct aan het plein in Middelkerke - Moderne studio voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte vakantie!",
   openGraph: {
@@ -119,7 +118,11 @@ export default function PleinApartment() {
             </h2>
             <div className="grid-container facilities-grid">
               {[
-                { icon: <FaBed />, text: "Aparte slaapruimte met tweepersoonsbed", prop: "bed" },
+                {
+                  icon: <FaBed />,
+                  text: "Aparte slaapruimte met tweepersoonsbed",
+                  prop: "bed",
+                },
                 {
                   icon: <FaBath />,
                   text: "Moderne badkamer met douche",
@@ -272,7 +275,7 @@ export default function PleinApartment() {
               </div>
               <div itemProp="smokingAllowed" content="false">
                 <FaSmokingBan />
-                  <p>Rookvrije studio</p>
+                <p>Rookvrije studio</p>
               </div>
               <div itemProp="noiseLevel">
                 <FaVolumeMute />
