@@ -26,7 +26,7 @@ import {
   FaGlassCheers,
   FaLayerGroup,
 } from "react-icons/fa";
-import ApartmentGallery from "@components/AppartmentGallery/AppartmentGallery";
+import PleinGalleryClient from "@components/AppartmentGallery/PleinGalleryClient";
 import SmoobuWidget from "@components/SmoobuWidget/SmoobuWidget";
 import { generateSeo } from "/config/seo.config";
 import SeoStructuredData from "@components/Seo/StructuredData";
@@ -95,6 +95,7 @@ export default function PleinApartment() {
     },
   };
 
+  // const images = await getPleinImages(); // Removed as everything is now client-side via PleinGalleryClient
   return (
     <>
       <SeoStructuredData data={structuredData} />
@@ -110,10 +111,7 @@ export default function PleinApartment() {
           <p className="subheading">Luxe vakantieverblijf</p>
           <h1 itemProp="name">Studio met zicht op zee en plein</h1>
 
-          <ApartmentGallery
-            itemProp="image"
-            aria-label="Foto's van het plein studio"
-          />
+          <PleinGalleryClient />
 
           <div className="info-section">
             <h2>

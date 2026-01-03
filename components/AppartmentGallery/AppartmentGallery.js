@@ -43,38 +43,39 @@ const photos = [
     "/assets/images/plein/Parijsstraat280402Middelkerke04.jpg",
 ];
 
-export default function ApartmentGallery() {
+export default function ApartmentGallery({ images }) {
     const [currentIndex, setCurrentIndex] = useState(null);
     const [lightboxOpen, setLightboxOpen] = useState(false);
+
+    // Use images prop if provided, otherwise fallback to static photos
+    const galleryPhotos = images && images.length > 0 ? images : photos;
 
     useEffect(() => {
         if (lightboxOpen) {
             document.body.classList.add("no-scroll");
-      // Add keyboard event listeners
-      const handleKeyDown = (e) => {
-        if (e.key === 'Escape') {
-          closePhoto();
-        } else if (e.key === 'ArrowLeft') {
-          showPrev();
-        } else if (e.key === 'ArrowRight') {
-          showNext();
-        }
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
+            const handleKeyDown = (e) => {
+                if (e.key === 'Escape') {
+                    closePhoto();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrev();
+                } else if (e.key === 'ArrowRight') {
+                    showNext();
+                }
+            };
+            window.addEventListener('keydown', handleKeyDown);
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+            };
         } else {
             document.body.classList.remove("no-scroll");
         }
     }, [lightboxOpen]);
 
-  const handleLightboxClick = (e) => {
-    // Close if clicking outside the image
-    if (e.target.classList.contains('lightbox')) {
-      closePhoto();
-    }
-  };
+    const handleLightboxClick = (e) => {
+        if (e.target.classList.contains('lightbox')) {
+            closePhoto();
+        }
+    };
 
     const openPhoto = (index) => {
         setCurrentIndex(index);
@@ -87,28 +88,28 @@ export default function ApartmentGallery() {
     };
 
     const showNext = () => {
-        setCurrentIndex((prev) => (prev + 1) % photos.length);
+        setCurrentIndex((prev) => (prev + 1) % galleryPhotos.length);
     };
 
     const showPrev = () => {
-        setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+        setCurrentIndex((prev) => (prev - 1 + galleryPhotos.length) % galleryPhotos.length);
     };
 
     const getThumbnailRange = () => {
         const thumbCount = 5;
-    if (currentIndex === null || photos.length === 0)
-      return { start: 0, end: 0 };
+        if (currentIndex === null || galleryPhotos.length === 0)
+            return { start: 0, end: 0 };
 
         let start = currentIndex - Math.floor(thumbCount / 2);
         let end = start + thumbCount - 1;
 
         if (start < 0) {
             start = 0;
-            end = Math.min(photos.length - 1, thumbCount - 1);
+            end = Math.min(galleryPhotos.length - 1, thumbCount - 1);
         }
 
-        if (end >= photos.length) {
-            end = photos.length - 1;
+        if (end >= galleryPhotos.length) {
+            end = galleryPhotos.length - 1;
             start = Math.max(0, end - thumbCount + 1);
         }
 
@@ -117,52 +118,56 @@ export default function ApartmentGallery() {
 
     const { start, end } = getThumbnailRange();
 
+    if (!galleryPhotos || galleryPhotos.length === 0) {
+        return <div>Geen foto's beschikbaar.</div>;
+    }
+
     return (
         <div className="gallery-container">
             <div className="gallery-grid">
                 <img
-                    src={photos[0]}
+                    src={galleryPhotos[0]}
                     alt="Main"
                     className="gallery-main"
                     onClick={() => openPhoto(0)}
-          loading="lazy"
+                    loading="lazy"
                 />
                 <div className="gallery-column">
                     <img
-                        src={photos[1]}
+                        src={galleryPhotos[1]}
                         alt="Side 1"
                         className="gallery-side"
                         onClick={() => openPhoto(1)}
-            loading="lazy"
+                        loading="lazy"
                     />
                     <img
-                        src={photos[2]}
+                        src={galleryPhotos[2]}
                         alt="Side 2"
                         className="gallery-side"
                         onClick={() => openPhoto(2)}
-            loading="lazy"
+                        loading="lazy"
                     />
                 </div>
             </div>
 
             <div className="gallery-row">
-                {photos.slice(3, 8).map((photo, index) => (
+                {galleryPhotos.slice(3, 8).map((photo, index) => (
                     <img
                         key={index + 3}
                         src={photo}
                         alt={`Thumbnail ${index + 3}`}
                         className="gallery-thumb"
                         onClick={() => openPhoto(index + 3)}
-            loading="lazy"
+                        loading="lazy"
                     />
                 ))}
                 <div className="gallery-more" onClick={() => openPhoto(8)}>
-                    + {photos.length - 8} foto's
+                    + {galleryPhotos.length - 8} foto's
                 </div>
             </div>
 
             {lightboxOpen && (
-        <div className="lightbox" onClick={handleLightboxClick}>
+                <div className="lightbox" onClick={handleLightboxClick}>
                     <span className="close" onClick={closePhoto}>
                         <FaTimes />
                     </span>
@@ -170,7 +175,7 @@ export default function ApartmentGallery() {
                         <FaArrowLeft />
                     </span>
                     <img
-                        src={photos[currentIndex]}
+                        src={galleryPhotos[currentIndex]}
                         alt="Selected"
                         className="lightbox-image"
                     />
@@ -179,7 +184,7 @@ export default function ApartmentGallery() {
                     </span>
 
                     <div className="lightbox-thumbnails">
-                        {photos.slice(start, end + 1).map((photo, index) => {
+                        {galleryPhotos.slice(start, end + 1).map((photo, index) => {
                             const photoIndex = start + index;
                             return (
                                 <img
@@ -189,10 +194,10 @@ export default function ApartmentGallery() {
                                     className={`thumbnail ${
                                         currentIndex === photoIndex ? "active" : ""
                                     }`}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent lightbox from closing
-                    setCurrentIndex(photoIndex);
-                  }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCurrentIndex(photoIndex);
+                                    }}
                                 />
                             );
                         })}

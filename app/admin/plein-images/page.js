@@ -35,19 +35,32 @@ export default function PleinImagesPage() {
   };
 
   const setPrimary = async (imageId) => {
-    await supabase.from("apartment_images").update({ is_primary: false }).eq("apartment_id", PLEIN_ID);
-    await supabase.from("apartment_images").update({ is_primary: true }).eq("id", imageId);
+    await supabase
+      .from("apartment_images")
+      .update({ is_primary: false })
+      .eq("apartment_id", PLEIN_ID);
+    await supabase
+      .from("apartment_images")
+      .update({ is_primary: true })
+      .eq("id", imageId);
     loadImages();
   };
 
   const moveImage = async (imageId, direction) => {
     const currentIndex = images.findIndex((img) => img.id === imageId);
-    const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    const targetIndex =
+      direction === "up" ? currentIndex - 1 : currentIndex + 1;
     if (targetIndex < 0 || targetIndex >= images.length) return;
     const currentImage = images[currentIndex];
     const targetImage = images[targetIndex];
-    await supabase.from("apartment_images").update({ display_order: targetImage.display_order }).eq("id", currentImage.id);
-    await supabase.from("apartment_images").update({ display_order: currentImage.display_order }).eq("id", targetImage.id);
+    await supabase
+      .from("apartment_images")
+      .update({ display_order: targetImage.display_order })
+      .eq("id", currentImage.id);
+    await supabase
+      .from("apartment_images")
+      .update({ display_order: currentImage.display_order })
+      .eq("id", targetImage.id);
     loadImages();
   };
 
@@ -79,18 +92,36 @@ export default function PleinImagesPage() {
                   </div>
                 )}
                 <div className="image-actions">
-                  <button onClick={() => moveImage(image.id, "up")} disabled={index === 0} className="btn-icon" title="Omhoog">
+                  <button
+                    onClick={() => moveImage(image.id, "up")}
+                    disabled={index === 0}
+                    className="btn-icon"
+                    title="Omhoog"
+                  >
                     <FaArrowUp />
                   </button>
-                  <button onClick={() => moveImage(image.id, "down")} disabled={index === images.length - 1} className="btn-icon" title="Omlaag">
+                  <button
+                    onClick={() => moveImage(image.id, "down")}
+                    disabled={index === images.length - 1}
+                    className="btn-icon"
+                    title="Omlaag"
+                  >
                     <FaArrowDown />
                   </button>
                   {!image.is_primary && (
-                    <button onClick={() => setPrimary(image.id)} className="btn-icon primary" title="Maak hoofdfoto">
+                    <button
+                      onClick={() => setPrimary(image.id)}
+                      className="btn-icon primary"
+                      title="Maak hoofdfoto"
+                    >
                       <FaStar />
                     </button>
                   )}
-                  <button onClick={() => handleDelete(image)} className="btn-icon delete" title="Verwijderen">
+                  <button
+                    onClick={() => handleDelete(image)}
+                    className="btn-icon delete"
+                    title="Verwijderen"
+                  >
                     <FaTrash />
                   </button>
                 </div>
