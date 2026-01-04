@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import "./NextWeekend.scss";
 
 function formatDate(d) {
@@ -116,17 +117,14 @@ export default function NextWeekend({ className = "" }) {
         </div>
       </div>
 
-      <form method="get" action="?" className="cta-row">
-        <input type="hidden" name="arrivalDate" value={nextWeekend.saturday} />
-        <input
-          type="hidden"
-          name="departureDate"
-          value={nextWeekend.departure}
-        />
-        <button type="submit" className="next-weekend-cta">
+      <div className="cta-row">
+        <Link
+          href={`/appartement/plein/boeken?arrivalDate=${nextWeekend.saturday}&departureDate=${nextWeekend.departure}`}
+          className="next-weekend-cta"
+        >
           Boek dit weekend
-        </button>
-      </form>
+        </Link>
+      </div>
     </div>
   );
 }

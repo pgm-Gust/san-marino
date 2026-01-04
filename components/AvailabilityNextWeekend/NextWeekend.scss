@@ -1,3 +1,14 @@
+// Speciaal voor de homepage hero linksboven
+.subtle-nextweekend.next-weekend-boxx {
+  margin-top: 48px;
+  box-shadow: 0 4px 16px rgba(14, 27, 80, 0.04);
+  border: 1.5px solid rgba(37, 99, 235, 0.10);
+  background: linear-gradient(180deg, #fafdff 90%, #f1f5fa 100%);
+  opacity: 0.97;
+  max-width: 340px;
+  min-width: 300px;
+  width: 100%;
+}
 .next-weekend-boxx {
   max-width: 1200px;
   margin: 0 auto 1.25rem;

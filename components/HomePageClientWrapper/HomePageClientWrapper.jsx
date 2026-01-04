@@ -7,6 +7,7 @@ import LoadingScreen from "@components/LoadingScreen/LoadingScreen";
 // Importeer alle componenten die eerder in app/(home)/page.js stonden
 import ApartmentSlider from "@components/ApartmentSlider/ApartmentSlider";
 import SpecialFeatures from "@components/SpecialFeatures/SpecialFeatures";
+import NextWeekend from "@components/AvailabilityNextWeekend/NextWeekend";
 import HeroImage from "@components/HeroImage/HeroImage";
 import Contact from "@components/Contact/Contact";
 import SeoStructuredData from "@components/Seo/StructuredData";
@@ -74,7 +75,11 @@ const HomePageClientWrapper = () => {
             itemScope
             itemType="http://schema.org/Place"
           >
-            <div className="overlay">
+            <div className="overlay" style={{ position: 'relative' }}>
+              {/* NextWeekend linksboven in de hero banner */}
+              <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 2, maxWidth: 260 }}>
+                <NextWeekend className="subtle-nextweekend" />
+              </div>
               <h1 itemProp="name">
                 <span>Uw volgend verblijf in Middelkerke</span>
                 <span className="white">San Marino 4</span>
