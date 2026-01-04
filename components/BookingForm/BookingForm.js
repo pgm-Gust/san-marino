@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { getBookingPrices } from "@/lib/supabase/booking-prices";
 import { useRouter } from "next/navigation";
 import {
   FaExclamationCircle,
@@ -41,6 +42,7 @@ export default function BookingForm() {
   const [nights, setNights] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerNight, setPricePerNight] = useState(200);
+  const [nightlyPrices, setNightlyPrices] = useState([]); // array met prijs per nacht
   const [bookedRanges, setBookedRanges] = useState([]);
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
@@ -72,7 +74,7 @@ export default function BookingForm() {
       // ignore malformed dates
     }
 
-    const calculateNightsAndPrice = () => {
+    async function calculateNightsAndPrice() {
       if (!formData.arrivalDate || !formData.departureDate) return;
 
       const arrival = new Date(formData.arrivalDate);
@@ -81,18 +83,36 @@ export default function BookingForm() {
       if (departure <= arrival) {
         setNights(0);
         setTotalPrice(0);
+        setNightlyPrices([]);
         return;
       }
 
       const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
-      const newTotal = diffDays * pricePerNight;
 
-      setNights(diffDays);
-      setTotalPrice(newTotal);
-    };
+      // Prijzen ophalen uit Supabase
+      try {
+        const prices = await getBookingPrices(
+          formData.arrivalDate,
+          formData.departureDate,
+          pricePerNight
+        );
+        setNightlyPrices(prices);
+        const newTotal = prices.reduce((sum, p) => sum + p, 0);
+        setTotalPrice(newTotal);
+        setNights(diffDays);
+        // Toon gemiddelde prijs per nacht
+        if (prices.length > 0) {
+          setPricePerNight(Math.round(prices.reduce((a, b) => a + b, 0) / prices.length));
+        }
+      } catch (e) {
+        setNightlyPrices([]);
+        setTotalPrice(diffDays * pricePerNight);
+        setNights(diffDays);
+      }
+    }
 
     calculateNightsAndPrice();
-  }, [formData.arrivalDate, formData.departureDate, pricePerNight]);
+  }, [formData.arrivalDate, formData.departureDate]);
 
   // Haal bezette periodes op
   useEffect(() => {
