@@ -51,9 +51,7 @@ const HomePageClientWrapper = () => {
   return (
     <>
       <AnimatePresence>
-        {showLoadingScreen && (
-          <LoadingScreen key="loading-screen" />
-        )}
+        {showLoadingScreen && <LoadingScreen key="loading-screen" />}
       </AnimatePresence>
 
       {/* Render de hoofdinhoud alleen als het laadscherm verborgen is */}
@@ -75,9 +73,17 @@ const HomePageClientWrapper = () => {
             itemScope
             itemType="http://schema.org/Place"
           >
-            <div className="overlay" style={{ position: 'relative' }}>
+            <div className="overlay" style={{ position: "relative" }}>
               {/* NextWeekend linksboven in de hero banner */}
-              <div style={{ position: 'absolute', top: 24, left: 24, zIndex: 2, maxWidth: 260 }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 24,
+                  left: 24,
+                  zIndex: 2,
+                  maxWidth: 260,
+                }}
+              >
                 <NextWeekend className="subtle-nextweekend" />
               </div>
               <h1 itemProp="name">

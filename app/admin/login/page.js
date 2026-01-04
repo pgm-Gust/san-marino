@@ -41,7 +41,6 @@ export default function AdminLogin() {
       <div className="login-container">
         <div className="login-card">
           <h1>San Marino 4 Admin</h1>
-          <p className="subtitle">Log in om je appartementen te beheren</p>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -54,7 +53,7 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="admin@sanmarino4.be"
+                placeholder="e-mail"
                 disabled={loading}
               />
             </div>
