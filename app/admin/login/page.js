@@ -53,7 +53,7 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="e-mail"
+                placeholder="Email"
                 disabled={loading}
               />
             </div>

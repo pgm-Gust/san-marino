@@ -217,6 +217,7 @@ export default function BookingForm() {
       return;
     }
 
+
     if (!formData.arrivalDate || !formData.departureDate) {
       setError("Vul aub zowel aankomst- als vertrekdatum in");
       setIsSubmitting(false);
@@ -225,6 +226,32 @@ export default function BookingForm() {
 
     if (new Date(formData.departureDate) <= new Date(formData.arrivalDate)) {
       setError("Vertrekdatum moet na aankomstdatum liggen");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Minimaal aantal nachten per periode
+    const arrival = new Date(formData.arrivalDate);
+    const departure = new Date(formData.departureDate);
+    const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
+    const month = arrival.getMonth() + 1; // 1-based
+    let minNights = 2;
+    if (month === 7 || month === 8) {
+      minNights = 6;
+    }
+    // Als de boeking over meerdere maanden loopt, pak de strengste eis (hoogste minNights)
+    let m = new Date(arrival);
+    while (m < departure) {
+      const mMonth = m.getMonth() + 1;
+      if (mMonth === 7 || mMonth === 8) {
+        minNights = Math.max(minNights, 6);
+      }
+      m.setDate(m.getDate() + 1);
+    }
+    if (diffDays < minNights) {
+      setError(
+        `In deze periode moet je minimaal ${minNights} nachten boeken.`
+      );
       setIsSubmitting(false);
       return;
     }
@@ -298,11 +325,31 @@ export default function BookingForm() {
               }}
               excludeDates={bookedDates}
               minDate={
-                arrivalDate
-                  ? new Date(
-                      new Date(arrivalDate).getTime() + 24 * 60 * 60 * 1000
-                    )
-                  : new Date()
+                (() => {
+                  if (!arrivalDate) return new Date();
+                  const specialPeriods = [
+                    { start: '2026-03-30', end: '2026-04-12', min: 4 },
+                    { start: '2026-04-30', end: '2026-05-03', min: 4 },
+                    { start: '2026-05-14', end: '2026-05-17', min: 3 },
+                    { start: '2026-11-07', end: '2026-11-15', min: 3 },
+                  ];
+                  const month = arrivalDate.getMonth() + 1;
+                  let minNights = (month === 7 || month === 8) ? 6 : 2;
+                  // Kijk voor alle mogelijke vertrekdatums (max 30 dagen window)
+                  for (let extra = 0; extra < 30; extra++) {
+                    const testDep = new Date(arrivalDate);
+                    testDep.setDate(testDep.getDate() + extra + 1);
+                    const arrStr = arrivalDate.toISOString().slice(0, 10);
+                    const depStr = testDep.toISOString().slice(0, 10);
+                    specialPeriods.forEach(p => {
+                      // Overlap: (start < dep) && (end > arr)
+                      if (p.start < depStr && p.end > arrStr) {
+                        minNights = Math.max(minNights, p.min);
+                      }
+                    });
+                  }
+                  return new Date(new Date(arrivalDate).getTime() + minNights * 24 * 60 * 60 * 1000);
+                })()
               }
               maxDate={maxDepartureDate}
               dateFormat="yyyy-MM-dd"
@@ -311,8 +358,26 @@ export default function BookingForm() {
               required
               filterDate={(date) => {
                 if (!arrivalDate) return true;
+                const specialPeriods = [
+                  { start: '2026-03-30', end: '2026-04-12', min: 4 },
+                  { start: '2026-04-30', end: '2026-05-03', min: 4 },
+                  { start: '2026-05-14', end: '2026-05-17', min: 3 },
+                  { start: '2026-11-07', end: '2026-11-15', min: 3 },
+                ];
+                const month = arrivalDate.getMonth() + 1;
+                let minNights = (month === 7 || month === 8) ? 6 : 2;
+                const arrStr = arrivalDate.toISOString().slice(0, 10);
+                const depStr = date.toISOString().slice(0, 10);
+                specialPeriods.forEach(p => {
+                  // Overlap: (start < dep) && (end > arr)
+                  if (p.start < depStr && p.end > arrStr) {
+                    minNights = Math.max(minNights, p.min);
+                  }
+                });
+                const minDep = new Date(arrivalDate);
+                minDep.setDate(minDep.getDate() + minNights);
                 return (
-                  date > arrivalDate &&
+                  date >= minDep &&
                   (!maxDepartureDate || date < maxDepartureDate)
                 );
               }}
