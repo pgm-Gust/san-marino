@@ -102,7 +102,9 @@ export default function BookingForm() {
         setNights(diffDays);
         // Toon gemiddelde prijs per nacht
         if (prices.length > 0) {
-          setPricePerNight(Math.round(prices.reduce((a, b) => a + b, 0) / prices.length));
+          setPricePerNight(
+            Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
+          );
         }
       } catch (e) {
         setNightlyPrices([]);
