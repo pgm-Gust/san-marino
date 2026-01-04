@@ -302,12 +302,17 @@ export default function BookingForm() {
                 }));
               }}
               excludeDates={bookedDates}
-              minDate={(() => { let d = new Date(); d.setDate(d.getDate() + 2); return d; })()}
+              minDate={(() => {
+                let d = new Date();
+                d.setDate(d.getDate() + 2);
+                return d;
+              })()}
               filterDate={(date) => {
                 // Mag niet vandaag of morgen zijn
                 const today = new Date();
-                today.setHours(0,0,0,0);
-                const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+                today.setHours(0, 0, 0, 0);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
                 return date > tomorrow;
               }}
               dateFormat="yyyy-MM-dd"
