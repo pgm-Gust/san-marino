@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { fetchApartments, fetchApartmentBySlug, fetchApartmentById } from "@/lib/supabase/apartments";
+import {
+  fetchApartments,
+  fetchApartmentBySlug,
+  fetchApartmentById,
+} from "@/lib/supabase/apartments";
 
 export async function GET(request) {
   try {

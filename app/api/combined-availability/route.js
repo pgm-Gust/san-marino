@@ -5,7 +5,7 @@ import { fetchBlockedDates } from "@/lib/supabase/blocked-dates";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const apartmentId = searchParams.get("apartmentId");
-  
+
   const googleIcalUrl = process.env.GOOGLE_ICAL_URL;
   const airbnbIcalUrl = process.env.AIRBNB_ICAL_URL;
 
@@ -50,7 +50,7 @@ export async function GET(request) {
     // Combineer alle events
     const allEvents = [...googleEvents, ...airbnbEvents, ...blockedEvents];
     allEvents.sort((a, b) => a.start - b.start);
-    
+
     return NextResponse.json({ events: allEvents });
   } catch (error) {
     console.error("Error in combined-availability:", error);

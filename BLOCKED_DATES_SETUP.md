@@ -29,10 +29,10 @@ CREATE TABLE blocked_dates (
   end_date DATE NOT NULL,
   reason TEXT,
   blocked_by UUID REFERENCES admin_users(id) ON DELETE SET NULL,
-  
+
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  
+
   CONSTRAINT valid_date_range CHECK (end_date >= start_date)
 );
 
@@ -86,53 +86,63 @@ Zorg ervoor dat je de apartments tabel hebt aangemaakt volgens het hoofdschema i
 ### Via API (programmatisch)
 
 **Voeg een blokkering toe:**
+
 ```javascript
-const response = await fetch('/api/blocked-dates', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/blocked-dates", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    apartmentId: 'uuid-hier',
-    startDate: '2026-02-01',
-    endDate: '2026-02-07',
-    reason: 'Onderhoud'
-  })
+    apartmentId: "uuid-hier",
+    startDate: "2026-02-01",
+    endDate: "2026-02-07",
+    reason: "Onderhoud",
+  }),
 });
 ```
 
 **Haal geblokkeerde datums op:**
+
 ```javascript
 // Alle geblokkeerde datums
-const response = await fetch('/api/blocked-dates');
+const response = await fetch("/api/blocked-dates");
 
 // Voor specifiek appartement
-const response = await fetch('/api/blocked-dates?apartmentId=uuid-hier');
+const response = await fetch("/api/blocked-dates?apartmentId=uuid-hier");
 
 // Voor specifieke periode
-const response = await fetch('/api/blocked-dates?startDate=2026-02-01&endDate=2026-02-28');
+const response = await fetch(
+  "/api/blocked-dates?startDate=2026-02-01&endDate=2026-02-28"
+);
 ```
 
 **Verwijder een blokkering:**
+
 ```javascript
-const response = await fetch('/api/blocked-dates?id=blocked-date-uuid', {
-  method: 'DELETE'
+const response = await fetch("/api/blocked-dates?id=blocked-date-uuid", {
+  method: "DELETE",
 });
 ```
 
 ## 📊 Hoe het werkt
 
 ### Frontend (Kalender)
+
 De `AvailabilityCalendar` component haalt nu beschikbaarheid op via `/api/combined-availability`, die automatisch:
+
 - Externe iCal events ophaalt (Google Calendar, Airbnb)
 - Handmatig geblokkeerde datums uit Supabase haalt
 - Alles combineert in één overzicht
 
 ### Backend (API)
+
 - `/api/blocked-dates` - CRUD operaties voor geblokkeerde datums
 - `/api/combined-availability` - Gecombineerde beschikbaarheid (externe + manual)
 - `/api/apartments` - Haal appartement informatie op
 
 ### Database
+
 De `blocked_dates` tabel slaat op:
+
 - `apartment_id` - Welk appartement is geblokkeerd
 - `start_date` - Vanaf wanneer
 - `end_date` - Tot wanneer
@@ -149,6 +159,7 @@ De `blocked_dates` tabel slaat op:
 ## 🎨 Styling
 
 De admin interface is volledig responsive en gebruikt:
+
 - Moderne SCSS styling in `BlockedDates.scss`
 - Mobiel-vriendelijk design
 - Duidelijke feedback bij acties
@@ -157,6 +168,7 @@ De admin interface is volledig responsive en gebruikt:
 ## 🔮 Toekomstige Uitbreidingen
 
 Mogelijke verbeteringen:
+
 - [ ] Automatische synchronisatie met externe kalenders
 - [ ] Terugkerende blokkeringen (bijv. elke maandag)
 - [ ] Email notificaties bij nieuwe blokkeringen
@@ -181,6 +193,7 @@ A: Ja! Externe iCal feeds (Google, Airbnb) worden nog steeds opgehaald en gecomb
 ## 📞 Support
 
 Bij problemen, check:
+
 1. Of de database migratie succesvol was
 2. Of je Supabase credentials correct zijn ingesteld
 3. De browser console voor foutmeldingen

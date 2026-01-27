@@ -31,9 +31,9 @@ export default function BlockedDatesPage() {
       // Fallback: gebruik direct een standaard appartement
       const defaultApartment = { id: 1, name: "San Marino 4", slug: "plein" };
       setApartments([defaultApartment]);
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        apartmentId: "1"
+        apartmentId: "1",
       }));
 
       // Probeer alsnog de API
@@ -44,9 +44,9 @@ export default function BlockedDatesPage() {
           setApartments(data.apartments);
           // Als we al een ID hadden, behoud die
           if (!formData.apartmentId) {
-            setFormData(prev => ({
+            setFormData((prev) => ({
               ...prev,
-              apartmentId: data.apartments[0].id.toString()
+              apartmentId: data.apartments[0].id.toString(),
             }));
           }
         }
@@ -148,10 +148,7 @@ export default function BlockedDatesPage() {
     <div className="blocked-dates-page">
       <div className="page-header">
         <h1>Geblokkeerde Datums</h1>
-        <button
-          className="btn-primary"
-          onClick={() => setShowForm(!showForm)}
-        >
+        <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
           {showForm ? "Annuleren" : "+ Nieuwe Blokkering"}
         </button>
       </div>

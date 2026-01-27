@@ -14,7 +14,11 @@ export async function GET(request) {
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
 
-    const blockedDates = await fetchBlockedDates(apartmentId, startDate, endDate);
+    const blockedDates = await fetchBlockedDates(
+      apartmentId,
+      startDate,
+      endDate
+    );
 
     return NextResponse.json({ blockedDates });
   } catch (error) {
@@ -57,7 +61,12 @@ export async function POST(request) {
       );
     }
 
-    const blockedDate = await addBlockedDate(apartmentId, startDate, endDate, reason);
+    const blockedDate = await addBlockedDate(
+      apartmentId,
+      startDate,
+      endDate,
+      reason
+    );
 
     return NextResponse.json({ blockedDate }, { status: 201 });
   } catch (error) {
@@ -76,10 +85,7 @@ export async function DELETE(request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is verplicht" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is verplicht" }, { status: 400 });
     }
 
     await deleteBlockedDate(id);
@@ -101,10 +107,7 @@ export async function PATCH(request) {
     const { id, ...updates } = body;
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is verplicht" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is verplicht" }, { status: 400 });
     }
 
     const blockedDate = await updateBlockedDate(id, updates);

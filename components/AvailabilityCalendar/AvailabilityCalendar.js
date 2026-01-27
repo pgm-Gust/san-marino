@@ -153,7 +153,9 @@ export default function AvailabilityCalendar() {
             bookingInfo.isPast
               ? "past"
               : bookingInfo.isBooked
-              ? `booked ${bookingInfo.source === "Manual" ? "manual-block" : ""}`
+              ? `booked ${
+                  bookingInfo.source === "Manual" ? "manual-block" : ""
+                }`
               : "available"
           }`}
           title={
