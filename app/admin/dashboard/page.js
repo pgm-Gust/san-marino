@@ -4,7 +4,14 @@ import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaHome, FaImages, FaStar, FaSignOutAlt, FaCog } from "react-icons/fa";
+import {
+  FaHome,
+  FaImages,
+  FaStar,
+  FaSignOutAlt,
+  FaCog,
+  FaCalendarTimes,
+} from "react-icons/fa";
 import "./dashboard.scss";
 
 export default function AdminDashboard() {
@@ -116,7 +123,6 @@ export default function AdminDashboard() {
               <p>Foto's</p>
             </div>
           </div>
-
         </div>
 
         <div className="action-cards">
@@ -130,6 +136,12 @@ export default function AdminDashboard() {
             <FaCog className="card-icon" />
             <h3>Prijzen beheren</h3>
             <p>Stel prijzen per nacht in.</p>
+          </Link>
+
+          <Link href="/admin/blocked-dates" className="action-card">
+            <FaCalendarTimes className="card-icon" />
+            <h3>Datums blokkeren</h3>
+            <p>Blokkeer datums handmatig via Supabase</p>
           </Link>
         </div>
       </main>

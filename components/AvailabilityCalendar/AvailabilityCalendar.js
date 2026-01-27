@@ -174,7 +174,7 @@ export default function AvailabilityCalendar() {
                 : "Bezet"
               : "Beschikbaar"}
           </span>
-          {prijs !== null && !bookingInfo.isBooked && (
+          {prijs !== null && !bookingInfo.isBooked && !bookingInfo.isPast && (
             <span
               className="price"
               style={{ display: "block", fontSize: "0.9em", color: "#007bff" }}
