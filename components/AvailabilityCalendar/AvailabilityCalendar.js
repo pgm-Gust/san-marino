@@ -83,7 +83,7 @@ export default function AvailabilityCalendar() {
     });
 
     return booking
-      ? { isBooked: true, source: booking.source }
+      ? { isBooked: true, source: booking.source, summary: booking.summary }
       : { isBooked: false };
   };
 
@@ -153,16 +153,23 @@ export default function AvailabilityCalendar() {
             bookingInfo.isPast
               ? "past"
               : bookingInfo.isBooked
-              ? "booked"
+              ? `booked ${bookingInfo.source === "Manual" ? "manual-block" : ""}`
               : "available"
           }`}
+          title={
+            bookingInfo.isBooked && bookingInfo.summary
+              ? bookingInfo.summary
+              : ""
+          }
         >
           <span className="day-number">{day}</span>
           <span className="status">
             {bookingInfo.isPast
               ? "Verlopen"
               : bookingInfo.isBooked
-              ? "Bezet"
+              ? bookingInfo.source === "Manual"
+                ? "Geblokkeerd"
+                : "Bezet"
               : "Beschikbaar"}
           </span>
           {prijs !== null && !bookingInfo.isBooked && (
@@ -241,7 +248,11 @@ export default function AvailabilityCalendar() {
         </div>
         <div className="legend-item">
           <span className="legend-color booked"></span>
-          <span>Bezet</span>
+          <span>Bezet (Boeking)</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-color manual-block"></span>
+          <span>Geblokkeerd (Handmatig)</span>
         </div>
       </div>
     </div>

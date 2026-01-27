@@ -105,6 +105,15 @@
         }
       }
 
+      &.manual-block {
+        background: #fff3e0;
+        border: 1px solid #ffe0b2;
+
+        .status {
+          color: #e65100;
+        }
+      }
+
       &.past {
         opacity: 0.5;
         cursor: not-allowed;
@@ -148,6 +157,11 @@
         &.booked {
           background: #ffebee;
           border: 1px solid #ffcdd2;
+        }
+
+        &.manual-block {
+          background: #fff3e0;
+          border: 1px solid #ffe0b2;
         }
       }
     }

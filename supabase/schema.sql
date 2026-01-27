@@ -231,6 +231,45 @@ VALUES (
 );
 
 -- ============================================
+-- 9. BLOCKED DATES TABLE (Handmatig blokkeren)
+-- ============================================
+CREATE TABLE blocked_dates (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  apartment_id INTEGER REFERENCES apartments(id) ON DELETE CASCADE,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  reason TEXT, -- Optioneel: waarom geblokkeerd (onderhoud, privé, etc.)
+  blocked_by UUID REFERENCES admin_users(id) ON DELETE SET NULL, -- Wie heeft het geblokkeerd
+  
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  
+  -- Validatie: end_date moet na start_date zijn
+  CONSTRAINT valid_date_range CHECK (end_date >= start_date)
+);
+
+-- Index voor snellere queries op datums en appartement
+CREATE INDEX idx_blocked_dates_apartment ON blocked_dates(apartment_id);
+CREATE INDEX idx_blocked_dates_range ON blocked_dates(start_date, end_date);
+
+-- Enable RLS
+ALTER TABLE blocked_dates ENABLE ROW LEVEL SECURITY;
+
+-- Iedereen kan geblokkeerde datums zien
+CREATE POLICY "Iedereen kan geblokkeerde datums zien"
+  ON blocked_dates FOR SELECT
+  USING (true);
+
+-- Alleen admins kunnen blokkeren/deblokkeren
+CREATE POLICY "Alleen admins kunnen datums blokkeren"
+  ON blocked_dates FOR ALL
+  USING (auth.role() = 'authenticated');
+
+-- Trigger voor updated_at
+CREATE TRIGGER update_blocked_dates_updated_at BEFORE UPDATE ON blocked_dates
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================
 -- KLAAR! 🎉
 -- ============================================
 -- Volgende stappen:
