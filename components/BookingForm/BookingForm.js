@@ -240,13 +240,13 @@ export default function BookingForm() {
     const arrival = new Date(formData.arrivalDate);
     const departure = new Date(formData.departureDate);
     const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
-    
+
     try {
       const minNightsResponse = await fetch(
         `/api/minimum-nights?arrivalDate=${formData.arrivalDate}`
       );
       const minNightsData = await minNightsResponse.json();
-      
+
       if (minNightsResponse.ok && minNightsData.minimumNights) {
         const requiredMinNights = minNightsData.minimumNights;
         if (diffDays < requiredMinNights) {

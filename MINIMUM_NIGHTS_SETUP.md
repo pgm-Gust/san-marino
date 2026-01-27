@@ -26,12 +26,14 @@ Voer de SQL uit in je Supabase SQL Editor:
 ### Voorbeelden
 
 **Zomervakantie (7 nachten minimum):**
+
 - Start: 01-07-2026
 - Eind: 31-08-2026
 - Min nachten: 7
 - Reden: Zomervakantie
 
 **Weekend regeling (2 nachten minimum):**
+
 - Start: 01-01-2026
 - Eind: 30-06-2026
 - Min nachten: 2
@@ -40,16 +42,20 @@ Voer de SQL uit in je Supabase SQL Editor:
 ## 📊 Hoe het werkt
 
 ### Frontend (BookingForm)
+
 - Controleert automatisch het minimum aantal nachten voor de gekozen aankomstdatum
 - Toont foutmelding als te weinig nachten worden geboekt
 - Blokkeert verzenden van het formulier
 
 ### Backend (API)
+
 - `/api/minimum-nights` - CRUD operaties voor regels
 - Query parameter `?arrivalDate=2026-07-15&apartmentId=1` geeft minimum voor die datum
 
 ### Database
+
 De `minimum_nights` tabel slaat op:
+
 - `apartment_id` - Voor welk appartement
 - `start_date` - Begin van de periode
 - `end_date` - Eind van de periode
@@ -61,6 +67,7 @@ De `minimum_nights` tabel slaat op:
 Als meerdere regels van toepassing zijn, geldt de **hoogste** waarde.
 
 Bijvoorbeeld:
+
 - Regel 1: 01-06 t/m 31-08, min 3 nachten
 - Regel 2: 01-07 t/m 15-07, min 7 nachten
 

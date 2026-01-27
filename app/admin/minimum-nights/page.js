@@ -116,10 +116,7 @@ export default function MinimumNightsPage() {
       </div>
 
       <div className="action-bar">
-        <button
-          className="btn-primary"
-          onClick={() => setShowForm(!showForm)}
-        >
+        <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
           {showForm ? "Annuleren" : "+ Nieuwe Regel"}
         </button>
       </div>
@@ -168,7 +165,10 @@ export default function MinimumNightsPage() {
                 id="minNights"
                 value={formData.minNights}
                 onChange={(e) =>
-                  setFormData({ ...formData, minNights: parseInt(e.target.value) })
+                  setFormData({
+                    ...formData,
+                    minNights: parseInt(e.target.value),
+                  })
                 }
                 min="1"
                 required
@@ -228,7 +228,10 @@ export default function MinimumNightsPage() {
                   <td>
                     {formatDate(rule.start_date)} - {formatDate(rule.end_date)}
                   </td>
-                  <td className="nights-count">{rule.min_nights} {rule.min_nights === 1 ? 'nacht' : 'nachten'}</td>
+                  <td className="nights-count">
+                    {rule.min_nights}{" "}
+                    {rule.min_nights === 1 ? "nacht" : "nachten"}
+                  </td>
                   <td>{rule.reason || "-"}</td>
                   <td>
                     <button
@@ -248,7 +251,9 @@ export default function MinimumNightsPage() {
       <div className="info-box">
         <h3>💡 Hoe werkt het?</h3>
         <ul>
-          <li>Stel per periode in hoeveel nachten minimaal geboekt moeten worden</li>
+          <li>
+            Stel per periode in hoeveel nachten minimaal geboekt moeten worden
+          </li>
           <li>Bijvoorbeeld: 7 nachten in de zomer, 2 nachten in de winter</li>
           <li>Periodes mogen overlappen - de hoogste waarde heeft voorrang</li>
           <li>Zonder regel is het standaard minimum 1 nacht</li>

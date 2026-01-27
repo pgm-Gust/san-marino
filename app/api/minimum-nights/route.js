@@ -22,7 +22,11 @@ export async function GET(request) {
       return NextResponse.json({ minNight });
     }
 
-    const minimumNights = await fetchMinimumNights(apartmentId, startDate, endDate);
+    const minimumNights = await fetchMinimumNights(
+      apartmentId,
+      startDate,
+      endDate
+    );
     return NextResponse.json({ minimumNights });
   } catch (error) {
     console.error("Error fetching minimum nights:", error);
@@ -41,7 +45,9 @@ export async function POST(request) {
 
     if (!apartmentId || !startDate || !endDate || !minNights) {
       return NextResponse.json(
-        { error: "apartmentId, startDate, endDate en minNights zijn verplicht" },
+        {
+          error: "apartmentId, startDate, endDate en minNights zijn verplicht",
+        },
         { status: 400 }
       );
     }
@@ -53,7 +59,13 @@ export async function POST(request) {
       );
     }
 
-    const minNight = await addMinimumNight(apartmentId, startDate, endDate, minNights, reason);
+    const minNight = await addMinimumNight(
+      apartmentId,
+      startDate,
+      endDate,
+      minNights,
+      reason
+    );
     return NextResponse.json({ minNight }, { status: 201 });
   } catch (error) {
     console.error("Error adding minimum night:", error);
@@ -71,10 +83,7 @@ export async function DELETE(request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is verplicht" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is verplicht" }, { status: 400 });
     }
 
     await deleteMinimumNight(id);
@@ -95,10 +104,7 @@ export async function PATCH(request) {
     const { id, ...updates } = body;
 
     if (!id) {
-      return NextResponse.json(
-        { error: "ID is verplicht" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "ID is verplicht" }, { status: 400 });
     }
 
     const minNight = await updateMinimumNight(id, updates);
