@@ -145,6 +145,7 @@ export default function AdminDashboard() {
           </Link>
 
           <Link href="/admin/minimum-nights" className="action-card">
+            {/* <FaMoon className="card-icon" /> */}
             <h3>Minimum nachten</h3>
             <p>Stel minimum verblijfsduur in per periode</p>
           </Link>
