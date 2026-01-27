@@ -47,6 +47,10 @@ export default function BookingForm() {
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [agreedTerms, setAgreedTerms] = useState(false);
+
+  // Constanten voor extra kosten
+  const CLEANING_FEE = 80;
+  const DEPOSIT = 250;
   const searchParams =
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search)
@@ -97,7 +101,9 @@ export default function BookingForm() {
           pricePerNight
         );
         setNightlyPrices(prices);
-        const newTotal = prices.reduce((sum, p) => sum + p, 0);
+        const nightsTotal = prices.reduce((sum, p) => sum + p, 0);
+        // Totaal = nachten + eindschoonmaak
+        const newTotal = nightsTotal + CLEANING_FEE;
         setTotalPrice(newTotal);
         setNights(diffDays);
         // Toon gemiddelde prijs per nacht
@@ -108,7 +114,8 @@ export default function BookingForm() {
         }
       } catch (e) {
         setNightlyPrices([]);
-        setTotalPrice(diffDays * pricePerNight);
+        const nightsTotal = diffDays * pricePerNight;
+        setTotalPrice(nightsTotal + CLEANING_FEE);
         setNights(diffDays);
       }
     }
@@ -229,28 +236,32 @@ export default function BookingForm() {
       return;
     }
 
-    // Minimaal aantal nachten per periode
+    // Minimaal aantal nachten ophalen uit Supabase
     const arrival = new Date(formData.arrivalDate);
     const departure = new Date(formData.departureDate);
     const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
-    const month = arrival.getMonth() + 1; // 1-based
-    let minNights = 2;
-    if (month === 7 || month === 8) {
-      minNights = 6;
-    }
-    // Als de boeking over meerdere maanden loopt, pak de strengste eis (hoogste minNights)
-    let m = new Date(arrival);
-    while (m < departure) {
-      const mMonth = m.getMonth() + 1;
-      if (mMonth === 7 || mMonth === 8) {
-        minNights = Math.max(minNights, 6);
+    
+    try {
+      const minNightsResponse = await fetch(
+        `/api/minimum-nights?arrivalDate=${formData.arrivalDate}`
+      );
+      const minNightsData = await minNightsResponse.json();
+      
+      if (minNightsResponse.ok && minNightsData.minimumNights) {
+        const requiredMinNights = minNightsData.minimumNights;
+        if (diffDays < requiredMinNights) {
+          setError(
+            `Voor deze aankomstdatum moet je minimaal ${requiredMinNights} ${
+              requiredMinNights === 1 ? "nacht" : "nachten"
+            } boeken.`
+          );
+          setIsSubmitting(false);
+          return;
+        }
       }
-      m.setDate(m.getDate() + 1);
-    }
-    if (diffDays < minNights) {
-      setError(`In deze periode moet je minimaal ${minNights} nachten boeken.`);
-      setIsSubmitting(false);
-      return;
+    } catch (err) {
+      console.error("Fout bij ophalen minimum nachten:", err);
+      // Continue met booking als de check faalt
     }
 
     try {
@@ -404,18 +415,39 @@ export default function BookingForm() {
         </div>
 
         <div className="price-summary">
-          <div className="price-item">
-            <span>Prijs per nacht</span>
-            <output>€{pricePerNight.toLocaleString("nl-NL")}</output>
-          </div>
-          <div className="price-item">
-            <span>Aantal nachten</span>
-            <output>{nights}</output>
-          </div>
-          <div className="price-item total">
-            <span>Totaalprijs</span>
-            <output>€{totalPrice.toLocaleString("nl-NL")}</output>
-          </div>
+          {nights > 0 && (
+            <>
+              <div className="price-item">
+                <span>
+                  Totaal nachten ({nights} {nights === 1 ? "nacht" : "nachten"})
+                </span>
+                <output>
+                  €{(totalPrice - CLEANING_FEE).toLocaleString("nl-NL")}
+                </output>
+              </div>
+              <div className="price-item">
+                <span>Eindschoonmaak</span>
+                <output>€{CLEANING_FEE.toLocaleString("nl-NL")}</output>
+              </div>
+              <div className="price-item total">
+                <span>Totaal te betalen</span>
+                <output>€{totalPrice.toLocaleString("nl-NL")}</output>
+              </div>
+              <div className="price-item deposit-info">
+                <span>Waarborg (niet inbegrepen)</span>
+                <output>€{DEPOSIT.toLocaleString("nl-NL")}</output>
+              </div>
+              <p className="deposit-note">
+                * De waarborg van €{DEPOSIT} wordt apart gevraagd en
+                teruggestort na vertrek indien er geen schade is.
+              </p>
+            </>
+          )}
+          {nights === 0 && (
+            <p style={{ textAlign: "center", color: "#666", margin: 0 }}>
+              Selecteer aankomst- en vertrekdatum om de prijs te berekenen
+            </p>
+          )}
         </div>
       </section>
 

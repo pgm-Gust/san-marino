@@ -143,6 +143,11 @@ export default function AdminDashboard() {
             <h3>Datums blokkeren</h3>
             <p>Blokkeer datums handmatig via Supabase</p>
           </Link>
+
+          <Link href="/admin/minimum-nights" className="action-card">
+            <h3>Minimum nachten</h3>
+            <p>Stel minimum verblijfsduur in per periode</p>
+          </Link>
         </div>
       </main>
     </div>

@@ -250,11 +250,7 @@ export default function AvailabilityCalendar() {
         </div>
         <div className="legend-item">
           <span className="legend-color booked"></span>
-          <span>Bezet (Boeking)</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color manual-block"></span>
-          <span>Geblokkeerd (Handmatig)</span>
+          <span>Bezet</span>
         </div>
       </div>
     </div>
