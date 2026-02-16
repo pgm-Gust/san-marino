@@ -51,7 +51,7 @@ export default function TermsPage() {
             },
             {
               title: "Maximum capaciteit",
-              content: `Omwille van zowel wettelijke, brand- als verzekeringstechnische redenen mag de maximum capaciteit niet worden overschreden (max. 10 volwassenen en 2 kinderen van <3j.). De woning is tevens uitsluitend bestemd als vakantieverblijf.`
+              content: `Omwille van zowel wettelijke, brand- als verzekeringstechnische redenen mag de maximum capaciteit niet worden overschreden (max. 4 volwassenen en 2 kinderen van <3j.). De woning is tevens uitsluitend bestemd als vakantieverblijf.`
             },
             {
               title: "Huisdieren",

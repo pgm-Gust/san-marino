@@ -271,7 +271,7 @@ export default function PleinApartment() {
             <div className="grid-container rules-grid">
               <div itemProp="houseRules">
                 <FaClock />
-                <p>Check-in vanaf 16:00, check-out tot 16:00</p>
+                <p>Check-in vanaf 16:00, Uitchecken tijdens schoolvakanties tegen 10:00. Verhuur weekend tegen 16:00.</p>
               </div>
               <div itemProp="smokingAllowed" content="false">
                 <FaSmokingBan />
