@@ -1,13 +1,12 @@
 import React from "react";
 import { FaScroll } from "react-icons/fa";
-import { generateSeo } from "/config/seo.config";
 import SeoStructuredData from "@components/Seo/StructuredData";
 import "./page.scss";
 
-export const metadata = generateSeo({
+export const metadata = {
   title: "Algemene Voorwaarden",
   description: "Lees onze algemene voorwaarden voor het huren van een vakantiestudio in Middelkerke bij San Marino 4.",
-});
+};
 
 export default function TermsPage() {
   const structuredData = {

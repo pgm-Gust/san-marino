@@ -1,6 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { generateSeo } from "/config/seo.config";
 import SeoStructuredData from "@components/Seo/StructuredData";
 import DynamicApartment from "./DynamicApartment";
 import "./page.scss";
@@ -17,7 +16,7 @@ export async function generateMetadata({ params }) {
 
   if (!apartment) return {};
 
-  return generateSeo({
+  return {
     title: apartment.meta_title || `${apartment.name} | San Marino 4`,
     description: apartment.meta_description || apartment.description,
     openGraph: {
@@ -32,7 +31,7 @@ export async function generateMetadata({ params }) {
           ]
         : [],
     },
-  });
+  };
 }
 
 export default async function ApartmentPage({ params }) {

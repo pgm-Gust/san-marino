@@ -28,14 +28,13 @@ import {
 } from "react-icons/fa";
 import PleinGalleryClient from "@components/AppartmentGallery/PleinGalleryClient";
 import SmoobuWidget from "@components/SmoobuWidget/SmoobuWidget";
-import { generateSeo } from "/config/seo.config";
 import SeoStructuredData from "@components/Seo/StructuredData";
 import "./page.scss";
 import Image from "next/image";
 import AvailabilityCalendar from "@components/AvailabilityCalendar/AvailabilityCalendar";
 import Link from "next/link";
 
-export const metadata = generateSeo({
+export const metadata = {
   title: "Luxe studio aan Zee Middelkerke | San Marino 4 studio",
   description:
     "Direct aan het plein in Middelkerke - Moderne studio voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte vakantie!",
@@ -49,7 +48,7 @@ export const metadata = generateSeo({
       },
     ],
   },
-});
+};
 
 export default function PleinApartment() {
   const structuredData = {
