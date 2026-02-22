@@ -1,4 +1,4 @@
-import { generateSeo } from "../config/seo.config";
+// import { generateSeo } from "../config/seo.config";
 import "@styles/globals.css";
 import Navbar from "@components/NavBar/Navbar";
 import Footer from "@components/Footer/Footer";
