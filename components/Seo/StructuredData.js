@@ -6,7 +6,7 @@ const SeoStructuredData = ({ type = "VacationRental", data }) => {
     identifier: "san-marino-4-middelkerke",
     name: "San Marino 4",
     description:
-      "Luxe vakantiestudio in Middelkerke met zeezicht, geschikt voor 4 personen. Moderne inrichting met wifi, volledig uitgeruste keuken en parking.",
+      "Luxe vakantiestudio in Middelkerke met zeezicht, geschikt voor 4 personen. Moderne inrichting met wifi, volledig uitgeruste keuken. Boek nu uw perfecte strandvakantie!",
     image: [
       "https://www.sanmarino4.be/logo.png",
       "https://www.sanmarino4.be/og-home.jpg",
@@ -42,7 +42,7 @@ const SeoStructuredData = ({ type = "VacationRental", data }) => {
         "@type": "Accommodation",
         "@id": "https://www.sanmarino4.be/appartement/plein",
         name: "Studio Plein",
-        description: "Luxe vakantiestudio met zeezicht voor 4 personen",
+        description: "Luxe vakantiestudio met zeezicht.",
         numberOfRooms: 1,
         occupancy: {
           "@type": "QuantitativeValue",
