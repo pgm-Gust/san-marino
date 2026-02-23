@@ -3,8 +3,8 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/private/", "/admin/"],
+      disallow: ["/private/", "/admin/", "/api/"],
     },
-    sitemap: "https://sanmarino4.be/sitemap.xml",
+    sitemap: "https://www.sanmarino4.be/sitemap.xml",
   };
 }
