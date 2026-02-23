@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = "https://sanmarino4.be";
+  const baseUrl = "https://www.sanmarino4.be";
   const currentDate = new Date();
 
   return [
