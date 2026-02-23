@@ -59,18 +59,34 @@ const HomePageClientWrapper = () => {
         <main>
           <SeoStructuredData
             data={{
-              "numberOfRooms": 1,
-              "occupancy": {
+              numberOfRooms: 1,
+              occupancy: {
                 "@type": "QuantitativeValue",
-                "value": 4
+                value: 4,
               },
-              "amenityFeature": [
-                {"@type": "LocationFeatureSpecification", "name": "Wifi", "value": true},
-                {"@type": "LocationFeatureSpecification", "name": "Zeezicht", "value": true},
-                {"@type": "LocationFeatureSpecification", "name": "Strandaccess", "value": true},
-                {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true}
+              amenityFeature: [
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Wifi",
+                  value: true,
+                },
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Zeezicht",
+                  value: true,
+                },
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Strandaccess",
+                  value: true,
+                },
+                {
+                  "@type": "LocationFeatureSpecification",
+                  name: "Parking",
+                  value: true,
+                },
               ],
-              "petsAllowed": false
+              petsAllowed: false,
             }}
           />
 
@@ -105,10 +121,8 @@ const HomePageClientWrapper = () => {
           <section className="appartment-container container">
             <h2>Moderne vakantiestudio met zeezicht in Middelkerke</h2>
             <p>
-              Geniet van een prachtig verblijf in{" "}
-              <strong>Middelkerke</strong>
-              {" "}voor <strong>4 personen</strong>. Perfecte
-              adres voor uw
+              Geniet van een prachtig verblijf in <strong>Middelkerke</strong>{" "}
+              voor <strong>4 personen</strong>. Perfecte adres voor uw
               <strong> vakantie aan de Belgische Kust</strong> met exclusief{" "}
               <strong>zicht</strong> op strand en zee
             </p>
@@ -121,9 +135,7 @@ const HomePageClientWrapper = () => {
 
           <SpecialFeatures />
 
-          <HeroImage
-            altText="Uitzicht op de Noordzee vanaf het appartement"
-          />
+          <HeroImage altText="Uitzicht op de Noordzee vanaf het appartement" />
 
           <Contact />
         </main>
