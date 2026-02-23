@@ -56,23 +56,25 @@ const HomePageClientWrapper = () => {
 
       {/* Render de hoofdinhoud alleen als het laadscherm verborgen is */}
       {!showLoadingScreen && (
-        <main itemScope itemType="https://schema.org/VacationRental">
+        <main>
           <SeoStructuredData
             data={{
-              geo: {
-                latitude: 51.1852,
-                longitude: 2.8217,
+              "numberOfRooms": 1,
+              "occupancy": {
+                "@type": "QuantitativeValue",
+                "value": 4
               },
-              priceRange: "€€",
-              amenities: ["Wifi", "Zeezicht", "Strandaccess", "Parking"],
+              "amenityFeature": [
+                {"@type": "LocationFeatureSpecification", "name": "Wifi", "value": true},
+                {"@type": "LocationFeatureSpecification", "name": "Zeezicht", "value": true},
+                {"@type": "LocationFeatureSpecification", "name": "Strandaccess", "value": true},
+                {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true}
+              ],
+              "petsAllowed": false
             }}
           />
 
-          <section
-            className="home-container"
-            itemScope
-            itemType="http://schema.org/Place"
-          >
+          <section className="home-container">
             <div className="overlay" style={{ position: "relative" }}>
               {/* NextWeekend linksboven in de hero banner */}
               <div
@@ -86,7 +88,7 @@ const HomePageClientWrapper = () => {
               >
                 <NextWeekend className="subtle-nextweekend" />
               </div>
-              <h1 itemProp="name">
+              <h1>
                 <span>Uw volgend verblijf in Middelkerke</span>
                 <span className="white">San Marino 4</span>
               </h1>
@@ -94,23 +96,18 @@ const HomePageClientWrapper = () => {
                 href="/appartement/plein"
                 className="button"
                 aria-label="Bekijk beschikbaarheid van onze vakantiestudio"
-                itemProp="url"
               >
                 Boek nu
               </a>
             </div>
           </section>
 
-          <section
-            className="appartment-container container"
-            itemScope
-            itemType="http://schema.org/Accommodation"
-          >
+          <section className="appartment-container container">
             <h2>Moderne vakantiestudio met zeezicht in Middelkerke</h2>
-            <p itemProp="description">
+            <p>
               Geniet van een prachtig verblijf in{" "}
-              <strong itemProp="address">Middelkerke </strong>
-              voor <strong itemProp="occupancy">4 personen</strong>. Perfecte
+              <strong>Middelkerke</strong>
+              {" "}voor <strong>4 personen</strong>. Perfecte
               adres voor uw
               <strong> vakantie aan de Belgische Kust</strong> met exclusief{" "}
               <strong>zicht</strong> op strand en zee
@@ -126,7 +123,6 @@ const HomePageClientWrapper = () => {
 
           <HeroImage
             altText="Uitzicht op de Noordzee vanaf het appartement"
-            itemProp="image"
           />
 
           <Contact />
