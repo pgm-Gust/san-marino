@@ -37,6 +37,19 @@ const SeoStructuredData = ({ type = "VacationRental", data }) => {
         addressCountry: "BE",
       },
     },
+    containsPlace: [
+      {
+        "@type": "Accommodation",
+        "@id": "https://www.sanmarino4.be/appartement/plein",
+        name: "Studio Plein",
+        description: "Luxe vakantiestudio met zeezicht voor 4 personen",
+        numberOfRooms: 1,
+        occupancy: {
+          "@type": "QuantitativeValue",
+          value: 4,
+        },
+      },
+    ],
   };
 
   return (
