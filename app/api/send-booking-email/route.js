@@ -1,30 +1,19 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 export async function POST(request) {
   try {
     const bookingData = await request.json();
 
-    if (
-      !process.env.SMTP_HOST ||
-      !process.env.SMTP_USER ||
-      !process.env.SMTP_PASSWORD
-    ) {
+    if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
-        { error: "Missing SMTP configuration on server" },
+        { error: "Missing RESEND_API_KEY configuration on server" },
         { status: 500 }
       );
     }
-    // Create a transporter using SMTP
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@sanmarino4.be";
 
     // Format dates
     const arrivalDate = new Date(bookingData.arrivalDate).toLocaleDateString(
@@ -92,161 +81,168 @@ export async function POST(request) {
     `;
 
     // HTML-template voor de klant
-    const htmlContent = `
-      <div style="font-family: Arial, sans-serif; background: #f6f8fa; padding: 32px;">
-        <div style="max-width: 520px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden;">
-          <div style="background: linear-gradient(90deg, #1976d2, #26c6da); padding: 32px 24px 20px 24px; text-align: center;">
-            <img src="https://www.sanmarino4.be/logo.png" alt="San Marino" style="height: 48px; margin-bottom: 12px;" />
-            <h1 style="color: #fff; margin: 0; font-size: 2rem;">Bedankt voor je boeking!</h1>
-          </div>
-          <div style="padding: 28px 24px 24px 24px;">
-            <p style="font-size: 1.1rem; color: #1976d2; margin-bottom: 18px;">
-              Beste <b>${bookingData.firstName} ${bookingData.lastName}</b>,<br>
-              We hebben je boeking goed ontvangen. Wij nemen zo snel mogelijk contact met u op. Hieronder vind je een overzicht van je reservering:
+    const htmlContent = `<!DOCTYPE html>
+<html lang="nl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#1565c0,#0288d1);padding:40px 32px;text-align:center;">
+            <img src="https://www.sanmarino4.be/logo.png" alt="San Marino 4" style="height:56px;margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;" />
+            <h1 style="color:#ffffff;margin:0;font-size:26px;font-weight:700;letter-spacing:-0.5px;">Bedankt voor je reservering!</h1>
+            <p style="color:rgba(255,255,255,0.85);margin:8px 0 0;font-size:15px;">We kijken ernaar uit u te verwelkomen</p>
+          </td>
+        </tr>
+
+        <!-- Intro -->
+        <tr>
+          <td style="padding:32px 32px 0;">
+            <p style="margin:0;font-size:16px;color:#37474f;line-height:1.6;">
+              Beste <strong style="color:#1565c0;">${bookingData.firstName} ${
+      bookingData.lastName
+    }</strong>,
             </p>
-            <table style="width: 100%; font-size: 1rem; margin-bottom: 18px;">
-              <tr>
-                <td><b>Aankomst</b></td>
-                <td>${arrivalDate}</td>
+            <p style="margin:12px 0 0;font-size:15px;color:#546e7a;line-height:1.7;">
+              We hebben uw boeking goed ontvangen en nemen zo snel mogelijk contact met u op. Hieronder vindt u een overzicht van uw reservering.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Verblijfsgegevens -->
+        <tr>
+          <td style="padding:24px 32px 0;">
+            <h2 style="margin:0 0 16px;font-size:14px;font-weight:700;color:#90a4ae;text-transform:uppercase;letter-spacing:1px;">Verblijfsgegevens</h2>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden;border:1px solid #e3eaf0;">
+              <tr style="background:#f8fafc;">
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;width:50%;border-bottom:1px solid #e3eaf0;">📅 Aankomst</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${arrivalDate} om ${
+      bookingData.arrivalTime
+    }</td>
               </tr>
               <tr>
-                <td><b>Vertrek</b></td>
-                <td>${departureDate}</td>
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">🏠 Vertrek</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${departureDate} om ${
+      bookingData.departureTime
+    }</td>
+              </tr>
+              <tr style="background:#f8fafc;">
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">🌙 Aantal nachten</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${nights} nachten</td>
               </tr>
               <tr>
-                <td><b>Aantal nachten</b></td>
-                <td>${nights}</td>
-              </tr>
-              <tr>
-                <td><b>Personen</b></td>
-                <td>${bookingData.adults} volwassenen${
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;">👥 Personen</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;">${
+                  bookingData.adults
+                } volwassenen${
       bookingData.children > 0 ? ` + ${bookingData.children} kinderen` : ""
     }</td>
               </tr>
             </table>
-            <div style="margin-bottom: 18px;">
-              <b>Adres:</b><br>
-              ${bookingData.address.street}, ${
-      bookingData.address.postalCode
-    } ${bookingData.address.location}, ${bookingData.address.country}
-            </div>
-            <div style="margin-bottom: 18px;">
-              <b>Prijs:</b><br>
-              €${bookingData.pricePerNight} per nacht<br>
-              <b>Totaal:</b> <span style="color: #1976d2;">€${
-                bookingData.totalPrice
-              }</span>
-            </div>
-            <div style="margin-bottom: 18px;">
-              <b>Opmerking:</b><br>
-              ${bookingData.notice || "Geen extra informatie"}
-            </div>
-            <div style="margin: 24px 0 0 0; font-size: 0.95rem; color: #888;">
-              Je ontvangt binnenkort meer informatie over de betaling en praktische details.<br>
-              <br>
-              Met vriendelijke groeten,<br>
-              <b>San Marino Team</b>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+          </td>
+        </tr>
 
-    // Send email to business (primary recipient, BCC for second address)
-    if (process.env.SENDGRID_API_KEY) {
-      // Use SendGrid API when available (better for hosted platforms that block SMTP)
-      try {
-        const sgKey = process.env.SENDGRID_API_KEY;
-        const fromEmail = process.env.SMTP_FROM_EMAIL || 'no-reply@sanmarino4.be';
+        <!-- Prijsoverzicht -->
+        <tr>
+          <td style="padding:24px 32px 0;">
+            <h2 style="margin:0 0 16px;font-size:14px;font-weight:700;color:#90a4ae;text-transform:uppercase;letter-spacing:1px;">Prijsoverzicht</h2>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden;border:1px solid #e3eaf0;">
+              <tr style="background:#f8fafc;">
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Prijs per nacht</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€${
+                  bookingData.pricePerNight
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Eindschoonmaak</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€80</td>
+              </tr>
+              <tr style="background:#e8f4fd;">
+                <td style="padding:16px 18px;font-size:15px;color:#1565c0;font-weight:700;">Totaal</td>
+                <td style="padding:16px 18px;font-size:18px;color:#1565c0;font-weight:700;text-align:right;">€${
+                  bookingData.totalPrice
+                }</td>
+              </tr>
+            </table>
+            <p style="margin:10px 0 0;font-size:13px;color:#90a4ae;">* Waarborg €250 (apart te betalen, wordt teruggestort na verblijf)</p>
+          </td>
+        </tr>
 
-        // Business notification (plain text)
-        const businessPayload = {
-          personalizations: [
-            {
-              to: [{ email: process.env.BOOKING_EMAIL }],
-              bcc: process.env.BOOKING_EMAIL_2 ? [{ email: process.env.BOOKING_EMAIL_2 }] : undefined,
-              subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
-            },
-          ],
-          from: { email: fromEmail },
-          content: [{ type: 'text/plain', value: emailContent }],
-        };
-
-        const businessRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${sgKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(businessPayload),
-        });
-
-        if (!businessRes.ok) {
-          const txt = await businessRes.text();
-          throw new Error(`SendGrid business send failed: ${businessRes.status} ${txt}`);
+        ${
+          bookingData.notice
+            ? `
+        <!-- Opmerking -->
+        <tr>
+          <td style="padding:24px 32px 0;">
+            <h2 style="margin:0 0 12px;font-size:14px;font-weight:700;color:#90a4ae;text-transform:uppercase;letter-spacing:1px;">Opmerking</h2>
+            <div style="background:#fff8e1;border-left:4px solid #ffc107;border-radius:6px;padding:14px 16px;font-size:14px;color:#546e7a;line-height:1.6;">
+              ${bookingData.notice}
+            </div>
+          </td>
+        </tr>`
+            : ""
         }
 
-        // Guest confirmation (html + text)
-        const guestPayload = {
-          personalizations: [{ to: [{ email: bookingData.email }] }],
-          from: { email: fromEmail },
-          subject: 'Bevestiging van je boeking',
-          content: [
-            { type: 'text/plain', value: `Beste ${bookingData.firstName} ${bookingData.lastName},\n\n${emailContent}` },
-            { type: 'text/html', value: htmlContent },
-          ],
-        };
+        <!-- Info box -->
+        <tr>
+          <td style="padding:24px 32px 0;">
+            <div style="background:#e8f5e9;border-radius:10px;padding:18px 20px;text-align:center;">
+              <p style="margin:0;font-size:14px;color:#2e7d32;line-height:1.7;">
+                ✅ U ontvangt binnenkort meer informatie over de <strong>betaling en praktische details</strong>.<br>
+              </p>
+            </div>
+          </td>
+        </tr>
 
-        const guestRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${sgKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(guestPayload),
-        });
+        <!-- Footer -->
+        <tr>
+          <td style="padding:32px;text-align:center;border-top:1px solid #e3eaf0;margin-top:24px;">
+            <p style="margin:0;font-size:14px;color:#90a4ae;">Met vriendelijke groeten,</p>
+            <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#1565c0;">San Marino 4</p>
+            <p style="margin:4px 0 0;font-size:13px;color:#b0bec5;">Parijsstraat 28, 8430 Middelkerke</p>
+            <a href="https://www.sanmarino4.be" style="display:inline-block;margin-top:12px;font-size:13px;color:#0288d1;text-decoration:none;">www.sanmarino4.be</a>
+          </td>
+        </tr>
 
-        if (!guestRes.ok) {
-          const txt = await guestRes.text();
-          throw new Error(`SendGrid guest send failed: ${guestRes.status} ${txt}`);
-        }
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
 
-      } catch (err) {
-        console.error('SendGrid send error:', err);
-        return NextResponse.json(
-          { error: 'Er ging iets mis bij het versturen via SendGrid', details: err.message },
-          { status: 500 }
-        );
-      }
-    } else {
-      // Fallback to SMTP (nodemailer)
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM_EMAIL,
-        to: process.env.BOOKING_EMAIL,
-        bcc: process.env.BOOKING_EMAIL_2 || undefined,
-        subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
-        text: emailContent,
-      });
+    // Stuur mail naar eigenaar
+    const { error: businessError } = await resend.emails.send({
+      from: fromEmail,
+      to: [process.env.BOOKING_EMAIL],
+      bcc: process.env.BOOKING_EMAIL_2
+        ? [process.env.BOOKING_EMAIL_2]
+        : undefined,
+      subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
+      text: emailContent,
+    });
 
-      // Send confirmation email to the guest
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM_EMAIL,
-        to: bookingData.email,
-        subject: 'Bevestiging van je boeking',
-        text: `
-        Beste ${bookingData.firstName} ${bookingData.lastName},
+    if (businessError) {
+      throw new Error(
+        `Resend business send failed: ${JSON.stringify(businessError)}`
+      );
+    }
 
-        Bedankt voor je boeking! Hier zijn je boekingsgegevens:
+    // Stuur bevestigingsmail naar gast
+    const { error: guestError } = await resend.emails.send({
+      from: fromEmail,
+      to: [bookingData.email],
+      subject: "Bevestiging van je boeking - San Marino 4",
+      html: htmlContent,
+      text: `Beste ${bookingData.firstName} ${bookingData.lastName},\n\n${emailContent}`,
+    });
 
-        ${emailContent}
-
-        Je ontvangt binnenkort meer informatie over de betaling en praktische details.
-
-        Met vriendelijke groeten,
-        Het San Marino team
-      `,
-        html: htmlContent,
-      });
+    if (guestError) {
+      throw new Error(
+        `Resend guest send failed: ${JSON.stringify(guestError)}`
+      );
     }
 
     return NextResponse.json({ success: true });
