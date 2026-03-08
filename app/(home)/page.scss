@@ -105,7 +105,8 @@
 
       &:hover {
         transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25),
+        box-shadow:
+          0 8px 30px rgba(0, 0, 0, 0.25),
           0 0 0 2px rgba(255, 255, 255, 0.3) inset;
 
         &::before {
@@ -126,49 +127,59 @@
   }
 
   @media (max-width: 768px) {
-    height: 70vh;
+    height: 92vh;
+    height: 92svh;
+    min-height: 540px;
 
     .overlay {
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
       background-position: center 30%;
       justify-content: center;
+      align-items: center;
 
-      h2 {
-        font-size: 2.2rem;
-        padding: 1rem 1.5rem;
+      h1 {
+        font-size: 2.1rem;
+        padding: 1.1rem 1.4rem;
         margin-bottom: 1.2rem;
         margin-top: 0;
+        text-align: center;
+        backdrop-filter: blur(18px) saturate(120%);
 
         span:first-child {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
           margin-bottom: 0.3rem;
         }
       }
 
       .button {
-        padding: 0.7rem 2rem;
+        padding: 0.75rem 2.2rem;
         font-size: 1.1rem;
       }
     }
   }
 
   @media (max-width: 480px) {
-    height: 60vh;
+    height: 92vh;
+    height: 92svh;
     min-height: 500px;
 
     .overlay {
-      padding: 1rem;
+      padding: 1.5rem 1rem;
       background-position: center 35%;
       justify-content: center;
+      align-items: center;
 
-      h2 {
-        font-size: 1.8rem;
-        padding: 0.8rem 1rem;
-        margin: 0 0 1rem 0;
+      h1 {
+        font-size: 1.75rem;
+        padding: 0.9rem 1.1rem;
+        margin: 0 0 1.1rem 0;
+        text-align: center;
+        backdrop-filter: blur(18px) saturate(120%);
 
         span:first-child {
-          font-size: 1.1rem;
+          font-size: 1.05rem;
           letter-spacing: 0.1em;
+          margin-bottom: 0.25rem;
         }
 
         .white::after {
@@ -178,7 +189,7 @@
       }
 
       .button {
-        padding: 0.6rem 1.8rem;
+        padding: 0.7rem 1.8rem;
         font-size: 1rem;
       }
     }
