@@ -3,9 +3,9 @@ import HomePageClientWrapper from "@components/HomePageClientWrapper/HomePageCli
 import "./page.scss";
 
 export const metadata = {
-  title: "Luxe vakantiestudio aan Zee in Middelkerke",
+  title: "Luxe vakantiestudio aan zee in Middelkerke",
   description:
-    "Direct aan de dijk in Middelkerke - Moderne appartementen voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte strandvakantie!",
+    "Een modern appartement voor 4 personen met prachtig zeezicht, direct aan de dijk in Middelkerke. Boek nu en beleef de perfecte vakantie!",
   openGraph: {
     images: [{ url: "/og-home.jpg" }],
   },
