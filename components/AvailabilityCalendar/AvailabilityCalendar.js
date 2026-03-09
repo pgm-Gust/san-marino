@@ -140,6 +140,9 @@ export default function AvailabilityCalendar() {
         currentDate.getMonth(),
         day
       );
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const isToday = date.getTime() === today.getTime();
       const bookingInfo = getDateBookingInfo(date);
       // Zoek prijs voor deze dag
       const dateStr = date.toISOString().slice(0, 10);
@@ -157,7 +160,7 @@ export default function AvailabilityCalendar() {
                   bookingInfo.source === "Manual" ? "manual-block" : ""
                 }`
               : "available"
-          }`}
+          } ${isToday ? "today" : ""}`}
           title={
             bookingInfo.isBooked && bookingInfo.summary
               ? bookingInfo.summary
@@ -175,10 +178,7 @@ export default function AvailabilityCalendar() {
               : "Beschikbaar"}
           </span>
           {prijs !== null && !bookingInfo.isBooked && !bookingInfo.isPast && (
-            <span
-              className="price"
-              style={{ display: "block", fontSize: "0.9em", color: "#007bff" }}
-            >
+            <span className="price">
               €{prijs}
             </span>
           )}

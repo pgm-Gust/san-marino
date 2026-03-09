@@ -16,6 +16,20 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.scss";
 
 export default function BookingForm() {
+  const parseLocalDate = (dateStr) => {
+    if (!dateStr) return null;
+    const [year, month, day] = dateStr.split("-").map(Number);
+    if (!year || !month || !day) return null;
+    return new Date(year, month - 1, day);
+  };
+
+  const formatLocalDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const router = useRouter();
   const [formData, setFormData] = useState({
     arrivalDate: "",
@@ -65,12 +79,12 @@ export default function BookingForm() {
         const a = searchParams.get("arrivalDate");
         const d = searchParams.get("departureDate");
         if (a) {
-          const ad = new Date(a);
+          const ad = parseLocalDate(a);
           setArrivalDate(ad);
           setFormData((prev) => ({ ...prev, arrivalDate: a }));
         }
         if (d) {
-          const dd = new Date(d);
+          const dd = parseLocalDate(d);
           setDepartureDate(dd);
           setFormData((prev) => ({ ...prev, departureDate: d }));
         }
@@ -82,10 +96,10 @@ export default function BookingForm() {
     async function calculateNightsAndPrice() {
       if (!formData.arrivalDate || !formData.departureDate) return;
 
-      const arrival = new Date(formData.arrivalDate);
-      const departure = new Date(formData.departureDate);
+      const arrival = parseLocalDate(formData.arrivalDate);
+      const departure = parseLocalDate(formData.departureDate);
 
-      if (departure <= arrival) {
+      if (!arrival || !departure || departure <= arrival) {
         setNights(0);
         setTotalPrice(0);
         setNightlyPrices([]);
@@ -132,8 +146,9 @@ export default function BookingForm() {
         if (data.events) {
           setBookedRanges(
             data.events.map((e) => ({
-              start: e.start.split("T")[0],
-              end: e.end.split("T")[0],
+              // Converteer server timestamps naar lokale kalenderdatums
+              start: formatLocalDate(new Date(e.start)),
+              end: formatLocalDate(new Date(e.end)),
             })),
           );
         }
@@ -172,8 +187,9 @@ export default function BookingForm() {
   // Helper: array van alle bezette dagen
   const bookedDates = bookedRanges.flatMap((range) => {
     const dates = [];
-    let current = new Date(range.start);
-    const end = new Date(range.end);
+    let current = parseLocalDate(range.start);
+    const end = parseLocalDate(range.end);
+    if (!current || !end) return dates;
     while (current < end) {
       dates.push(new Date(current));
       current.setDate(current.getDate() + 1);
@@ -183,16 +199,36 @@ export default function BookingForm() {
 
   // Helper: check of een datum bezet is
   function isDateBooked(dateStr) {
-    return bookedDates.some((d) => d.toISOString().split("T")[0] === dateStr);
+    return bookedDates.some((d) => formatLocalDate(d) === dateStr);
+  }
+
+  function getDayClassName(date) {
+    const dateStr = formatLocalDate(date);
+    return isDateBooked(dateStr) ? "booking-day-booked" : "";
+  }
+
+  function getDepartureDayClassName(date) {
+    const dateStr = formatLocalDate(date);
+    const maxDepartureStr = maxDepartureDate
+      ? formatLocalDate(maxDepartureDate)
+      : null;
+
+    // In vertrek-kalender moet de toegelaten checkout-grens niet rood tonen.
+    if (maxDepartureStr && dateStr === maxDepartureStr) {
+      return "";
+    }
+
+    return isDateBooked(dateStr) ? "booking-day-booked" : "";
   }
 
   // Helper: check of een heel bereik vrij is (exclusief end)
   function isRangeAvailable(start, end) {
     if (!start || !end) return false;
-    let d = new Date(start);
-    const endDate = new Date(end);
+    let d = parseLocalDate(start);
+    const endDate = parseLocalDate(end);
+    if (!d || !endDate) return false;
     while (d < endDate) {
-      if (isDateBooked(d.toISOString().split("T")[0])) return false;
+      if (isDateBooked(formatLocalDate(d))) return false;
       d.setDate(d.getDate() + 1);
     }
     return true;
@@ -206,13 +242,13 @@ export default function BookingForm() {
     return sorted.length > 0 ? sorted[0] : null;
   }
 
-  // Bepaal de max vertrekdatum: de dag vóór de eerstvolgende bezette dag na aankomst
+  // Bepaal de max vertrekdatum: de eerstvolgende bezette dag na aankomst
+  // (vertrek op die dag is toegestaan als checkout)
   let maxDepartureDate = null;
   if (arrivalDate) {
     const nextBooked = getNextBookedDate(arrivalDate);
     if (nextBooked) {
       maxDepartureDate = new Date(nextBooked.getTime());
-      maxDepartureDate.setDate(maxDepartureDate.getDate()); // vertrek mag niet op de bezette dag vallen
     }
   }
 
@@ -221,7 +257,7 @@ export default function BookingForm() {
   if (arrivalDate) {
     const minDep = new Date(arrivalDate);
     minDep.setDate(minDep.getDate() + requiredMinNights);
-    if (!maxDepartureDate || minDep < maxDepartureDate) {
+    if (!maxDepartureDate || minDep <= maxDepartureDate) {
       hasValidDeparture = true;
     }
   }
@@ -260,15 +296,18 @@ export default function BookingForm() {
       return;
     }
 
-    if (new Date(formData.departureDate) <= new Date(formData.arrivalDate)) {
+    const arrivalDateObj = parseLocalDate(formData.arrivalDate);
+    const departureDateObj = parseLocalDate(formData.departureDate);
+
+    if (!arrivalDateObj || !departureDateObj || departureDateObj <= arrivalDateObj) {
       setError("Vertrekdatum moet na aankomstdatum liggen");
       setIsSubmitting(false);
       return;
     }
 
     // Minimaal aantal nachten ophalen uit Supabase
-    const arrival = new Date(formData.arrivalDate);
-    const departure = new Date(formData.departureDate);
+    const arrival = arrivalDateObj;
+    const departure = departureDateObj;
     const diffDays = Math.ceil((departure - arrival) / (1000 * 60 * 60 * 24));
 
     try {
@@ -340,7 +379,7 @@ export default function BookingForm() {
                 setArrivalDate(date);
                 setFormData((prev) => ({
                   ...prev,
-                  arrivalDate: date ? date.toISOString().split("T")[0] : "",
+                  arrivalDate: date ? formatLocalDate(date) : "",
                 }));
               }}
               excludeDates={bookedDates}
@@ -360,8 +399,10 @@ export default function BookingForm() {
               dateFormat="yyyy-MM-dd"
               placeholderText="Kies een aankomstdatum"
               className="date-picker"
+              dayClassName={getDayClassName}
               required
             />
+            <p className="date-help-text">Aankomst vanaf 16:00.</p>
           </div>
           <div className="input-group">
             <label>Vertrekdatum *</label>
@@ -371,10 +412,9 @@ export default function BookingForm() {
                 setDepartureDate(date);
                 setFormData((prev) => ({
                   ...prev,
-                  departureDate: date ? date.toISOString().split("T")[0] : "",
+                  departureDate: date ? formatLocalDate(date) : "",
                 }));
               }}
-              excludeDates={bookedDates}
               minDate={(() => {
                 if (!arrivalDate) return new Date();
                 const minDep = new Date(arrivalDate);
@@ -385,6 +425,7 @@ export default function BookingForm() {
               dateFormat="yyyy-MM-dd"
               placeholderText="Kies een vertrekdatum"
               className="date-picker"
+              dayClassName={getDepartureDayClassName}
               required
               filterDate={(date) => {
                 if (!arrivalDate) return true;
@@ -392,10 +433,11 @@ export default function BookingForm() {
                 minDep.setDate(minDep.getDate() + requiredMinNights);
                 return (
                   date >= minDep &&
-                  (!maxDepartureDate || date < maxDepartureDate)
+                  (!maxDepartureDate || date <= maxDepartureDate)
                 );
               }}
             />
+            <p className="date-help-text">Vertrek voor 10:00.</p>
             {arrivalDate && !hasValidDeparture && (
               <div
                 style={{ color: "#c62828", marginTop: 6, fontSize: "0.95rem" }}
@@ -405,6 +447,17 @@ export default function BookingForm() {
               </div>
             )}
           </div>
+        </div>
+
+        <div className="booking-calendar-legend" aria-label="Legenda kalender">
+          <span className="legend-item">
+            <span className="legend-dot legend-dot-booked" />
+            Bezet
+          </span>
+          <span className="legend-item">
+            <span className="legend-dot legend-dot-available" />
+            Beschikbaar
+          </span>
         </div>
 
         <div className="price-summary">
