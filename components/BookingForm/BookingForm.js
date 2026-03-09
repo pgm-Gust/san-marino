@@ -99,7 +99,7 @@ export default function BookingForm() {
         const prices = await getBookingPrices(
           formData.arrivalDate,
           formData.departureDate,
-          pricePerNight
+          pricePerNight,
         );
         setNightlyPrices(prices);
         const nightsTotal = prices.reduce((sum, p) => sum + p, 0);
@@ -110,7 +110,7 @@ export default function BookingForm() {
         // Toon gemiddelde prijs per nacht
         if (prices.length > 0) {
           setPricePerNight(
-            Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
+            Math.round(prices.reduce((a, b) => a + b, 0) / prices.length),
           );
         }
       } catch (e) {
@@ -134,7 +134,7 @@ export default function BookingForm() {
             data.events.map((e) => ({
               start: e.start.split("T")[0],
               end: e.end.split("T")[0],
-            }))
+            })),
           );
         }
       });
@@ -149,13 +149,15 @@ export default function BookingForm() {
 
     let mounted = true;
 
-    fetch(`/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`)
+    fetch(
+      `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`,
+    )
       .then((res) => res.json())
       .then((data) => {
         if (!mounted) return;
         const minNights = data?.minNight?.min_nights;
         setRequiredMinNights(
-          Number.isInteger(minNights) && minNights > 0 ? minNights : 2
+          Number.isInteger(minNights) && minNights > 0 ? minNights : 2,
         );
       })
       .catch(() => {
@@ -246,7 +248,7 @@ export default function BookingForm() {
 
     if (!agreedTerms) {
       setError(
-        "Je moet akkoord gaan met de algemene voorwaarden om te kunnen boeken."
+        "Je moet akkoord gaan met de algemene voorwaarden om te kunnen boeken.",
       );
       setIsSubmitting(false);
       return;
@@ -271,7 +273,7 @@ export default function BookingForm() {
 
     try {
       const minNightsResponse = await fetch(
-        `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`
+        `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`,
       );
       const minNightsData = await minNightsResponse.json();
 
@@ -282,7 +284,7 @@ export default function BookingForm() {
           setError(
             `Voor deze aankomstdatum moet je minimaal ${minFromSupabase} ${
               minFromSupabase === 1 ? "nacht" : "nachten"
-            } boeken.`
+            } boeken.`,
           );
           setIsSubmitting(false);
           return;
