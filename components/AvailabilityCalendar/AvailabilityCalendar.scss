@@ -12,7 +12,8 @@
   --cal-manual: #fff2df;
   --cal-manual-border: #ffd39a;
 
-  background: radial-gradient(circle at 12% -10%, #fff4df 0%, var(--cal-bg) 42%),
+  background:
+    radial-gradient(circle at 12% -10%, #fff4df 0%, var(--cal-bg) 42%),
     var(--cal-bg);
   border-radius: 18px;
   box-shadow: 0 10px 32px rgba(24, 44, 47, 0.1);
@@ -35,7 +36,10 @@
       width: 40px;
       height: 40px;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
       font-weight: 700;
 
       &:hover {
@@ -92,7 +96,9 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      transition: transform 0.12s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.2s ease;
       border: 1px solid transparent;
 
       &:not(.past):hover {

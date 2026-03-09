@@ -299,7 +299,11 @@ export default function BookingForm() {
     const arrivalDateObj = parseLocalDate(formData.arrivalDate);
     const departureDateObj = parseLocalDate(formData.departureDate);
 
-    if (!arrivalDateObj || !departureDateObj || departureDateObj <= arrivalDateObj) {
+    if (
+      !arrivalDateObj ||
+      !departureDateObj ||
+      departureDateObj <= arrivalDateObj
+    ) {
       setError("Vertrekdatum moet na aankomstdatum liggen");
       setIsSubmitting(false);
       return;

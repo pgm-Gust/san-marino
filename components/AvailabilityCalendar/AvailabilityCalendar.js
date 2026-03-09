@@ -89,7 +89,7 @@ export default function AvailabilityCalendar() {
 
   const changeMonth = (offset) => {
     setCurrentDate(
-      (prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1)
+      (prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1),
     );
   };
 
@@ -110,14 +110,14 @@ export default function AvailabilityCalendar() {
     const prevMonthLastDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      0
+      0,
     ).getDate();
     for (let i = 0; i < firstDay; i++) {
       const dayNum = prevMonthLastDay - (firstDay - 1) + i;
       const date = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() - 1,
-        dayNum
+        dayNum,
       );
       const bookingInfo = getDateBookingInfo(date);
 
@@ -129,7 +129,7 @@ export default function AvailabilityCalendar() {
           }`}
         >
           <span className="day-number">{dayNum}</span>
-        </div>
+        </div>,
       );
     }
 
@@ -138,7 +138,7 @@ export default function AvailabilityCalendar() {
       const date = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
-        day
+        day,
       );
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -156,10 +156,10 @@ export default function AvailabilityCalendar() {
             bookingInfo.isPast
               ? "past"
               : bookingInfo.isBooked
-              ? `booked ${
-                  bookingInfo.source === "Manual" ? "manual-block" : ""
-                }`
-              : "available"
+                ? `booked ${
+                    bookingInfo.source === "Manual" ? "manual-block" : ""
+                  }`
+                : "available"
           } ${isToday ? "today" : ""}`}
           title={
             bookingInfo.isBooked && bookingInfo.summary
@@ -172,17 +172,15 @@ export default function AvailabilityCalendar() {
             {bookingInfo.isPast
               ? "Verlopen"
               : bookingInfo.isBooked
-              ? bookingInfo.source === "Manual"
-                ? "Geblokkeerd"
-                : "Bezet"
-              : "Beschikbaar"}
+                ? bookingInfo.source === "Manual"
+                  ? "Geblokkeerd"
+                  : "Bezet"
+                : "Beschikbaar"}
           </span>
           {prijs !== null && !bookingInfo.isBooked && !bookingInfo.isPast && (
-            <span className="price">
-              €{prijs}
-            </span>
+            <span className="price">€{prijs}</span>
           )}
-        </div>
+        </div>,
       );
     }
 
@@ -192,7 +190,7 @@ export default function AvailabilityCalendar() {
       const date = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() + 1,
-        nextDay
+        nextDay,
       );
       const bookingInfo = getDateBookingInfo(date);
       days.push(
@@ -203,7 +201,7 @@ export default function AvailabilityCalendar() {
           }`}
         >
           <span className="day-number">{nextDay}</span>
-        </div>
+        </div>,
       );
       nextDay++;
     }
