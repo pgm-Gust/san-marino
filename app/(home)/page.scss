@@ -56,17 +56,32 @@
         &.white {
           color: var(--color-light-teal);
           text-shadow: none;
+          margin-top: 0.05rem;
+          margin-bottom: 0.25rem;
+        }
+
+        &.hero-logo-wrap {
+          display: inline-flex;
+          justify-content: center;
           position: relative;
+          margin-top: 0.2rem;
 
           &::after {
             content: "";
             position: absolute;
-            bottom: -0.5rem;
+            bottom: -0.65rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%;
+            width: 58%;
             height: 2px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.55);
+          }
+
+          .hero-logo {
+            height: 4.2rem;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.35));
           }
         }
       }
@@ -149,6 +164,20 @@
           font-size: 1.3rem;
           margin-bottom: 0.3rem;
         }
+
+        .white {
+          margin-bottom: 0.18rem;
+        }
+
+        .hero-logo-wrap {
+          &::after {
+            bottom: -0.45rem;
+          }
+
+          .hero-logo {
+            height: 3rem;
+          }
+        }
       }
 
       .button {
@@ -182,9 +211,19 @@
           margin-bottom: 0.25rem;
         }
 
-        .white::after {
-          bottom: -0.3rem;
-          height: 1px;
+        .white {
+          margin-bottom: 0.15rem;
+        }
+
+        .hero-logo-wrap {
+          &::after {
+            bottom: -0.3rem;
+            height: 1px;
+          }
+
+          .hero-logo {
+            height: 2.45rem;
+          }
         }
       }
 

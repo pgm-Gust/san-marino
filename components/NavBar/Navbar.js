@@ -20,13 +20,18 @@ const Navbar = () => {
           className={`hamburger ${isOpen ? "active" : ""}`}
           onClick={toggleMenu}
           aria-label="Menu"
+          aria-expanded={isOpen}
+          aria-controls="main-navigation"
         >
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
         </button>
 
-        <ul className={`nav-menu ${isOpen ? "active" : ""}`}>
+        <ul
+          id="main-navigation"
+          className={`nav-menu ${isOpen ? "active" : ""}`}
+        >
           <li className="nav-item">
             <a
               href="/appartement/plein"
@@ -47,6 +52,12 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+
+        <button
+          className={`nav-overlay ${isOpen ? "active" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Sluit menu"
+        />
       </div>
     </nav>
   );

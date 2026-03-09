@@ -107,6 +107,13 @@ const HomePageClientWrapper = () => {
               <h1>
                 <span>Uw volgend verblijf in Middelkerke</span>
                 <span className="white">San Marino 4</span>
+                <span className="hero-logo-wrap">
+                  <img
+                    src="/logo.png"
+                    alt="San Marino 4"
+                    className="hero-logo"
+                  />
+                </span>
               </h1>
               <a
                 href="/appartement/plein"
