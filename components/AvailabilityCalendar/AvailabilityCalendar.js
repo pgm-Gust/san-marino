@@ -45,7 +45,8 @@ export default function AvailabilityCalendar() {
         start: event.start,
         end: event.end,
         available: false,
-        source: "iCal",
+        source: event.source || "iCal",
+        summary: event.summary || "",
       }));
       setAvailability(mapped);
       setError(null);
@@ -156,9 +157,7 @@ export default function AvailabilityCalendar() {
             bookingInfo.isPast
               ? "past"
               : bookingInfo.isBooked
-                ? `booked ${
-                    bookingInfo.source === "Manual" ? "manual-block" : ""
-                  }`
+                ? "booked"
                 : "available"
           } ${isToday ? "today" : ""}`}
           title={
@@ -172,9 +171,7 @@ export default function AvailabilityCalendar() {
             {bookingInfo.isPast
               ? "Verlopen"
               : bookingInfo.isBooked
-                ? bookingInfo.source === "Manual"
-                  ? "Geblokkeerd"
-                  : "Bezet"
+                ? "Bezet"
                 : "Beschikbaar"}
           </span>
           {prijs !== null && !bookingInfo.isBooked && !bookingInfo.isPast && (

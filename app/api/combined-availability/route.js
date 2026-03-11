@@ -41,7 +41,7 @@ export async function GET(request) {
     // Converteer geblokkeerde datums naar event formaat
     const blockedEvents = blockedDates.map((blocked) => ({
       start: new Date(blocked.start_date + "T00:00:00"),
-      end: new Date(blocked.end_date + "T23:59:59"),
+      end: new Date(blocked.end_date + "T00:00:00"),
       summary: blocked.reason || "Geblokkeerd",
       source: "Manual",
       id: blocked.id,
