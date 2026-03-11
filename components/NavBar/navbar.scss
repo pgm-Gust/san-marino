@@ -145,8 +145,16 @@
     .nav-item {
       position: relative;
 
+      &--cta {
+        margin-left: 1rem;
+
+        &::after {
+          display: none !important;
+        }
+      }
+
       // Voeg een scheidingsteken toe na elk item behalve de laatste
-      &:not(:last-child)::after {
+      &:not(:last-child):not(.nav-item--cta)::after {
         content: "|";
         position: absolute;
         right: -0.75rem; // Plaats de | tussen de links
@@ -155,6 +163,27 @@
         color: var(--color-muted-teal);
         font-weight: 300;
         pointer-events: none; // Zorg ervoor dat de | niet klikbaar is
+      }
+
+      .nav-link--cta {
+        background: var(--color-dark-teal);
+        color: #fff !important;
+        border-radius: 8px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: background 0.2s ease;
+        text-decoration: none;
+        border: 2px solid var(--color-dark-teal);
+
+        &::before {
+          display: none;
+        }
+
+        &:hover {
+          background: #0d6b63;
+          border-color: #0d6b63;
+        }
       }
 
       .nav-link {
@@ -228,6 +257,28 @@
 
         &:not(:last-child) {
           border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        &--cta {
+          margin-top: 1rem;
+          border-bottom: none !important;
+
+          .nav-link--cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            background: var(--color-dark-teal) !important;
+            color: #fff !important;
+            border: 2px solid var(--color-dark-teal) !important;
+            font-weight: 600;
+
+            &:hover {
+              background: #0d6b63 !important;
+              border-color: #0d6b63 !important;
+            }
+          }
         }
 
         .nav-link {

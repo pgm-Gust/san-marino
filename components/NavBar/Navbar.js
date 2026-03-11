@@ -51,6 +51,15 @@ const Navbar = () => {
               Contact
             </a>
           </li>
+          <li className="nav-item nav-item--cta">
+            <a
+              href="/appartement/plein/boeken"
+              className="nav-link nav-link--cta"
+              onClick={toggleMenu}
+            >
+              Boeken
+            </a>
+          </li>
         </ul>
 
         <button
