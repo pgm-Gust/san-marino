@@ -416,6 +416,7 @@ export default function BookingForm() {
               placeholderText="Kies een aankomstdatum"
               className="date-picker"
               dayClassName={getDayClassName}
+              calendarStartDay={1}
               required
             />
             <p className="date-help-text">Aankomst vanaf 16:00.</p>
@@ -442,6 +443,7 @@ export default function BookingForm() {
               placeholderText="Kies een vertrekdatum"
               className="date-picker"
               dayClassName={getDepartureDayClassName}
+              calendarStartDay={1}
               required
               filterDate={(date) => {
                 if (!arrivalDate) return true;
