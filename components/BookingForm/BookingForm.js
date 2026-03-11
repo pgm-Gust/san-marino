@@ -357,6 +357,18 @@ export default function BookingForm() {
         throw new Error(data.error || "Er ging iets mis bij het boeken");
       }
 
+      // Voeg de geboekte periode toe aan blocked_dates zodat de kalender direct up-to-date is
+      await fetch("/api/blocked-dates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          apartmentId: 1,
+          startDate: formData.arrivalDate,
+          endDate: formData.departureDate,
+          reason: `Boeking - ${formData.firstName} ${formData.lastName}`,
+        }),
+      });
+
       router.push("/bedankt");
     } catch (err) {
       setError(err.message);
