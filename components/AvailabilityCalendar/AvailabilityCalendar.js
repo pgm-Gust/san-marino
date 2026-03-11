@@ -69,6 +69,11 @@ export default function AvailabilityCalendar() {
     return (d + 6) % 7;
   };
 
+  const toLocalDateStr = (d) => {
+    const dd = new Date(d);
+    return `${dd.getFullYear()}-${String(dd.getMonth() + 1).padStart(2, "0")}-${String(dd.getDate()).padStart(2, "0")}`;
+  };
+
   const getDateBookingInfo = (date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -77,10 +82,12 @@ export default function AvailabilityCalendar() {
       return { isPast: true };
     }
 
+    const dateStr = toLocalDateStr(date);
+
     const booking = availability.find((booking) => {
-      const start = new Date(booking.start);
-      const end = new Date(booking.end);
-      return date >= start && date < end && !booking.available;
+      const startStr = toLocalDateStr(new Date(booking.start));
+      const endStr = toLocalDateStr(new Date(booking.end));
+      return dateStr >= startStr && dateStr < endStr && !booking.available;
     });
 
     return booking
