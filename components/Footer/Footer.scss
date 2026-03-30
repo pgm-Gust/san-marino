@@ -18,7 +18,7 @@
       padding-bottom: 0.5rem;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
@@ -87,7 +87,7 @@
         position: relative;
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           bottom: 0;
           left: 0;
@@ -156,7 +156,7 @@
     .site-logo {
       order: -1;
       padding: 2rem 0 !important;
-      
+
       .logo-image {
         max-width: 160px;
       }
@@ -164,7 +164,7 @@
 
     .footer-bottom {
       padding: 1.5rem;
-      
+
       p {
         font-size: 0.8rem;
         line-height: 1.5;
@@ -176,13 +176,14 @@
     .footer-section {
       h3 {
         font-size: 1.1rem;
-        
+
         &::after {
           width: 30px;
         }
       }
 
-      li, a {
+      li,
+      a {
         font-size: 0.95rem;
       }
     }
