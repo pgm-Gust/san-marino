@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import ical from "node-ical";
 import { fetchBlockedDates } from "@/lib/supabase/blocked-dates";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const apartmentId = searchParams.get("apartmentId");
@@ -12,7 +14,7 @@ export async function GET(request) {
   async function fetchEvents(url) {
     if (!url) return [];
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to fetch ${url}`);
       const icsText = await res.text();
       const data = ical.parseICS(icsText);

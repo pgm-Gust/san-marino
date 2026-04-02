@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   if (!process.env.SMOOBU_API_KEY || !process.env.SMOOBU_CUSTOMER_ID) {
     console.error('Missing environment variables');

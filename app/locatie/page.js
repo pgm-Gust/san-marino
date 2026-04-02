@@ -74,134 +74,123 @@ const LocationPage = () => {
         </header>
 
         <section id="locatie-info" className="section">
-          <h2>Algemene Informatie Middelkerke</h2>
+          <h2>Algemene Informatie — Middelkerke</h2>
           <p>
-            Middelkerke is een charmante kustplaats aan de Belgische kust, die
-            de perfecte mix biedt van rust en bruisende activiteiten. Ons
-            appartement is ideaal gelegen, op loopafstand van het strand en
-            diverse voorzieningen.
+            Middelkerke is een ontspannen kustplaats met een mix van residentiële wijken, winkels en horeca. 
+            De zeedijk en het strand zijn eenvoudig te bereiken te voet vanuit het centrum. Middelkerke biedt 
+            een goede combinatie van rust en lokale voorzieningen voor korte en langere verblijven.
           </p>
           <p>
-            Lees meer over Middelkerke op{" "}
-            <a
-              href="https://www.middelkerke.be/nl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              de officiële website van Middelkerke
-            </a>
-            .
+            Enkele praktische punten over de locatie:
+          </p>
+          <ul>
+            <li><strong>Strand en zeedijk:</strong> bereikbaar te voet in enkele minuten — ideaal voor ochtendwandelingen en zonsondergangen.</li>
+            <li><strong>Kusttram:</strong> de Kusttram (De Lijn) heeft haltes op korte loopafstand en verbindt de kustgemeenten van De Panne tot Knokke.</li>
+            <li><strong>Voorzieningen:</strong> supermarkten, bakkerijen, apotheek en huisartsen zijn in de wijk of op korte loopafstand aanwezig.</li>
+            <li><strong>Parkeren:</strong> er geldt grotendeels betaald parkeren bij de zeedijk; in de zijstraten kan korte termijn parkeren mogelijk zijn.</li>
+          </ul>
+          <p>
+            Middelkerke is een toegankelijke bestemming: vanuit Oostende bent u binnen 10–15 minuten met de auto, en de E40 biedt goede verbindingen naar Brussel en Gent.
           </p>
         </section>
 
         <section id="strand-en-water" className="section">
-          <h2>Strand & Wateractiviteiten</h2>
+          <h2>Strand & Wateractiviteiten nabij Parijsstraat 28</h2>
           <p>
-            Geniet van de brede, schone stranden voor zonnebaden, zwemmen en
-            wandelingen langs de dijk en strand. Diverse watersporten, zoals
-            windsurfen, kitesurfen en stand-up paddling, zijn hier volop
-            mogelijk.
+            Het strand bij Middelkerke is breed en goed onderhouden. In het hoogseizoen zijn er bewaakte zwemplekken met badmeesters. Het zandstrand leent zich uitstekend voor gezinnen met kinderen en voor lange wandelingen langs de kust.
           </p>
           <p>
-            Bekijk meer informatie over watersporten via{" "}
-            <a
-              href="https://www.dekust.be/doen/watersporten-aan-zee"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              De Kust - Watersporten aan Zee
-            </a>
-            .
+            Activiteiten en voorzieningen:
+          </p>
+          <ul>
+            <li><strong>Watersporten:</strong> windsurfen, kitesurfen, kajakken en stand-up paddling — verhuurpunten vindt u langs de dijk.</li>
+            <li><strong>Strandzeilen (landsailing):</strong> bij eb is dit op bepaalde stukken strand mogelijk onder begeleiding.</li>
+            <li><strong>Fietsen en skeeleren:</strong> de dijk is vlak en uitermate geschikt voor een tochtje met huurfietsen of lange skates.</li>
+          </ul>
+          <p>
+            Tip: check bij lokale paviljoens of er georganiseerde activiteiten of lessen zijn (windsurf, SUP), zeker in het toeristenseizoen.
           </p>
         </section>
 
         <section id="familie-activiteiten" className="section">
-          <h2>Familie & Kindvriendelijke Activiteiten</h2>
+          <h2>Gezinsactiviteiten & uitstapjes</h2>
           <p>
-            Middelkerke biedt tal van activiteiten voor gezinnen, zoals
-            speeltuinen, kinderclubs en minigolfbanen. Daarnaast worden er
-            regelmatig lokale festivals en evenementen georganiseerd die perfect
-            zijn voor jong en oud.
+            Rond Parijsstraat 28 zijn veel kindvriendelijke opties. De brede stranden en veilige waterzones zijn ideaal voor jonge kinderen. Tijdens de zomer organiseert de gemeente vaak animatie en speelactiviteiten op het strand.
           </p>
           <p>
-            Ontdek lokale evenementen op{" "}
-            <a
-              href="https://www.uitinvlaanderen.be/agenda/alle/8430-middelkerke?searchTerm=Middelkerke&gclid=Cj0KCQjwytS-BhCKARIsAMGJyzrFv89WhKLR9B4waCOxTZW_P50GA4k-VDQKEuq4oIxldIUD9kH46FkaAmmmEALw_wcB"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Uit in Vlaanderen - Middelkerke
-            </a>
-            .
+            Aanraders voor daguitstapjes:
           </p>
+          <ul>
+            <li><strong>Plopsaland De Panne:</strong> perfect voor gezinnen met jonge kinderen (ca. 30–40 min rijden).</li>
+            <li><strong>Bellewaerde Park:</strong> combi van attracties en dieren (leuke familiedag).</li>
+            <li><strong>Noordzee Aquarium Oostende:</strong> kort uitstapje naar Oostende voor zee- en museumervaringen.</li>
+          </ul>
         </section>
 
         <section id="eten-en-drinken" className="section">
-          <h2>Eten & Drinken</h2>
+          <h2>Eten & Drinken in de buurt</h2>
           <p>
-            Ontdek de culinaire hoogtepunten van de omgeving met tal van
-            restaurants, cafés en strandpaviljoens. Geniet van verse zeevruchten
-            en internationale gerechten in een sfeervolle setting.
+            Langs de zeedijk en in het centrum van Middelkerke vindt u een mix van strandpaviljoens, visrestaurants en gezellige brasseries. Verse zeeproducten — garnalen, mosselen en vis — zijn een lokale specialiteit.
           </p>
           <p>
-            Bekijk hier{" "}
-            <a
-              href="https://www.tripadvisor.nl/Tourism-g641831-Middelkerke_West_Flanders_Province-Vacations.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              TripAdvisor
-            </a>{" "}
-            voor de beste eetgelegenheden.
+            Praktische tips:
           </p>
+          <ul>
+            <li>Voor snelle snacks en lokale frietwagens zijn er meerdere opties langs de promenade.</li>
+            <li>Reserveer vooral in het hoogseizoen bij populaire restaurants op de dijk.</li>
+            <li>Voor uitgebreide keuzes rijdt u in 10 minuten naar Oostende.</li>
+          </ul>
         </section>
 
         <section id="winkelen" className="section">
-          <h2>Winkelen & Lokale Markten</h2>
+          <h2>Winkelen & markten</h2>
           <p>
-            Er zijn diverse boetieks, souvenirwinkels en wekelijkse markten in
-            de buurt. Verken de authentieke lokale winkels en vind unieke
-            producten en ambachtelijke specialiteiten.
+            Voor dagelijkse boodschappen is er een supermarkt in de buurt. In het toeristenseizoen zijn er wekelijkse markten met verse producten, bloemen en lokale specialiteiten.
+          </p>
+          <p>
+            Voor grotere boodschappen of uitgestrekte winkelstraten is Oostende de meest voor de hand liggende keuze.
           </p>
         </section>
 
         <section id="cultuur-en-geschiedenis" className="section">
-          <h2>Cultuur, Geschiedenis & Recreatie</h2>
+          <h2>Cultuur & bezienswaardigheden</h2>
           <p>
-            Verken de rijke geschiedenis van Middelkerke via lokale musea,
-            historische gebouwen en culturele centra. Daarnaast zijn er volop
-            mogelijkheden voor sportieve activiteiten, zoals fietsen en joggen.
+            In de directe omgeving vindt u zowel rustige wandelroutes als culturele uitstappen. Domein Raversyde is bijzonder interessant voor wie meer wil weten over de Atlantikwall en de lokale geschiedenis.
           </p>
           <p>
-            Meer weten over de geschiedenis? Bezoek de{" "}
-            <a
-              href="https://www.middelkerke.be"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              officiële website van Middelkerke
-            </a>
-            .
+            Andere culturele stops:
           </p>
+          <ul>
+            <li>MU.ZEE en James Ensorhuis in Oostende — moderne en historische kunst.</li>
+            <li>Kustfietsroute — maak een fietstocht langs de volledige kustlijn.</li>
+          </ul>
         </section>
 
         <section id="praktische-info" className="section">
-          <h2>Praktische Informatie</h2>
+          <h2>Praktische informatie & lokale tips</h2>
           <p>
-            De omgeving beschikt over alle benodigde voorzieningen, zoals
-            supermarkten, apotheken, medische centra en openbaar vervoer. Ook is
-            er voldoende parkeergelegenheid in de buurt.
+            <strong>Bereikbaarheid:</strong> Middelkerke is makkelijk te bereiken met de auto en het openbaar vervoer. De Kusttram is een handige manier om zonder auto meerdere kustplaatsen te bezoeken.
           </p>
           <p>
-            Plan uw route via{" "}
+            <strong>Parkeren:</strong> betaalzones gelden vooral langs de zeedijk; in woonstraten kunnen lokale regels of vergunningen van toepassing zijn. Controleer altijd de parkeermeters of borden.
+          </p>
+          <p>
+            <strong>Openbaar vervoer:</strong> Kusttram en regionale buslijnen verbinden naar Oostende, Nieuwpoort en andere kustplaatsen. Een dag- of meerdaagse tramkaart kan voordelig zijn wanneer u meerdere keren reist.
+          </p>
+          <p>
+            <strong>Medische hulp:</strong> huisartsen en apotheken zijn in de buurt; voor ziekenhuiszorg is <strong>AZ Damiaan (Oostende)</strong> het meest dichtbij. Noodnummers: bel <strong>112</strong> voor urgente hulp.
+          </p>
+          <p>
+            <strong>Seizoensadvies:</strong> in juli-augustus is het drukker en is het verstandig om accommodatie en favoriete restaurants vooraf te reserveren. Voor rustiger bezoek kies voor mei-juni of september-oktober.
+          </p>
+          <p>
             <a
-              href="https://www.google.com/maps"
+              href="https://www.google.com/maps/dir/?api=1&destination=Parijsstraat+28,+8430+Middelkerke"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Google Maps
+              Google Maps — Parijsstraat 28
             </a>
-            .
           </p>
         </section>
 

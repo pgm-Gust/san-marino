@@ -53,13 +53,17 @@
       transition: var(--transition);
 
       &:hover {
-        background: var(--gg-color);
-        transform: translateX(0.3125rem);
+        background: hsla(174, 91%, 14%, 0.08);
+        color: var(--color-dark-teal);
       }
 
       &[data-active="true"] {
         background: var(--color-dark-teal);
         color: var(--color-white);
+
+        .location-nav-icon {
+          color: var(--color-white);
+        }
       }
 
       .location-nav-icon {
@@ -129,6 +133,7 @@
   }
 
   .section {
+    scroll-margin-top: 6rem;
     margin: 3rem 0;
     padding: 2rem;
     background: var(--color-white);
