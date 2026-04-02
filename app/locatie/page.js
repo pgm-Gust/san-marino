@@ -76,180 +76,112 @@ const LocationPage = () => {
         <section id="locatie-info" className="section">
           <h2>Algemene Informatie — Middelkerke</h2>
           <p>
-            Middelkerke is een ontspannen kustplaats met een mix van
-            residentiële wijken, winkels en horeca. De zeedijk en het strand
-            zijn eenvoudig te bereiken te voet vanuit het centrum. Middelkerke
-            biedt een goede combinatie van rust en lokale voorzieningen voor
-            korte en langere verblijven.
+            Middelkerke is een ontspannen kustplaats met een mix van residentiële wijken, winkels en horeca. 
+            De zeedijk en het strand zijn eenvoudig te bereiken te voet vanuit het centrum. Middelkerke biedt 
+            een goede combinatie van rust en lokale voorzieningen voor korte en langere verblijven.
           </p>
-          <p>Enkele praktische punten over de locatie:</p>
+          <p>
+            Enkele praktische punten over de locatie:
+          </p>
           <ul>
-            <li>
-              <strong>Strand en zeedijk:</strong> bereikbaar te voet in enkele
-              minuten — ideaal voor ochtendwandelingen en zonsondergangen.
-            </li>
-            <li>
-              <strong>Kusttram:</strong> de Kusttram (De Lijn) heeft haltes op
-              korte loopafstand en verbindt de kustgemeenten van De Panne tot
-              Knokke.
-            </li>
-            <li>
-              <strong>Voorzieningen:</strong> supermarkten, bakkerijen, apotheek
-              en huisartsen zijn in de wijk of op korte loopafstand aanwezig.
-            </li>
-            <li>
-              <strong>Parkeren:</strong> er geldt grotendeels betaald parkeren
-              bij de zeedijk; in de zijstraten kan korte termijn parkeren
-              mogelijk zijn.
-            </li>
+            <li><strong>Strand en zeedijk:</strong> bereikbaar te voet in enkele minuten — ideaal voor ochtendwandelingen en zonsondergangen.</li>
+            <li><strong>Kusttram:</strong> de Kusttram (De Lijn) heeft haltes op korte loopafstand en verbindt de kustgemeenten van De Panne tot Knokke.</li>
+            <li><strong>Voorzieningen:</strong> supermarkten, bakkerijen, apotheek en huisartsen zijn in de wijk of op korte loopafstand aanwezig.</li>
+            <li><strong>Parkeren:</strong> er geldt grotendeels betaald parkeren bij de zeedijk; in de zijstraten kan korte termijn parkeren mogelijk zijn.</li>
           </ul>
           <p>
-            Middelkerke is een toegankelijke bestemming: vanuit Oostende bent u
-            binnen 10–15 minuten met de auto, en de E40 biedt goede verbindingen
-            naar Brussel en Gent.
+            Middelkerke is een toegankelijke bestemming: vanuit Oostende bent u binnen 10–15 minuten met de auto, en de E40 biedt goede verbindingen naar Brussel en Gent.
           </p>
         </section>
 
         <section id="strand-en-water" className="section">
           <h2>Strand & Wateractiviteiten nabij Parijsstraat 28</h2>
           <p>
-            Het strand bij Middelkerke is breed en goed onderhouden. In het
-            hoogseizoen zijn er bewaakte zwemplekken met badmeesters. Het
-            zandstrand leent zich uitstekend voor gezinnen met kinderen en voor
-            lange wandelingen langs de kust.
+            Het strand bij Middelkerke is breed en goed onderhouden. In het hoogseizoen zijn er bewaakte zwemplekken met badmeesters. Het zandstrand leent zich uitstekend voor gezinnen met kinderen en voor lange wandelingen langs de kust.
           </p>
-          <p>Activiteiten en voorzieningen:</p>
+          <p>
+            Activiteiten en voorzieningen:
+          </p>
           <ul>
-            <li>
-              <strong>Watersporten:</strong> windsurfen, kitesurfen, kajakken en
-              stand-up paddling — verhuurpunten vindt u langs de dijk.
-            </li>
-            <li>
-              <strong>Strandzeilen (landsailing):</strong> bij eb is dit op
-              bepaalde stukken strand mogelijk onder begeleiding.
-            </li>
-            <li>
-              <strong>Fietsen en skeeleren:</strong> de dijk is vlak en
-              uitermate geschikt voor een tochtje met huurfietsen of lange
-              skates.
-            </li>
+            <li><strong>Watersporten:</strong> windsurfen, kitesurfen, kajakken en stand-up paddling — verhuurpunten vindt u langs de dijk.</li>
+            <li><strong>Strandzeilen (landsailing):</strong> bij eb is dit op bepaalde stukken strand mogelijk onder begeleiding.</li>
+            <li><strong>Fietsen en skeeleren:</strong> de dijk is vlak en uitermate geschikt voor een tochtje met huurfietsen of lange skates.</li>
           </ul>
           <p>
-            Tip: check bij lokale paviljoens of er georganiseerde activiteiten
-            of lessen zijn (windsurf, SUP), zeker in het toeristenseizoen.
+            Tip: check bij lokale paviljoens of er georganiseerde activiteiten of lessen zijn (windsurf, SUP), zeker in het toeristenseizoen.
           </p>
         </section>
 
         <section id="familie-activiteiten" className="section">
           <h2>Gezinsactiviteiten & uitstapjes</h2>
           <p>
-            Rond Parijsstraat 28 zijn veel kindvriendelijke opties. De brede
-            stranden en veilige waterzones zijn ideaal voor jonge kinderen.
-            Tijdens de zomer organiseert de gemeente vaak animatie en
-            speelactiviteiten op het strand.
+            In Middelkerke zijn veel kindvriendelijke opties. De brede stranden en veilige waterzones zijn ideaal voor jonge kinderen. Tijdens de zomer organiseert de gemeente vaak animatie en speelactiviteiten op het strand.
           </p>
-          <p>Aanraders voor daguitstapjes:</p>
+          <p>
+            Aanraders voor daguitstapjes:
+          </p>
           <ul>
-            <li>
-              <strong>Plopsaland De Panne:</strong> perfect voor gezinnen met
-              jonge kinderen (ca. 30–40 min rijden).
-            </li>
-            <li>
-              <strong>Bellewaerde Park:</strong> combi van attracties en dieren
-              (leuke familiedag).
-            </li>
-            <li>
-              <strong>Noordzee Aquarium Oostende:</strong> kort uitstapje naar
-              Oostende voor zee- en museumervaringen.
-            </li>
+            <li><strong>Plopsaland De Panne:</strong> perfect voor gezinnen met jonge kinderen (ca. 30–40 min rijden).</li>
+            <li><strong>Bellewaerde Park:</strong> combi van attracties en dieren (leuke familiedag).</li>
+            <li><strong>Noordzee Aquarium Oostende:</strong> kort uitstapje naar Oostende voor zee- en museumervaringen.</li>
           </ul>
         </section>
 
         <section id="eten-en-drinken" className="section">
           <h2>Eten & Drinken in de buurt</h2>
           <p>
-            Langs de zeedijk en in het centrum van Middelkerke vindt u een mix
-            van strandpaviljoens, visrestaurants en gezellige brasseries. Verse
-            zeeproducten — garnalen, mosselen en vis — zijn een lokale
-            specialiteit.
+            Langs de zeedijk en in het centrum van Middelkerke vindt u een mix van strandpaviljoens, visrestaurants en gezellige brasseries. Verse zeeproducten — garnalen, mosselen en vis — zijn een lokale specialiteit.
           </p>
-          <p>Praktische tips:</p>
+          <p>
+            Praktische tips:
+          </p>
           <ul>
-            <li>
-              Voor snelle snacks en lokale frietwagens zijn er meerdere opties
-              langs de promenade.
-            </li>
-            <li>
-              Reserveer vooral in het hoogseizoen bij populaire restaurants op
-              de dijk.
-            </li>
-            <li>
-              Voor uitgebreide keuzes rijdt u in 10 minuten naar Oostende.
-            </li>
+            <li>Voor snelle snacks en lokale frietwagens zijn er meerdere opties langs de promenade.</li>
+            <li>Reserveer vooral in het hoogseizoen bij populaire restaurants op de dijk.</li>
+            <li>Voor uitgebreide keuzes rijdt u in 10 minuten naar Oostende.</li>
           </ul>
         </section>
 
         <section id="winkelen" className="section">
           <h2>Winkelen & markten</h2>
           <p>
-            Voor dagelijkse boodschappen is er een supermarkt in de buurt. In
-            het toeristenseizoen zijn er wekelijkse markten met verse producten,
-            bloemen en lokale specialiteiten.
+            Voor dagelijkse boodschappen is er een supermarkt in de buurt. In het toeristenseizoen zijn er wekelijkse markten met verse producten, bloemen en lokale specialiteiten.
           </p>
           <p>
-            Voor grotere boodschappen of uitgestrekte winkelstraten is Oostende
-            de meest voor de hand liggende keuze.
+            Voor grotere boodschappen of uitgestrekte winkelstraten is Oostende de meest voor de hand liggende keuze.
           </p>
         </section>
 
         <section id="cultuur-en-geschiedenis" className="section">
           <h2>Cultuur & bezienswaardigheden</h2>
           <p>
-            In de directe omgeving vindt u zowel rustige wandelroutes als
-            culturele uitstappen. Domein Raversyde is bijzonder interessant voor
-            wie meer wil weten over de Atlantikwall en de lokale geschiedenis.
+            In de directe omgeving vindt u zowel rustige wandelroutes als culturele uitstappen. Domein Raversyde is bijzonder interessant voor wie meer wil weten over de Atlantikwall en de lokale geschiedenis.
           </p>
-          <p>Andere culturele stops:</p>
+          <p>
+            Andere culturele stops:
+          </p>
           <ul>
-            <li>
-              MU.ZEE en James Ensorhuis in Oostende — moderne en historische
-              kunst.
-            </li>
-            <li>
-              Kustfietsroute — maak een fietstocht langs de volledige kustlijn.
-            </li>
+            <li>MU.ZEE en James Ensorhuis in Oostende — moderne en historische kunst.</li>
+            <li>Kustfietsroute — maak een fietstocht langs de volledige kustlijn.</li>
           </ul>
         </section>
 
         <section id="praktische-info" className="section">
           <h2>Praktische informatie & lokale tips</h2>
           <p>
-            <strong>Bereikbaarheid:</strong> Middelkerke is makkelijk te
-            bereiken met de auto en het openbaar vervoer. De Kusttram is een
-            handige manier om zonder auto meerdere kustplaatsen te bezoeken.
+            <strong>Bereikbaarheid:</strong> Middelkerke is makkelijk te bereiken met de auto en het openbaar vervoer. De Kusttram is een handige manier om zonder auto meerdere kustplaatsen te bezoeken.
           </p>
           <p>
-            <strong>Parkeren:</strong> betaalzones gelden vooral langs de
-            zeedijk; in woonstraten kunnen lokale regels of vergunningen van
-            toepassing zijn. Controleer altijd de parkeermeters of borden.
+            <strong>Parkeren:</strong> betaalzones gelden vooral langs de zeedijk; in woonstraten kunnen lokale regels of vergunningen van toepassing zijn. Controleer altijd de parkeermeters of borden.
           </p>
           <p>
-            <strong>Openbaar vervoer:</strong> Kusttram en regionale buslijnen
-            verbinden naar Oostende, Nieuwpoort en andere kustplaatsen. Een dag-
-            of meerdaagse tramkaart kan voordelig zijn wanneer u meerdere keren
-            reist.
+            <strong>Openbaar vervoer:</strong> Kusttram en regionale buslijnen verbinden naar Oostende, Nieuwpoort en andere kustplaatsen. Een dag- of meerdaagse tramkaart kan voordelig zijn wanneer u meerdere keren reist.
           </p>
           <p>
-            <strong>Medische hulp:</strong> huisartsen en apotheken zijn in de
-            buurt; voor ziekenhuiszorg is <strong>AZ Damiaan (Oostende)</strong>{" "}
-            het meest dichtbij. Noodnummers: bel <strong>112</strong> voor
-            urgente hulp.
+            <strong>Medische hulp:</strong> huisartsen en apotheken zijn in de buurt; voor ziekenhuiszorg is <strong>AZ Damiaan (Oostende)</strong> het meest dichtbij. Noodnummers: bel <strong>112</strong> voor urgente hulp.
           </p>
           <p>
-            <strong>Seizoensadvies:</strong> in juli-augustus is het drukker en
-            is het verstandig om accommodatie en favoriete restaurants vooraf te
-            reserveren. Voor rustiger bezoek kies voor mei-juni of
-            september-oktober.
+            <strong>Seizoensadvies:</strong> in juli-augustus is het drukker en is het verstandig om accommodatie en favoriete restaurants vooraf te reserveren. Voor rustiger bezoek kies voor mei-juni of september-oktober.
           </p>
           <p>
             <a
