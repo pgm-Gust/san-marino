@@ -16,37 +16,15 @@ import "../../app/(home)/page.scss"; // Importeer de homepagina specifieke CSS i
 
 const HomePageClientWrapper = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
-  const [hasMinTimePassed, setHasMinTimePassed] = useState(false);
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
-  const minDisplayTime = 500; // Minimale tijd dat het laadscherm wordt weergegeven (in ms)
+  const minDisplayTime = 500;
 
   useEffect(() => {
-    // Zorg ervoor dat het laadscherm minimaal een bepaalde tijd zichtbaar is
     const timer = setTimeout(() => {
-      setHasMinTimePassed(true);
+      setShowLoadingScreen(false);
     }, minDisplayTime);
 
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    // Controleer of de pagina al geladen is bij het mounten van het component
-    if (document.readyState === "complete") {
-      setIsPageLoaded(true);
-    } else {
-      // Luister naar de 'load' gebeurtenis van het venster
-      const handleLoad = () => setIsPageLoaded(true);
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Verberg het laadscherm pas als de minimale tijd verstreken is EN de pagina geladen is
-    if (hasMinTimePassed && isPageLoaded) {
-      setShowLoadingScreen(false);
-    }
-  }, [hasMinTimePassed, isPageLoaded]);
 
   return (
     <>
@@ -55,8 +33,7 @@ const HomePageClientWrapper = () => {
       </AnimatePresence>
 
       {/* Render de hoofdinhoud alleen als het laadscherm verborgen is */}
-      {!showLoadingScreen && (
-        <main>
+      <main style={showLoadingScreen ? { visibility: "hidden" } : undefined}>
           <SeoStructuredData
             data={{
               numberOfRooms: 1,
@@ -146,7 +123,6 @@ const HomePageClientWrapper = () => {
 
           <Contact />
         </main>
-      )}
     </>
   );
 };
