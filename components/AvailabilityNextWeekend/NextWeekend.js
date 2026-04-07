@@ -24,15 +24,13 @@ function findNextFreeWeekend(events) {
   const limit = new Date(today);
   limit.setFullYear(limit.getFullYear() + 1);
 
-  const cur = new Date(today);
+  let cur = new Date(today);
   while (cur <= limit) {
     // Find the next Saturday from current date
     const dow = cur.getDay();
     const daysUntilSat = (6 - dow + 7) % 7;
-    const sat = new Date(cur);
-    sat.setDate(cur.getDate() + daysUntilSat);
-    const sun = new Date(sat);
-    sun.setDate(sat.getDate() + 1);
+    const sat = new Date(cur.getTime() + daysUntilSat * 24 * 60 * 60 * 1000);
+    const sun = new Date(sat.getTime() + 24 * 60 * 60 * 1000);
 
     if (sat > limit) break;
 
@@ -49,8 +47,8 @@ function findNextFreeWeekend(events) {
       };
     }
 
-    // Move to the next day after this saturday to continue search
-    cur.setDate(sat.getDate() + 1);
+    // Move to the day after this saturday using timestamp (safe across month boundaries)
+    cur = new Date(sat.getTime() + 24 * 60 * 60 * 1000);
   }
 
   return null;
