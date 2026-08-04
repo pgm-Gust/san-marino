@@ -1,9 +1,85 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { getMinimumNightsForDate } from "@/lib/supabase/minimum-nights";
+import {
+  hasOverlappingBlockedDates,
+  addBlockedDate,
+} from "@/lib/supabase/blocked-dates";
+
+const REQUIRED_FIELDS = [
+  "arrivalDate",
+  "departureDate",
+  "firstName",
+  "lastName",
+  "email",
+  "phone",
+];
 
 export async function POST(request) {
   try {
     const bookingData = await request.json();
+    const apartmentId = bookingData.apartmentId || 1;
+
+    const missingFields = REQUIRED_FIELDS.filter(
+      (field) => !bookingData[field]
+    );
+    if (missingFields.length > 0 || !bookingData.address?.street) {
+      return NextResponse.json(
+        { error: `Ontbrekende velden: ${missingFields.join(", ") || "address"}` },
+        { status: 400 }
+      );
+    }
+
+    const arrivalCheck = new Date(bookingData.arrivalDate);
+    const departureCheck = new Date(bookingData.departureDate);
+    if (
+      isNaN(arrivalCheck.getTime()) ||
+      isNaN(departureCheck.getTime()) ||
+      departureCheck <= arrivalCheck
+    ) {
+      return NextResponse.json(
+        { error: "Ongeldige aankomst- of vertrekdatum" },
+        { status: 400 }
+      );
+    }
+
+    const requestedNights = Math.ceil(
+      (departureCheck - arrivalCheck) / (1000 * 60 * 60 * 24)
+    );
+
+    // Server-side beschikbaarheidscontrole: voorkomt dubbele boekingen als
+    // twee gasten tegelijk dezelfde periode aanvragen (client-side checks
+    // zijn enkel UX, deze check hier is de daadwerkelijke bewaking).
+    const overlapping = await hasOverlappingBlockedDates(
+      apartmentId,
+      bookingData.arrivalDate,
+      bookingData.departureDate
+    );
+    if (overlapping) {
+      return NextResponse.json(
+        {
+          error:
+            "Deze periode is helaas net niet meer beschikbaar. Kies andere data.",
+        },
+        { status: 409 }
+      );
+    }
+
+    // Server-side minimum-nachten-controle (client-side check is enkel UX)
+    const { min_nights: minNights } = await getMinimumNightsForDate(
+      apartmentId,
+      bookingData.arrivalDate
+    );
+    if (requestedNights < minNights) {
+      return NextResponse.json(
+        {
+          error: `Voor deze aankomstdatum moet je minimaal ${minNights} ${
+            minNights === 1 ? "nacht" : "nachten"
+          } boeken.`,
+        },
+        { status: 400 }
+      );
+    }
 
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
@@ -11,6 +87,15 @@ export async function POST(request) {
         { status: 500 }
       );
     }
+
+    // Blokkeer de periode meteen server-side, vóór de mails verstuurd worden,
+    // zodat een gelijktijdige tweede aanvraag hierop botst i.p.v. ook door te gaan.
+    await addBlockedDate(
+      apartmentId,
+      bookingData.arrivalDate,
+      bookingData.departureDate,
+      `Boeking - ${bookingData.firstName} ${bookingData.lastName}`
+    );
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@sanmarino4.be";

@@ -5,6 +5,7 @@ import {
   deleteBlockedDate,
   updateBlockedDate,
 } from "@/lib/supabase/blocked-dates";
+import { getAuthenticatedUser } from "@/lib/supabase/authServer";
 
 // GET - Haal geblokkeerde datums op
 export async function GET(request) {
@@ -30,9 +31,14 @@ export async function GET(request) {
   }
 }
 
-// POST - Voeg nieuwe geblokkeerde periode toe
+// POST - Voeg nieuwe geblokkeerde periode toe (admin-only)
 export async function POST(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { apartmentId, startDate, endDate, reason } = body;
 
@@ -78,9 +84,14 @@ export async function POST(request) {
   }
 }
 
-// DELETE - Verwijder geblokkeerde periode
+// DELETE - Verwijder geblokkeerde periode (admin-only)
 export async function DELETE(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -100,9 +111,14 @@ export async function DELETE(request) {
   }
 }
 
-// PATCH - Update geblokkeerde periode
+// PATCH - Update geblokkeerde periode (admin-only)
 export async function PATCH(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 

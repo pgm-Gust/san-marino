@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
+import { getAuthenticatedUser } from '@/lib/supabase/authServer';
 
 export async function GET(request, { params }) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Niet ingelogd' }, { status: 401 });
+    }
+
     const { id } = params;
-    
+
     const smoobuResponse = await axios.get(
       `https://login.smoobu.com/api/reservations/${id}`,
       {

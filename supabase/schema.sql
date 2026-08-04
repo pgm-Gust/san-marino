@@ -202,34 +202,6 @@ VALUES (
   'Direct aan het plein in Middelkerke - Moderne studio voor 4 personen met panoramisch zeezicht. Boek nu uw perfecte vakantie!'
 );
 
--- Appartement 2: Hoek
-INSERT INTO apartments (slug, name, subtitle, description, price_per_night, max_guests, bedrooms, bathrooms, size_m2, active, featured, facilities, meta_title, meta_description)
-VALUES (
-  'hoek',
-  'Appartement met zicht op zee en hoek',
-  'Luxe vakantieverblijf',
-  'Prachtig hoekappartement met zeezicht in Middelkerke.',
-  150.00,
-  4,
-  1,
-  1,
-  55,
-  true,
-  false,
-  '[
-    {"icon": "FaWifi", "text": "Snelle WiFi"},
-    {"icon": "FaTv", "text": "Smart-tv"},
-    {"icon": "FaCar", "text": "Meerdere parkeergelegenheiden"},
-    {"icon": "FaUtensils", "text": "Volledig uitgeruste keuken"},
-    {"icon": "FaBed", "text": "Luxe tweepersoonsbed"},
-    {"icon": "FaBath", "text": "Moderne badkamer met douche"},
-    {"icon": "FaCouch", "text": "Zithoek met slaapbank"},
-    {"icon": "FaSnowflake", "text": "Airconditioning en verwarming"}
-  ]'::jsonb,
-  'Hoekappartement Middelkerke | San Marino 4',
-  'Luxe hoekappartement met prachtig zeezicht in Middelkerke.'
-);
-
 -- ============================================
 -- 9. BLOCKED DATES TABLE (Handmatig blokkeren)
 -- ============================================

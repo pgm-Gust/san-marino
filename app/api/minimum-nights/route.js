@@ -6,6 +6,7 @@ import {
   updateMinimumNight,
   getMinimumNightsForDate,
 } from "@/lib/supabase/minimum-nights";
+import { getAuthenticatedUser } from "@/lib/supabase/authServer";
 
 // GET - Haal minimum nights op
 export async function GET(request) {
@@ -37,9 +38,14 @@ export async function GET(request) {
   }
 }
 
-// POST - Voeg nieuwe minimum nights regel toe
+// POST - Voeg nieuwe minimum nights regel toe (admin-only)
 export async function POST(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { apartmentId, startDate, endDate, minNights, reason } = body;
 
@@ -76,9 +82,14 @@ export async function POST(request) {
   }
 }
 
-// DELETE - Verwijder minimum nights regel
+// DELETE - Verwijder minimum nights regel (admin-only)
 export async function DELETE(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -97,9 +108,14 @@ export async function DELETE(request) {
   }
 }
 
-// PATCH - Update minimum nights regel
+// PATCH - Update minimum nights regel (admin-only)
 export async function PATCH(request) {
   try {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 

@@ -344,6 +344,7 @@ export default function BookingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
+          apartmentId: 1,
           adults: parseInt(formData.adults),
           children: parseInt(formData.children),
           totalPrice: totalPrice,
@@ -357,18 +358,8 @@ export default function BookingForm() {
         throw new Error(data.error || "Er ging iets mis bij het boeken");
       }
 
-      // Voeg de geboekte periode toe aan blocked_dates zodat de kalender direct up-to-date is
-      await fetch("/api/blocked-dates", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          apartmentId: 1,
-          startDate: formData.arrivalDate,
-          endDate: formData.departureDate,
-          reason: `Boeking - ${formData.firstName} ${formData.lastName}`,
-        }),
-      });
-
+      // De server blokkeert de periode zelf (voorkomt dubbele boekingen),
+      // hier is geen apart verzoek meer nodig.
       router.push("/bedankt");
     } catch (err) {
       setError(err.message);
