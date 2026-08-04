@@ -5,6 +5,7 @@ import {
   hasOverlappingBlockedDates,
   addBlockedDate,
 } from "@/lib/supabase/blocked-dates";
+import { calculateServerBookingPrice } from "@/lib/supabase/serverPricing";
 
 const REQUIRED_FIELDS = [
   "arrivalDate",
@@ -88,6 +89,15 @@ export async function POST(request) {
       );
     }
 
+    // Prijs altijd server-side herberekenen tegen apartment_prices — de
+    // client stuurt wel een prijs mee (voor de UI), maar die wordt hier
+    // genegeerd zodat een gast de prijs niet kan manipuleren.
+    const { pricePerNight, totalPrice } = await calculateServerBookingPrice(
+      apartmentId,
+      bookingData.arrivalDate,
+      bookingData.departureDate
+    );
+
     // Blokkeer de periode meteen server-side, vóór de mails verstuurd worden,
     // zodat een gelijktijdige tweede aanvraag hierop botst i.p.v. ook door te gaan.
     await addBlockedDate(
@@ -157,8 +167,8 @@ export async function POST(request) {
       
       Prijsgegevens:
       -------------
-      Prijs per nacht: €${bookingData.pricePerNight}
-      Totaalprijs: €${bookingData.totalPrice}
+      Prijs per nacht: €${pricePerNight}
+      Totaalprijs: €${totalPrice}
       
       Extra informatie:
       ----------------
@@ -237,9 +247,7 @@ export async function POST(request) {
             <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden;border:1px solid #e3eaf0;">
               <tr style="background:#f8fafc;">
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Prijs per nacht</td>
-                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€${
-                  bookingData.pricePerNight
-                }</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€${pricePerNight}</td>
               </tr>
               <tr>
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Eindschoonmaak</td>
@@ -247,9 +255,7 @@ export async function POST(request) {
               </tr>
               <tr style="background:#e8f4fd;">
                 <td style="padding:16px 18px;font-size:15px;color:#1565c0;font-weight:700;">Totaal</td>
-                <td style="padding:16px 18px;font-size:18px;color:#1565c0;font-weight:700;text-align:right;">€${
-                  bookingData.totalPrice
-                }</td>
+                <td style="padding:16px 18px;font-size:18px;color:#1565c0;font-weight:700;text-align:right;">€${totalPrice}</td>
               </tr>
             </table>
             <p style="margin:10px 0 0;font-size:13px;color:#90a4ae;">* Waarborg €250 (apart te betalen, wordt teruggestort na verblijf)</p>
