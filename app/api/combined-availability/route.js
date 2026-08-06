@@ -54,6 +54,9 @@ export async function GET(request) {
     return NextResponse.json({ events: allEvents });
   } catch (error) {
     console.error("Error in combined-availability:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Kon beschikbaarheid niet ophalen" },
+      { status: 500 }
+    );
   }
 }

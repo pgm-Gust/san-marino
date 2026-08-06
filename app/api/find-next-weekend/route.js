@@ -84,7 +84,6 @@ export async function GET() {
     return new Response(
       JSON.stringify({
         error: "Kon beschikbaarheid niet controleren",
-        details: error.message,
       }),
       {
         status: 500,

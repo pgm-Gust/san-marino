@@ -2,13 +2,14 @@
 -- SECURITY FIX MIGRATIE — San Marino 4
 --
 -- BELANGRIJK: plak dit NIET in één keer volledig. Plak en run
--- DEEL 1 en DEEL 2 apart (kopieer telkens enkel dat blok). Als je
--- alles in één paste uitvoert en DEEL 2 faalt (wat nu verwacht
--- wordt door bestaande overlap, zie onder), behandelt Postgres de
--- hele paste als één transactie en rolt hij ook de geslaagde
--- policy-fixes uit DEEL 1 terug. Geen van beide delen verandert of
--- verwijdert bestaande rijen — DEEL 1 wijzigt enkel schrijfrechten,
--- DEEL 2 voegt enkel een regel toe (of faalt gewoon, zonder schade).
+-- DEEL 1, DEEL 2 en DEEL 3 apart (kopieer telkens enkel dat blok).
+-- Als je alles in één paste uitvoert en DEEL 2 faalt (wat nu
+-- verwacht wordt door bestaande overlap, zie onder), behandelt
+-- Postgres de hele paste als één transactie en rolt hij ook de
+-- geslaagde policy-fixes uit DEEL 1 terug. Geen van de delen
+-- verandert of verwijdert bestaande rijen — DEEL 1 en DEEL 3
+-- wijzigen enkel schrijfrechten, DEEL 2 voegt enkel een regel toe
+-- (of faalt gewoon, zonder schade).
 --
 -- Veilig om opnieuw uit te voeren (alle policies worden eerst
 -- verwijderd met IF EXISTS voordat ze opnieuw aangemaakt worden).
@@ -153,6 +154,37 @@ ALTER TABLE blocked_dates
 --   constraint": geen probleem, er is niets stukgemaakt. DEEL 1
 --   staat dan nog steeds. Los de 2 overlappende rijen hierboven
 --   op via /admin/blocked-dates en run daarna enkel DEEL 2 opnieuw.
+-- ============================================================
+
+-- ============================================================
+-- ▶ DEEL 3 — storage bucket policies voor 'apartment-images'.
+--   Los van DEEL 1/2, veilig los te runnen. In schema.sql stonden
+--   deze nog enkel als commentaar ("handmatig instellen"); zo
+--   staan ze ook echt in versiebeheer en zijn ze reproduceerbaar.
+-- ============================================================
+DROP POLICY IF EXISTS "Iedereen kan images bekijken" ON storage.objects;
+DROP POLICY IF EXISTS "Admins kunnen images uploaden" ON storage.objects;
+DROP POLICY IF EXISTS "Admins kunnen images verwijderen" ON storage.objects;
+DROP POLICY IF EXISTS "Admins kunnen images updaten" ON storage.objects;
+
+CREATE POLICY "Iedereen kan images bekijken"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'apartment-images');
+
+CREATE POLICY "Admins kunnen images uploaden"
+  ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'apartment-images' AND auth.role() = 'authenticated');
+
+CREATE POLICY "Admins kunnen images verwijderen"
+  ON storage.objects FOR DELETE
+  USING (bucket_id = 'apartment-images' AND auth.role() = 'authenticated');
+
+CREATE POLICY "Admins kunnen images updaten"
+  ON storage.objects FOR UPDATE
+  USING (bucket_id = 'apartment-images' AND auth.role() = 'authenticated');
+
+-- ============================================================
+-- ■ EINDE DEEL 3.
 -- ============================================================
 
 -- ============================================================

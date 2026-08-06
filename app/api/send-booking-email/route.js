@@ -7,6 +7,18 @@ import {
 } from "@/lib/supabase/blocked-dates";
 import { calculateServerBookingPrice } from "@/lib/supabase/serverPricing";
 
+// Voorkomt dat gast-input (naam, opmerking, adres, ...) als HTML in de
+// bevestigingsmail terechtkomt — anders kan een gast markup/scripts
+// injecteren in een mail die door de klant zelf geopend wordt.
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 const REQUIRED_FIELDS = [
   "arrivalDate",
   "departureDate",
@@ -197,9 +209,9 @@ export async function POST(request) {
         <tr>
           <td style="padding:32px 32px 0;">
             <p style="margin:0;font-size:16px;color:#37474f;line-height:1.6;">
-              Beste <strong style="color:#1565c0;">${bookingData.firstName} ${
+              Beste <strong style="color:#1565c0;">${escapeHtml(bookingData.firstName)} ${escapeHtml(
       bookingData.lastName
-    }</strong>,
+    )}</strong>,
             </p>
             <p style="margin:12px 0 0;font-size:15px;color:#546e7a;line-height:1.7;">
               We hebben uw boeking goed ontvangen en nemen zo snel mogelijk contact met u op. Hieronder vindt u een overzicht van uw reservering.
@@ -214,15 +226,15 @@ export async function POST(request) {
             <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:10px;overflow:hidden;border:1px solid #e3eaf0;">
               <tr style="background:#f8fafc;">
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;width:50%;border-bottom:1px solid #e3eaf0;">📅 Aankomst</td>
-                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${arrivalDate} om ${
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${arrivalDate} om ${escapeHtml(
       bookingData.arrivalTime
-    }</td>
+    )}</td>
               </tr>
               <tr>
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">🏠 Vertrek</td>
-                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${departureDate} om ${
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${departureDate} om ${escapeHtml(
       bookingData.departureTime
-    }</td>
+    )}</td>
               </tr>
               <tr style="background:#f8fafc;">
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">🌙 Aantal nachten</td>
@@ -230,10 +242,10 @@ export async function POST(request) {
               </tr>
               <tr>
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;">👥 Personen</td>
-                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;">${
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;">${escapeHtml(
                   bookingData.adults
-                } volwassenen${
-      bookingData.children > 0 ? ` + ${bookingData.children} kinderen` : ""
+                )} volwassenen${
+      bookingData.children > 0 ? ` + ${escapeHtml(bookingData.children)} kinderen` : ""
     }</td>
               </tr>
             </table>
@@ -270,7 +282,7 @@ export async function POST(request) {
           <td style="padding:24px 32px 0;">
             <h2 style="margin:0 0 12px;font-size:14px;font-weight:700;color:#90a4ae;text-transform:uppercase;letter-spacing:1px;">Opmerking</h2>
             <div style="background:#fff8e1;border-left:4px solid #ffc107;border-radius:6px;padding:14px 16px;font-size:14px;color:#546e7a;line-height:1.6;">
-              ${bookingData.notice}
+              ${escapeHtml(bookingData.notice)}
             </div>
           </td>
         </tr>`
@@ -340,10 +352,7 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error sending booking email:", error);
     return NextResponse.json(
-      {
-        error: "Er ging iets mis bij het versturen van de bevestigingsmail",
-        details: error.message,
-      },
+      { error: "Er ging iets mis bij het versturen van de bevestigingsmail" },
       { status: 500 }
     );
   }
