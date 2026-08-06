@@ -7,6 +7,7 @@ import {
   deleteBlockedDate,
 } from "@/lib/supabase/blocked-dates";
 import { calculateServerBookingPrice } from "@/lib/supabase/serverPricing";
+import { PLEIN_APARTMENT_ID } from "@/lib/constants";
 
 // Voorkomt dat gast-input (naam, opmerking, adres, ...) als HTML in de
 // bevestigingsmail terechtkomt — anders kan een gast markup/scripts
@@ -32,7 +33,7 @@ const REQUIRED_FIELDS = [
 export async function POST(request) {
   try {
     const bookingData = await request.json();
-    const apartmentId = bookingData.apartmentId || 1;
+    const apartmentId = bookingData.apartmentId || PLEIN_APARTMENT_ID;
 
     const missingFields = REQUIRED_FIELDS.filter(
       (field) => !bookingData[field]

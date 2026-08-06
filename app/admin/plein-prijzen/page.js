@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { PLEIN_APARTMENT_ID } from "@/lib/constants";
 
 export default function PleinPriceAdmin() {
   const [prices, setPrices] = useState([]);
@@ -23,7 +24,7 @@ export default function PleinPriceAdmin() {
     const { data, error } = await supabase
       .from("apartment_prices")
       .select("id, date, price")
-      .eq("apartment_id", 1)
+      .eq("apartment_id", PLEIN_APARTMENT_ID)
       .order("date", { ascending: true });
     if (error) setError(error.message);
     else setPrices(data);
@@ -36,7 +37,7 @@ export default function PleinPriceAdmin() {
     setError("");
     const { error } = await supabase.from("apartment_prices").upsert(
       {
-        apartment_id: 1,
+        apartment_id: PLEIN_APARTMENT_ID,
         date,
         price: parseFloat(price),
       },
@@ -105,7 +106,7 @@ export default function PleinPriceAdmin() {
             }
             // Maak array van rows
             const rows = days.map((d) => ({
-              apartment_id: 1,
+              apartment_id: PLEIN_APARTMENT_ID,
               date: d.toISOString().slice(0, 10),
               price: parseFloat(bulkPrice),
             }));

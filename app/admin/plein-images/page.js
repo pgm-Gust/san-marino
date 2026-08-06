@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import ImageUploader from "@/components/ImageUploader/ImageUploader";
 import { deleteImage } from "@/lib/supabase/storage";
+import { PLEIN_APARTMENT_ID as PLEIN_ID } from "@/lib/constants";
 import { FaTrash, FaStar, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import "./images.scss";
-
-const PLEIN_ID = 1; // Zet hier het juiste id van het plein appartement
 
 export default function PleinImagesPage() {
   const [images, setImages] = useState([]);
