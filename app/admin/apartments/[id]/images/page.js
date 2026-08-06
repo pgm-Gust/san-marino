@@ -65,7 +65,10 @@ export default function ApartmentImagesPage() {
 
     try {
       // Verwijder van storage
-      await deleteImage(supabase, image.storage_path);
+      const storageResult = await deleteImage(supabase, image.storage_path);
+      if (storageResult.error) {
+        throw new Error(storageResult.error);
+      }
 
       // Verwijder uit database
       const { error } = await supabase

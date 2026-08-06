@@ -47,11 +47,10 @@ export default function ImageUploader({ apartmentId, onUploadComplete }) {
   const handleUpload = async () => {
     if (!preview?.file || !apartmentId) return;
 
-    console.log("apartmentId:", apartmentId);
-    console.log("preview.file:", preview?.file);
-
     setUploading(true);
     setError("");
+
+    let uploadedPath = null;
 
     try {
       // 1. Upload naar Supabase Storage
@@ -62,13 +61,13 @@ export default function ImageUploader({ apartmentId, onUploadComplete }) {
         apartmentId
       );
 
-      console.log("Upload result:", result);
-
       if (result.error) {
         setError(result.error);
         setUploading(false);
         return;
       }
+
+      uploadedPath = result.path;
 
       // 2. Bepaal de display_order (laatste + 1)
       const { data: existingImages } = await supabase
@@ -87,7 +86,6 @@ export default function ImageUploader({ apartmentId, onUploadComplete }) {
         display_order: nextOrder,
         alt_text: preview.file.name.split(".")[0],
       };
-      console.log("Insert body:", insertBody);
 
       // 3. Voeg toe aan database
       const { error: dbError } = await supabase
@@ -104,6 +102,12 @@ export default function ImageUploader({ apartmentId, onUploadComplete }) {
         onUploadComplete();
       }
     } catch (err) {
+      // De DB-insert faalde nadat het bestand al naar Storage is geüpload —
+      // zonder deze rollback blijft er een wees-bestand in Storage staan
+      // zonder enige verwijzing in apartment_images.
+      if (uploadedPath) {
+        await deleteImage(supabase, uploadedPath, "apartment-images");
+      }
       setError(err.message || "Upload mislukt");
       console.error("Upload error:", err);
     } finally {

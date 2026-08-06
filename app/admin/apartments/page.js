@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
-import { FaEdit, FaImage, FaPlus, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEdit, FaImage, FaEye, FaEyeSlash } from "react-icons/fa";
 import "./apartments.scss";
 
 export default function ApartmentsPage() {
@@ -69,9 +69,6 @@ export default function ApartmentsPage() {
           <h1>Appartementen Beheren</h1>
           <p>Bewerk info, prijzen en voorzieningen</p>
         </div>
-        <Link href="/admin/apartments/new" className="btn-primary">
-          <FaPlus /> Nieuw Appartement
-        </Link>
       </div>
 
       <div className="apartments-grid">
@@ -142,10 +139,6 @@ export default function ApartmentsPage() {
         <div className="empty-state">
           <FaImage className="empty-icon" />
           <h3>Nog geen appartementen</h3>
-          <p>Voeg je eerste appartement toe om te beginnen</p>
-          <Link href="/admin/apartments/new" className="btn-primary">
-            <FaPlus /> Eerste Appartement Toevoegen
-          </Link>
         </div>
       )}
     </div>

@@ -29,7 +29,11 @@ export default function PleinImagesPage() {
 
   const handleDelete = async (image) => {
     if (!confirm("Weet je zeker dat je deze foto wilt verwijderen?")) return;
-    await deleteImage(supabase, image.storage_path);
+    const storageResult = await deleteImage(supabase, image.storage_path);
+    if (storageResult.error) {
+      alert("Fout bij verwijderen van de foto: " + storageResult.error);
+      return;
+    }
     await supabase.from("apartment_images").delete().eq("id", image.id);
     loadImages();
   };

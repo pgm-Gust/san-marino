@@ -4,6 +4,7 @@ import { getMinimumNightsForDate } from "@/lib/supabase/minimum-nights";
 import {
   hasOverlappingBlockedDates,
   addBlockedDate,
+  deleteBlockedDate,
 } from "@/lib/supabase/blocked-dates";
 import { calculateServerBookingPrice } from "@/lib/supabase/serverPricing";
 
@@ -126,7 +127,7 @@ export async function POST(request) {
 
     // Blokkeer de periode meteen server-side, vóór de mails verstuurd worden,
     // zodat een gelijktijdige tweede aanvraag hierop botst i.p.v. ook door te gaan.
-    await addBlockedDate(
+    const blockedDate = await addBlockedDate(
       apartmentId,
       bookingData.arrivalDate,
       bookingData.departureDate,
@@ -330,36 +331,52 @@ export async function POST(request) {
 </body>
 </html>`;
 
-    // Stuur mail naar eigenaar
-    const { error: businessError } = await resend.emails.send({
-      from: fromEmail,
-      to: [process.env.BOOKING_EMAIL],
-      bcc: process.env.BOOKING_EMAIL_2
-        ? [process.env.BOOKING_EMAIL_2]
-        : undefined,
-      subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
-      text: emailContent,
-    });
+    // Vanaf hier is de periode al geblokkeerd. Als het versturen van de
+    // mails faalt, moet die blokkering weer ongedaan gemaakt worden — anders
+    // blijft de periode voorgoed bezet zonder dat er ooit een boeking of
+    // melding is doorgekomen.
+    try {
+      // Stuur mail naar eigenaar
+      const { error: businessError } = await resend.emails.send({
+        from: fromEmail,
+        to: [process.env.BOOKING_EMAIL],
+        bcc: process.env.BOOKING_EMAIL_2
+          ? [process.env.BOOKING_EMAIL_2]
+          : undefined,
+        subject: `Nieuwe boeking - ${bookingData.firstName} ${bookingData.lastName}`,
+        text: emailContent,
+      });
 
-    if (businessError) {
-      throw new Error(
-        `Resend business send failed: ${JSON.stringify(businessError)}`
-      );
-    }
+      if (businessError) {
+        throw new Error(
+          `Resend business send failed: ${JSON.stringify(businessError)}`
+        );
+      }
 
-    // Stuur bevestigingsmail naar gast
-    const { error: guestError } = await resend.emails.send({
-      from: fromEmail,
-      to: [bookingData.email],
-      subject: "Bevestiging van je boeking - San Marino 4",
-      html: htmlContent,
-      text: `Beste ${bookingData.firstName} ${bookingData.lastName},\n\n${emailContent}`,
-    });
+      // Stuur bevestigingsmail naar gast
+      const { error: guestError } = await resend.emails.send({
+        from: fromEmail,
+        to: [bookingData.email],
+        subject: "Bevestiging van je boeking - San Marino 4",
+        html: htmlContent,
+        text: `Beste ${bookingData.firstName} ${bookingData.lastName},\n\n${emailContent}`,
+      });
 
-    if (guestError) {
-      throw new Error(
-        `Resend guest send failed: ${JSON.stringify(guestError)}`
-      );
+      if (guestError) {
+        throw new Error(
+          `Resend guest send failed: ${JSON.stringify(guestError)}`
+        );
+      }
+    } catch (mailError) {
+      try {
+        await deleteBlockedDate(blockedDate.id);
+      } catch (rollbackError) {
+        console.error(
+          "Kon blokkering niet terugdraaien na mislukte mail:",
+          rollbackError
+        );
+      }
+      throw mailError;
     }
 
     return NextResponse.json({ success: true });
