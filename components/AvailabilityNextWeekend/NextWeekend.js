@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { fetchCombinedAvailability } from "@/lib/availability";
 import "./NextWeekend.scss";
 
 function formatDate(d) {
@@ -59,15 +60,13 @@ export default function NextWeekend({ className = "" }) {
 
   useEffect(() => {
     let mounted = true;
-    fetch("/api/combined-availability")
-      .then((r) => r.json())
+    fetchCombinedAvailability()
       .then((data) => {
         if (!mounted) return;
         const nw = findNextFreeWeekend(data.events || []);
         setNextWeekend(nw);
       })
-      .catch(() => {})
-      .finally(() => {});
+      .catch(() => {});
     return () => (mounted = false);
   }, []);
 

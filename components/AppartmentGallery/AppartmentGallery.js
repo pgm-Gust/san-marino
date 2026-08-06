@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { FaArrowLeft, FaArrowRight, FaTimes } from "react-icons/fa";
 import "./ApartmentGallery.scss";
 
@@ -127,40 +128,45 @@ export default function ApartmentGallery({ images }) {
   return (
     <div className="gallery-container">
       <div className="gallery-grid">
-        <img
+        <Image
           src={galleryPhotos[0]}
           alt="Main"
           className="gallery-main"
           onClick={() => openPhoto(0)}
-          loading="lazy"
+          width={800}
+          height={600}
+          priority
         />
         <div className="gallery-column">
-          <img
+          <Image
             src={galleryPhotos[1]}
             alt="Side 1"
             className="gallery-side"
             onClick={() => openPhoto(1)}
-            loading="lazy"
+            width={400}
+            height={300}
           />
-          <img
+          <Image
             src={galleryPhotos[2]}
             alt="Side 2"
             className="gallery-side"
             onClick={() => openPhoto(2)}
-            loading="lazy"
+            width={400}
+            height={300}
           />
         </div>
       </div>
 
       <div className="gallery-row">
         {galleryPhotos.slice(3, 8).map((photo, index) => (
-          <img
+          <Image
             key={index + 3}
             src={photo}
             alt={`Thumbnail ${index + 3}`}
             className="gallery-thumb"
             onClick={() => openPhoto(index + 3)}
-            loading="lazy"
+            width={200}
+            height={150}
           />
         ))}
         <div className="gallery-more" onClick={() => openPhoto(8)}>

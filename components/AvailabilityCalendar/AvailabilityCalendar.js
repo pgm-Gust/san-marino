@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import "./AvailabilityCalendar.scss";
 import { fetchPleinPrices } from "@/lib/supabase/plein-prices";
+import { fetchCombinedAvailability } from "@/lib/availability";
 
 export default function AvailabilityCalendar() {
   const [availability, setAvailability] = useState([]);
@@ -35,10 +36,9 @@ export default function AvailabilityCalendar() {
 
   const fetchAvailability = async () => {
     try {
-      const response = await fetch("/api/combined-availability");
-      const data = await response.json();
+      const data = await fetchCombinedAvailability();
 
-      if (!response.ok) throw new Error(data.error);
+      if (data.error) throw new Error(data.error);
 
       // Zet de events om naar het bestaande formaat
       const mapped = (data.events || []).map((event) => ({

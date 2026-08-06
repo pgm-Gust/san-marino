@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import * as Icons from "react-icons/fa";
 import SmoobuWidget from "@components/SmoobuWidget/SmoobuWidget";
 import AvailabilityCalendar from "@components/AvailabilityCalendar/AvailabilityCalendar";
@@ -29,10 +30,12 @@ export default function DynamicApartment({ apartment, images, reviews }) {
                 key={image.id}
                 className={`gallery-item ${index === 0 ? "main" : ""}`}
               >
-                <img
+                <Image
                   src={image.image_url}
                   alt={image.alt_text || apartment.name}
-                  loading={index === 0 ? "eager" : "lazy"}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={index === 0}
                 />
               </div>
             ))}

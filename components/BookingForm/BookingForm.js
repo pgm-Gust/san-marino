@@ -1,6 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getBookingPrices } from "@/lib/supabase/booking-prices";
+import { fetchCombinedAvailability } from "@/lib/availability";
+import { parseLocalDate, formatLocalDate } from "@/lib/date";
+import { PLEIN_APARTMENT_ID } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import {
   FaExclamationCircle,
@@ -16,20 +19,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.scss";
 
 export default function BookingForm() {
-  const parseLocalDate = (dateStr) => {
-    if (!dateStr) return null;
-    const [year, month, day] = dateStr.split("-").map(Number);
-    if (!year || !month || !day) return null;
-    return new Date(year, month - 1, day);
-  };
-
-  const formatLocalDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   const router = useRouter();
   const [formData, setFormData] = useState({
     arrivalDate: "",
@@ -152,19 +141,20 @@ export default function BookingForm() {
 
   // Haal bezette periodes op
   useEffect(() => {
-    fetch("/api/combined-availability")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.events) {
-          setBookedRanges(
-            data.events.map((e) => ({
-              // Converteer server timestamps naar lokale kalenderdatums
-              start: formatLocalDate(new Date(e.start)),
-              end: formatLocalDate(new Date(e.end)),
-            })),
-          );
-        }
-      });
+    let mounted = true;
+    fetchCombinedAvailability().then((data) => {
+      if (!mounted || !data.events) return;
+      setBookedRanges(
+        data.events.map((e) => ({
+          // Converteer server timestamps naar lokale kalenderdatums
+          start: formatLocalDate(new Date(e.start)),
+          end: formatLocalDate(new Date(e.end)),
+        })),
+      );
+    });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   // Minimum nachten komen enkel uit Supabase (plein apartment_id = 1)
@@ -177,7 +167,7 @@ export default function BookingForm() {
     let mounted = true;
 
     fetch(
-      `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`,
+      `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=${PLEIN_APARTMENT_ID}`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -196,18 +186,23 @@ export default function BookingForm() {
     };
   }, [formData.arrivalDate]);
 
-  // Helper: array van alle bezette dagen
-  const bookedDates = bookedRanges.flatMap((range) => {
-    const dates = [];
-    let current = parseLocalDate(range.start);
-    const end = parseLocalDate(range.end);
-    if (!current || !end) return dates;
-    while (current < end) {
-      dates.push(new Date(current));
-      current.setDate(current.getDate() + 1);
-    }
-    return dates;
-  });
+  // Helper: array van alle bezette dagen (gememoized, anders wordt dit bij
+  // elke render herberekend — ook bij elke keystroke in de andere velden)
+  const bookedDates = useMemo(
+    () =>
+      bookedRanges.flatMap((range) => {
+        const dates = [];
+        let current = parseLocalDate(range.start);
+        const end = parseLocalDate(range.end);
+        if (!current || !end) return dates;
+        while (current < end) {
+          dates.push(new Date(current));
+          current.setDate(current.getDate() + 1);
+        }
+        return dates;
+      }),
+    [bookedRanges],
+  );
 
   // Helper: check of een datum bezet is
   function isDateBooked(dateStr) {
@@ -328,7 +323,7 @@ export default function BookingForm() {
 
     try {
       const minNightsResponse = await fetch(
-        `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=1`,
+        `/api/minimum-nights?arrivalDate=${formData.arrivalDate}&apartmentId=${PLEIN_APARTMENT_ID}`,
       );
       const minNightsData = await minNightsResponse.json();
 
@@ -370,7 +365,7 @@ export default function BookingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          apartmentId: 1,
+          apartmentId: PLEIN_APARTMENT_ID,
           adults,
           children,
           totalPrice: totalPrice,

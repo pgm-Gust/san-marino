@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import "./ApartmentSlider.scss";
 
@@ -162,23 +163,27 @@ const ApartmentSlider = () => {
                   >
                     {transition ? (
                       <>
-                        <img
+                        <Image
                           src={apartment.images[transition.fromIndex]}
                           alt={apartment.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 880px"
                           className={`main-image slide-layer slide-current ${transition.direction}`}
-                          loading="lazy"
                         />
-                        <img
+                        <Image
                           src={apartment.images[transition.toIndex]}
                           alt={apartment.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 880px"
                           className={`main-image slide-layer slide-next ${transition.direction}`}
-                          loading="lazy"
                         />
                       </>
                     ) : (
-                      <img
+                      <Image
                         src={apartment.images[currentIndices[apartment.id]]}
                         alt={apartment.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 880px"
                         onClick={() =>
                           openLightbox(
                             apartment.id,
@@ -186,7 +191,6 @@ const ApartmentSlider = () => {
                           )
                         }
                         className="main-image static"
-                        loading="lazy"
                       />
                     )}
                   </div>

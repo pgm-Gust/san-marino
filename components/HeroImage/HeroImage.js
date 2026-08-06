@@ -1,15 +1,19 @@
 import React from "react";
+import Image from "next/image";
 import "./HeroImage.scss";
 import { FaArrowRight } from "react-icons/fa";
 
 const HeroImage = () => {
   return (
     <div className="image-container">
-      <img
-        src="assets/images/breadcrumb.jpg"
+      <Image
+        src="/assets/images/breadcrumb.jpg"
         alt="Prachtig uitzicht op het strand van Middelkerke vanaf San Marino 4 vakantiestudio"
         className="full-width-image"
-        loading="lazy"
+        width={1280}
+        height={322}
+        priority
+        sizes="100vw"
       />
       <div className="image-overlay">
         <div className="overlay-content container">
