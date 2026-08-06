@@ -56,6 +56,20 @@ export async function POST(request) {
       );
     }
 
+    const adults = parseInt(bookingData.adults, 10);
+    const children =
+      bookingData.children === undefined || bookingData.children === ""
+        ? 0
+        : parseInt(bookingData.children, 10);
+    if (!Number.isInteger(adults) || adults < 1 || !Number.isInteger(children) || children < 0) {
+      return NextResponse.json(
+        { error: "Ongeldig aantal personen" },
+        { status: 400 }
+      );
+    }
+    bookingData.adults = adults;
+    bookingData.children = children;
+
     const requestedNights = Math.ceil(
       (departureCheck - arrivalCheck) / (1000 * 60 * 60 * 24)
     );

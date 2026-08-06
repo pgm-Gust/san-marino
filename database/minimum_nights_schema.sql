@@ -30,18 +30,21 @@ CREATE POLICY "Iedereen kan minimum nights zien"
   ON minimum_nights FOR SELECT
   USING (true);
 
--- Iedereen kan minimum nights beheren (voor development)
-CREATE POLICY "Iedereen kan minimum nights toevoegen"
+-- Alleen ingelogde admins mogen schrijven (zie ook
+-- supabase/migration_security_fixes.sql DEEL 1 — dit bestand hier is
+-- enkel de originele table-definitie, houd de policies gelijk aan die
+-- migratie zodat een verse run van dit script de vuln niet herintroduceert)
+CREATE POLICY "Alleen admins kunnen minimum nights toevoegen"
   ON minimum_nights FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (auth.role() = 'authenticated');
 
-CREATE POLICY "Iedereen kan minimum nights verwijderen"
+CREATE POLICY "Alleen admins kunnen minimum nights verwijderen"
   ON minimum_nights FOR DELETE
-  USING (true);
+  USING (auth.role() = 'authenticated');
 
-CREATE POLICY "Iedereen kan minimum nights updaten"
+CREATE POLICY "Alleen admins kunnen minimum nights updaten"
   ON minimum_nights FOR UPDATE
-  USING (true);
+  USING (auth.role() = 'authenticated');
 
 -- Trigger voor updated_at
 CREATE TRIGGER update_minimum_nights_updated_at BEFORE UPDATE ON minimum_nights

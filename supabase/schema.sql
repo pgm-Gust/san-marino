@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- 1. APARTMENTS TABLE
 -- ============================================
 CREATE TABLE apartments (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id SERIAL PRIMARY KEY, -- integer, niet UUID: de rest van de app (blocked_dates, minimum_nights, prijzen, ...) verwijst overal naar apartment_id als integer (bv. 1 voor 'plein')
   slug VARCHAR(255) UNIQUE NOT NULL, -- URL vriendelijke naam (bijv. 'plein', 'hoek')
   name VARCHAR(255) NOT NULL,
   subtitle TEXT,
@@ -53,7 +53,7 @@ CREATE TABLE apartments (
 -- ============================================
 CREATE TABLE apartment_images (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  apartment_id UUID REFERENCES apartments(id) ON DELETE CASCADE,
+  apartment_id INTEGER REFERENCES apartments(id) ON DELETE CASCADE,
   image_url TEXT NOT NULL,
   storage_path TEXT NOT NULL, -- Pad in Supabase Storage
   alt_text VARCHAR(255),
@@ -71,7 +71,7 @@ CREATE INDEX idx_apartment_images_order ON apartment_images(apartment_id, displa
 -- ============================================
 CREATE TABLE reviews (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  apartment_id UUID REFERENCES apartments(id) ON DELETE CASCADE,
+  apartment_id INTEGER REFERENCES apartments(id) ON DELETE CASCADE,
   author_name VARCHAR(255) NOT NULL,
   rating INTEGER CHECK (rating >= 1 AND rating <= 5),
   comment TEXT,
@@ -207,7 +207,7 @@ VALUES (
 -- ============================================
 CREATE TABLE blocked_dates (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  apartment_id INTEGER REFERENCES apartments(id) ON DELETE CASCADE,
+  apartment_id INTEGER REFERENCES apartments(id) ON DELETE CASCADE, -- klopt al met het echte integer id van apartments
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   reason TEXT, -- Optioneel: waarom geblokkeerd (onderhoud, privé, etc.)

@@ -93,6 +93,10 @@ export default function BookingForm() {
       // ignore malformed dates
     }
 
+    // mounted-guard voorkomt dat een trage, oudere prijsopvraag de state
+    // overschrijft na een snellere, latere datumwijziging (race condition).
+    let mounted = true;
+
     async function calculateNightsAndPrice() {
       if (!formData.arrivalDate || !formData.departureDate) return;
 
@@ -100,9 +104,11 @@ export default function BookingForm() {
       const departure = parseLocalDate(formData.departureDate);
 
       if (!arrival || !departure || departure <= arrival) {
-        setNights(0);
-        setTotalPrice(0);
-        setNightlyPrices([]);
+        if (mounted) {
+          setNights(0);
+          setTotalPrice(0);
+          setNightlyPrices([]);
+        }
         return;
       }
 
@@ -115,6 +121,7 @@ export default function BookingForm() {
           formData.departureDate,
           pricePerNight,
         );
+        if (!mounted) return;
         setNightlyPrices(prices);
         const nightsTotal = prices.reduce((sum, p) => sum + p, 0);
         // Totaal = nachten + eindschoonmaak
@@ -128,6 +135,7 @@ export default function BookingForm() {
           );
         }
       } catch (e) {
+        if (!mounted) return;
         setNightlyPrices([]);
         const nightsTotal = diffDays * pricePerNight;
         setTotalPrice(nightsTotal + CLEANING_FEE);
@@ -136,6 +144,10 @@ export default function BookingForm() {
     }
 
     calculateNightsAndPrice();
+
+    return () => {
+      mounted = false;
+    };
   }, [formData.arrivalDate, formData.departureDate]);
 
   // Haal bezette periodes op
@@ -338,6 +350,20 @@ export default function BookingForm() {
       // Continue met booking als de check faalt
     }
 
+    const adults = parseInt(formData.adults, 10);
+    const children = formData.children === "" ? 0 : parseInt(formData.children, 10);
+
+    if (!Number.isInteger(adults) || adults < 1) {
+      setError("Vul een geldig aantal volwassenen in (minstens 1).");
+      setIsSubmitting(false);
+      return;
+    }
+    if (!Number.isInteger(children) || children < 0) {
+      setError("Vul een geldig aantal kinderen in.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/send-booking-email", {
         method: "POST",
@@ -345,8 +371,8 @@ export default function BookingForm() {
         body: JSON.stringify({
           ...formData,
           apartmentId: 1,
-          adults: parseInt(formData.adults),
-          children: parseInt(formData.children),
+          adults,
+          children,
           totalPrice: totalPrice,
           pricePerNight: pricePerNight,
         }),
@@ -558,7 +584,7 @@ export default function BookingForm() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              pattern="^(\+32|0)[1-9][0-9]{8}$"
+              pattern="^\+?[0-9\s]{8,15}$"
               required
             />
             <span className="input-hint">
@@ -647,6 +673,7 @@ export default function BookingForm() {
               min="1"
               value={formData.adults}
               onChange={handleChange}
+              required
             />
           </div>
 

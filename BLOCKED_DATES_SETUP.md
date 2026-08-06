@@ -48,18 +48,18 @@ CREATE POLICY "Iedereen kan geblokkeerde datums zien"
   ON blocked_dates FOR SELECT
   USING (true);
 
--- Iedereen kan datums blokkeren (voor development - later aanpassen met auth)
-CREATE POLICY "Iedereen kan datums blokkeren"
+-- Alleen ingelogde admins kunnen datums blokkeren/verwijderen/updaten
+CREATE POLICY "Alleen admins kunnen datums blokkeren"
   ON blocked_dates FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (auth.role() = 'authenticated');
 
-CREATE POLICY "Iedereen kan datums verwijderen"
+CREATE POLICY "Alleen admins kunnen datums verwijderen"
   ON blocked_dates FOR DELETE
-  USING (true);
+  USING (auth.role() = 'authenticated');
 
-CREATE POLICY "Iedereen kan datums updaten"
+CREATE POLICY "Alleen admins kunnen datums updaten"
   ON blocked_dates FOR UPDATE
-  USING (true);
+  USING (auth.role() = 'authenticated');
 
 -- Trigger voor updated_at
 CREATE TRIGGER update_blocked_dates_updated_at BEFORE UPDATE ON blocked_dates
