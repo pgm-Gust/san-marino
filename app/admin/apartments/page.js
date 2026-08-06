@@ -51,6 +51,7 @@ export default function ApartmentsPage() {
       loadApartments();
     } catch (error) {
       console.error("Error toggling status:", error);
+      alert("Fout bij wijzigen status: " + error.message);
     }
   };
 

@@ -1,9 +1,9 @@
-// import { generateSeo } from "../config/seo.config";
 import "@styles/globals.css";
 import Navbar from "@components/NavBar/Navbar";
 import Footer from "@components/Footer/Footer";
 
 export const metadata = {
+  metadataBase: new URL("https://www.sanmarino4.be"),
   title: "San Marino 4 - Luxe vakantiestudio in Middelkerke",
   description:
     "Luxe vakantiestudio in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
@@ -15,7 +15,7 @@ export const metadata = {
       "Luxe vakantiestudio in het centrum van Middelkerke. Geniet van een unieke vakantie in deze prachtige stad met adembenemend uitzicht op de zee.",
     images: [
       {
-        url: "/images/apartment-main.jpg",
+        url: "/og-default.jpg",
         width: 1200,
         height: 630,
         alt: "Luxe vakantiestudio San Marino",

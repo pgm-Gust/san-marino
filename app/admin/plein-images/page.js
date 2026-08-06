@@ -38,14 +38,18 @@ export default function PleinImagesPage() {
   };
 
   const setPrimary = async (imageId) => {
-    await supabase
+    const { error: resetError } = await supabase
       .from("apartment_images")
       .update({ is_primary: false })
       .eq("apartment_id", PLEIN_ID);
-    await supabase
+    const { error } = await supabase
       .from("apartment_images")
       .update({ is_primary: true })
       .eq("id", imageId);
+    if (resetError || error) {
+      alert("Fout bij instellen hoofdfoto: " + (resetError || error).message);
+      return;
+    }
     loadImages();
   };
 
@@ -56,14 +60,21 @@ export default function PleinImagesPage() {
     if (targetIndex < 0 || targetIndex >= images.length) return;
     const currentImage = images[currentIndex];
     const targetImage = images[targetIndex];
-    await supabase
+    const { error: firstError } = await supabase
       .from("apartment_images")
       .update({ display_order: targetImage.display_order })
       .eq("id", currentImage.id);
-    await supabase
+    const { error: secondError } = await supabase
       .from("apartment_images")
       .update({ display_order: currentImage.display_order })
       .eq("id", targetImage.id);
+    if (firstError || secondError) {
+      alert(
+        "Fout bij verplaatsen van foto: " +
+          (firstError || secondError).message,
+      );
+      return;
+    }
     loadImages();
   };
 

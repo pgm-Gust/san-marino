@@ -103,6 +103,7 @@ export default function ApartmentImagesPage() {
       loadImages();
     } catch (error) {
       console.error("Error setting primary:", error);
+      alert("Fout bij instellen hoofdfoto: " + error.message);
     }
   };
 
@@ -131,6 +132,7 @@ export default function ApartmentImagesPage() {
       loadImages();
     } catch (error) {
       console.error("Error moving image:", error);
+      alert("Fout bij verplaatsen van foto: " + error.message);
     }
   };
 
