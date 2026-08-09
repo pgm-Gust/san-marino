@@ -1,19 +1,3 @@
-@media (max-width: 700px) {
-  .subtle-nextweekend.next-weekend-boxx {
-    display: none !important;
-  }
-}
-// Speciaal voor de homepage hero linksboven
-.subtle-nextweekend.next-weekend-boxx {
-  margin-top: 48px;
-  box-shadow: 0 4px 16px rgba(14, 27, 80, 0.04);
-  border: 1.5px solid rgba(37, 99, 235, 0.1);
-  background: linear-gradient(180deg, #fafdff 90%, #f1f5fa 100%);
-  opacity: 0.97;
-  max-width: 340px;
-  min-width: 300px;
-  width: 100%;
-}
 .next-weekend-boxx {
   max-width: 1200px;
   margin: 0 auto 1.25rem;
@@ -23,8 +7,8 @@
   flex-direction: column;
   gap: 12px;
   background: linear-gradient(180deg, #ffffff, #fbfdff);
-  border: 1px solid rgba(37, 99, 235, 0.08);
-  box-shadow: 0 8px 24px rgba(14, 27, 80, 0.06);
+  border: 1px solid hsla(174, 91%, 14%, 0.08);
+  box-shadow: 0 8px 24px hsla(174, 91%, 14%, 0.06);
 }
 
 .next-weekend-box strong {
@@ -53,7 +37,7 @@
 }
 .next-weekend-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(11, 120, 209, 0.12);
+  box-shadow: 0 14px 30px hsla(174, 91%, 14%, 0.18);
 }
 
 @media (max-width: 640px) {
@@ -84,20 +68,43 @@
 }
 
 /* polished layout */
-.next-weekend-box .card-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .title-top {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.title-top .cal-icon {
-  color: var(--color-dark-teal);
+
+.cal-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-dark-teal);
+  color: #fff;
 }
+
+.availability-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: hsl(134, 45%, 32%);
+  margin-bottom: 0.15rem;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(134, 61%, 41%);
+  }
+}
+
 .title-top .title {
   margin: 0;
   font-size: 1.05rem;
@@ -106,24 +113,35 @@
 
 .dates.stacked {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
   justify-content: flex-start;
-  align-items: flex-start;
 }
+
 .date-item {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 160px;
+  min-width: 90px;
 }
+
 .date-item label {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: var(--color-muted-teal);
 }
+
 .date-value {
   font-weight: 700;
   color: var(--color-dark-teal);
+  text-transform: capitalize;
+}
+
+.date-arrow {
+  color: var(--color-light-teal);
+  font-size: 1.1rem;
+  padding-top: 1.1rem;
 }
 
 .cta-row {
@@ -133,21 +151,10 @@
 
 @media (max-width: 900px) {
   .dates.stacked {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    justify-content: center;
   }
   .cta-row {
     justify-content: center;
-  }
-}
-
-@media (min-width: 900px) {
-  /* side-by-side on medium+ screens */
-  .dates.stacked {
-    flex-direction: row;
-    align-items: center;
-    gap: 18px;
   }
 }
 
@@ -169,5 +176,51 @@
   }
   .next-weekend-box.under-calendar .cta-row .next-weekend-cta {
     margin: 0 auto;
+  }
+}
+
+// ============================================================
+// Homepage hero-variant - los boven de bannerfoto
+// ============================================================
+@media (max-width: 700px) {
+  .subtle-nextweekend.next-weekend-boxx {
+    display: none !important;
+  }
+}
+
+.subtle-nextweekend.next-weekend-boxx {
+  margin-top: 48px;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 12px 32px hsla(174, 91%, 14%, 0.16);
+  background: #ffffff;
+  max-width: 300px;
+  min-width: 280px;
+  width: 100%;
+
+  .cal-icon-badge {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .dates.stacked {
+    gap: 8px;
+  }
+
+  .date-item {
+    min-width: 0;
+  }
+
+  .date-arrow {
+    padding-top: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .next-weekend-cta {
+    width: 100%;
+    border-radius: 999px;
+    padding: 11px 16px;
   }
 }
