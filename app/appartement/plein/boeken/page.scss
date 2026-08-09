@@ -88,6 +88,30 @@
     }
   }
 
+  .garage-option {
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 500;
+      color: var(--color-dark-teal);
+      font-size: 0.95rem;
+      cursor: pointer;
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        accent-color: var(--color-dark-teal);
+      }
+    }
+
+    .input-hint {
+      margin-top: 0.4rem;
+      margin-left: 1.9rem;
+    }
+  }
+
   .price-summary {
     grid-column: 1 / -1;
     display: grid;

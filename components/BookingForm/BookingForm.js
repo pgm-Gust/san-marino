@@ -36,6 +36,7 @@ export default function BookingForm() {
     notice: "",
     adults: 2,
     children: 0,
+    garage: false,
     arrivalTime: "15:00",
     departureTime: "10:00",
     paymentMethod: "Bankoverschrijving",
@@ -55,6 +56,11 @@ export default function BookingForm() {
   // Constanten voor extra kosten
   const CLEANING_FEE = 80;
   const DEPOSIT = 250;
+  const GARAGE_PRICE_PER_NIGHT = 25;
+  // Garage kan niet los voor een deel van het verblijf geboekt worden - de
+  // kost volgt altijd het volledige aantal geboekte nachten.
+  const garageCost = formData.garage ? nights * GARAGE_PRICE_PER_NIGHT : 0;
+  const grandTotal = totalPrice + garageCost;
   const searchParams =
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search)
@@ -368,7 +374,8 @@ export default function BookingForm() {
           apartmentId: PLEIN_APARTMENT_ID,
           adults,
           children,
-          totalPrice: totalPrice,
+          garage: Boolean(formData.garage),
+          totalPrice: grandTotal,
           pricePerNight: pricePerNight,
         }),
       });
@@ -490,6 +497,23 @@ export default function BookingForm() {
           </span>
         </div>
 
+        <div className="input-group garage-option">
+          <label htmlFor="garage" className="checkbox-label">
+            <input
+              id="garage"
+              type="checkbox"
+              checked={formData.garage}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, garage: e.target.checked }))
+              }
+            />
+            Garage huren (+€{GARAGE_PRICE_PER_NIGHT} per nacht)
+          </label>
+          <span className="input-hint">
+            De garage geldt voor de volledige duur van je verblijf.
+          </span>
+        </div>
+
         <div className="price-summary">
           {nights > 0 && (
             <>
@@ -505,9 +529,18 @@ export default function BookingForm() {
                 <span>Eindschoonmaak</span>
                 <output>€{CLEANING_FEE.toLocaleString("nl-NL")}</output>
               </div>
+              {formData.garage && (
+                <div className="price-item">
+                  <span>
+                    Garage ({nights} {nights === 1 ? "nacht" : "nachten"} x €
+                    {GARAGE_PRICE_PER_NIGHT})
+                  </span>
+                  <output>€{garageCost.toLocaleString("nl-NL")}</output>
+                </div>
+              )}
               <div className="price-item total">
                 <span>Totaal te betalen</span>
-                <output>€{totalPrice.toLocaleString("nl-NL")}</output>
+                <output>€{grandTotal.toLocaleString("nl-NL")}</output>
               </div>
               <div className="price-item deposit-info">
                 <span>Waarborg (niet inbegrepen)</span>
@@ -835,7 +868,7 @@ export default function BookingForm() {
         ) : (
           <>
             Bevestig boeking{" "}
-            <span className="price">€{totalPrice.toLocaleString("nl-NL")}</span>
+            <span className="price">€{grandTotal.toLocaleString("nl-NL")}</span>
           </>
         )}
       </button>

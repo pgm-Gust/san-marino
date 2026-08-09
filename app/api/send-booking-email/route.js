@@ -21,6 +21,8 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+const GARAGE_PRICE_PER_NIGHT = 25;
+
 const REQUIRED_FIELDS = [
   "arrivalDate",
   "departureDate",
@@ -120,11 +122,22 @@ export async function POST(request) {
     // Prijs altijd server-side herberekenen tegen apartment_prices — de
     // client stuurt wel een prijs mee (voor de UI), maar die wordt hier
     // genegeerd zodat een gast de prijs niet kan manipuleren.
-    const { pricePerNight, totalPrice } = await calculateServerBookingPrice(
-      apartmentId,
-      bookingData.arrivalDate,
-      bookingData.departureDate
-    );
+    const { pricePerNight, totalPrice: apartmentTotal } =
+      await calculateServerBookingPrice(
+        apartmentId,
+        bookingData.arrivalDate,
+        bookingData.departureDate
+      );
+
+    // Garage is geen apart boekbare periode - de kost volgt altijd het
+    // volledige aantal nachten van de hoofdboeking, ook hier server-side
+    // herberekend i.p.v. de client te vertrouwen.
+    const wantsGarage = Boolean(bookingData.garage);
+    const garageCost = wantsGarage
+      ? requestedNights * GARAGE_PRICE_PER_NIGHT
+      : 0;
+    const totalPrice = apartmentTotal + garageCost;
+    bookingData.garage = wantsGarage;
 
     // Blokkeer de periode meteen server-side, vóór de mails verstuurd worden,
     // zodat een gelijktijdige tweede aanvraag hierop botst i.p.v. ook door te gaan.
@@ -174,7 +187,8 @@ export async function POST(request) {
       Aantal personen: ${bookingData.adults} volwassenen${
       bookingData.children > 0 ? ` + ${bookingData.children} kinderen` : ""
     }
-      
+      Garage: ${wantsGarage ? `Ja (€${garageCost})` : "Nee"}
+
       Gastgegevens:
       -------------
       Naam: ${bookingData.firstName} ${bookingData.lastName}
@@ -195,7 +209,9 @@ export async function POST(request) {
       
       Prijsgegevens:
       -------------
-      Prijs per nacht: €${pricePerNight}
+      Prijs per nacht: €${pricePerNight}${
+      wantsGarage ? `\n      Garage (${nights} nachten x €${GARAGE_PRICE_PER_NIGHT}): €${garageCost}` : ""
+    }
       Totaalprijs: €${totalPrice}
       
       Extra informatie:
@@ -257,12 +273,18 @@ export async function POST(request) {
                 <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${nights} nachten</td>
               </tr>
               <tr>
-                <td style="padding:14px 18px;font-size:14px;color:#546e7a;">👥 Personen</td>
-                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;">${escapeHtml(
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">👥 Personen</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;border-bottom:1px solid #e3eaf0;">${escapeHtml(
                   bookingData.adults
                 )} volwassenen${
       bookingData.children > 0 ? ` + ${escapeHtml(bookingData.children)} kinderen` : ""
     }</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;">🚗 Garage</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;">${
+                  wantsGarage ? "Ja" : "Nee"
+                }</td>
               </tr>
             </table>
           </td>
@@ -281,6 +303,15 @@ export async function POST(request) {
                 <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Eindschoonmaak</td>
                 <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€80</td>
               </tr>
+              ${
+                wantsGarage
+                  ? `
+              <tr>
+                <td style="padding:14px 18px;font-size:14px;color:#546e7a;border-bottom:1px solid #e3eaf0;">Garage (${nights} nachten x €${GARAGE_PRICE_PER_NIGHT})</td>
+                <td style="padding:14px 18px;font-size:14px;color:#1a2332;font-weight:600;text-align:right;border-bottom:1px solid #e3eaf0;">€${garageCost}</td>
+              </tr>`
+                  : ""
+              }
               <tr style="background:#e8f4fd;">
                 <td style="padding:16px 18px;font-size:15px;color:#1565c0;font-weight:700;">Totaal</td>
                 <td style="padding:16px 18px;font-size:18px;color:#1565c0;font-weight:700;text-align:right;">€${totalPrice}</td>
