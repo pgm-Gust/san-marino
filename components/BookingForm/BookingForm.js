@@ -13,6 +13,7 @@ import {
   FaUsers,
   FaClock,
   FaMoneyBillAlt,
+  FaWarehouse,
 } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -497,21 +498,41 @@ export default function BookingForm() {
           </span>
         </div>
 
-        <div className="input-group garage-option">
-          <label htmlFor="garage" className="checkbox-label">
-            <input
-              id="garage"
-              type="checkbox"
-              checked={formData.garage}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, garage: e.target.checked }))
-              }
-            />
-            Garage huren (+€{GARAGE_PRICE_PER_NIGHT} per nacht)
-          </label>
-          <span className="input-hint">
-            De garage geldt voor de volledige duur van je verblijf.
-          </span>
+        <div
+          className={`addon-card ${formData.garage ? "active" : ""}`}
+          onClick={() =>
+            setFormData((prev) => ({ ...prev, garage: !prev.garage }))
+          }
+        >
+          <div className="addon-icon">
+            <FaWarehouse aria-hidden="true" />
+          </div>
+          <div className="addon-info">
+            <span className="addon-title">Garage huren</span>
+            <span className="addon-desc">
+              Eigen afgesloten garage voor de volledige duur van je verblijf.
+            </span>
+          </div>
+          <div className="addon-toggle">
+            <span className="addon-price">
+              +€{GARAGE_PRICE_PER_NIGHT}
+              <small>/nacht</small>
+            </span>
+            <label className="switch" onClick={(e) => e.stopPropagation()}>
+              <input
+                id="garage"
+                type="checkbox"
+                checked={formData.garage}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    garage: e.target.checked,
+                  }))
+                }
+              />
+              <span className="switch-track" />
+            </label>
+          </div>
         </div>
 
         <div className="price-summary">
