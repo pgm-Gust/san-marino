@@ -159,6 +159,11 @@ export default function PleinApartment() {
                   prop: "safetyFeatures",
                 },
                 { icon: <FaWifi />, text: "Snelle WiFi", prop: "wifi" },
+                {
+                  icon: <FaCar />,
+                  text: "Garage te huren (optioneel, +€25/nacht)",
+                  prop: "garage",
+                },
               ].map((item, index) => (
                 <p key={index} itemProp="amenityFeature">
                   {item.icon} <span itemProp="name">{item.text}</span>
