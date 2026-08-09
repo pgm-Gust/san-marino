@@ -4,7 +4,7 @@ import { getBookingPrices } from "@/lib/supabase/booking-prices";
 import { fetchCombinedAvailability } from "@/lib/availability";
 import { parseLocalDate, formatLocalDate } from "@/lib/date";
 import { PLEIN_APARTMENT_ID } from "@/lib/constants";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   FaExclamationCircle,
   FaCalendarAlt,
@@ -21,6 +21,7 @@ import "./BookingForm.scss";
 
 export default function BookingForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     arrivalDate: "",
     departureDate: "",
@@ -62,33 +63,33 @@ export default function BookingForm() {
   // kost volgt altijd het volledige aantal geboekte nachten.
   const garageCost = formData.garage ? nights * GARAGE_PRICE_PER_NIGHT : 0;
   const grandTotal = totalPrice + garageCost;
-  const searchParams =
-    typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search)
-      : null;
 
-  // Bereken aantal nachten en de totaalprijs op basis van de ingevoerde data
+  // Vult de datums in vanuit de query-string (bv. via de "Boek dit weekend"
+  // link). useSearchParams() (i.p.v. zelf window.location.search lezen) is
+  // nodig omdat een Link-navigatie de pagina niet altijd hard herlaadt -
+  // een eigen eenmalige window.location-read op mount pikte de query-string
+  // van een dergelijke client-side navigatie niet altijd correct op.
   useEffect(() => {
-    // Prefill dates from query params if provided (arrivalDate, departureDate)
     try {
-      if (searchParams) {
-        const a = searchParams.get("arrivalDate");
-        const d = searchParams.get("departureDate");
-        if (a) {
-          const ad = parseLocalDate(a);
-          setArrivalDate(ad);
-          setFormData((prev) => ({ ...prev, arrivalDate: a }));
-        }
-        if (d) {
-          const dd = parseLocalDate(d);
-          setDepartureDate(dd);
-          setFormData((prev) => ({ ...prev, departureDate: d }));
-        }
+      const a = searchParams.get("arrivalDate");
+      const d = searchParams.get("departureDate");
+      if (a) {
+        const ad = parseLocalDate(a);
+        setArrivalDate(ad);
+        setFormData((prev) => ({ ...prev, arrivalDate: a }));
+      }
+      if (d) {
+        const dd = parseLocalDate(d);
+        setDepartureDate(dd);
+        setFormData((prev) => ({ ...prev, departureDate: d }));
       }
     } catch (err) {
       // ignore malformed dates
     }
+  }, [searchParams]);
 
+  // Bereken aantal nachten en de totaalprijs op basis van de ingevoerde data
+  useEffect(() => {
     // mounted-guard voorkomt dat een trage, oudere prijsopvraag de state
     // overschrijft na een snellere, latere datumwijziging (race condition).
     let mounted = true;

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import BookingForm from "@components/BookingForm/BookingForm";
 import AvailabilityCalendar from "@components/AvailabilityCalendar/AvailabilityCalendar";
 import NextWeekend from "@components/AvailabilityNextWeekend/NextWeekend";
@@ -23,7 +24,9 @@ export default function BoekenPage() {
         <NextWeekend className="under-calendar" />
       </div>
 
-      <BookingForm />
+      <Suspense fallback={null}>
+        <BookingForm />
+      </Suspense>
     </>
   );
 }
